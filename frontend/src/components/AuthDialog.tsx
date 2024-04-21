@@ -9,21 +9,21 @@ import { routesEnum } from "../routesEnum";
 const AuthDialog = () => {
   const [form] = Form.useForm();
 
-  const userApi = new UsersApi();
+  // const userApi = new UsersApi();
 
-  const submitAuthData = (formData) => {
-    userApi.auth(formData, (e, data, response) => {
-      if (e) {
-        message.error(response?.body?.message);
-        return;
-      }
-      window.location.href = routesEnum.projects;
-    });
-  };
+  // const submitAuthData = (formData) => {
+  //   userApi.auth(formData, (e, data, response) => {
+  //     if (e) {
+  //       message.error(response?.body?.message);
+  //       return;
+  //     }
+  //     window.location.href = routesEnum.projects;
+  //   });
+  // };
 
   return (
     <Col className="authDialog " span={6}>
-      <Form form={form} layout="vertical" onFinish={submitAuthData}>
+      <Form form={form} layout="vertical">
         <Form.Item name="username" label="Логин">
           <Input />
         </Form.Item>
