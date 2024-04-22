@@ -224,7 +224,7 @@ func (uc *UseCase) ListPerms(ctx context.Context, querierId entity.BigIntPK) (re
 	return result, nil
 }
 
-func (uc *UseCase) UpdateRole(ctx context.Context, updaterId entity.BigIntPK, roleId entity.BigIntPK, newName string, newPermIds ...entity.BigIntPK) (result entAuth.Role, err error) {
+func (uc *UseCase) UpdateRole(ctx context.Context, updaterId entity.BigIntPK, roleId entity.BigIntPK, newName string, newDesc *string, newPermIds ...entity.BigIntPK) (result entAuth.Role, err error) {
 	err = uc.userRepo.RunInTransaction(ctx, func(ctx context.Context) error {
 		updater, err := uc.userRepo.GetUser(ctx, updaterId, true)
 		if err != nil {
@@ -234,7 +234,7 @@ func (uc *UseCase) UpdateRole(ctx context.Context, updaterId entity.BigIntPK, ro
 			return err
 		}
 
-		result, err = uc.userRepo.UpdateRole(ctx, entAuth.Role{Id: roleId, Name: newName})
+		result, err = uc.userRepo.UpdateRole(ctx, entAuth.Role{Id: roleId, Name: newName, Desc: newDesc})
 		if err != nil {
 			return err
 		}

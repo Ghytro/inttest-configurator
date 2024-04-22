@@ -174,7 +174,7 @@ func (r *Repository) AuthUser(ctx context.Context, username, password string) (r
 
 func (r *Repository) DeleteUser(ctx context.Context, id entity.BigIntPK) error {
 	return r.DB.RunInTransaction(ctx, func(db orm.DB) error {
-		if _, err := db.Model((*entAuth.UserRole)(nil)).Where("user_id = ?").Delete(); err != nil {
+		if _, err := db.Model((*entAuth.UserRole)(nil)).Where("user_id = ?", id).Delete(); err != nil {
 			return err
 		}
 		if _, err := db.Model(&entAuth.User{Id: id}).WherePK().Delete(); err != nil {
@@ -239,7 +239,7 @@ func (r *Repository) UpdateUserRoles(
 				RoleId: roleId,
 			}
 		})
-		if _, err := db.Model(newUserRoles).Insert(); err != nil {
+		if _, err := db.Model(&newUserRoles).Insert(); err != nil {
 			return err
 		}
 		return nil
@@ -260,11 +260,11 @@ func (r *Repository) CreateRole(ctx context.Context, role entAuth.Role, permIds 
 		if len(permIds) != 0 {
 			rolePerms := lo.Map(permIds, func(permId entity.BigIntPK, _ int) *entAuth.RolePermission {
 				return &entAuth.RolePermission{
-					RoleId: role.Id,
+					RoleId: result.Id,
 					PermId: permId,
 				}
 			})
-			if _, err := db.Model(rolePerms).Insert(); err != nil {
+			if _, err := db.Model(&rolePerms).Insert(); err != nil {
 				return err
 			}
 		}
@@ -329,7 +329,7 @@ func (r *Repository) UpdateRolePerms(ctx context.Context, role entAuth.Role, new
 				PermId: permId,
 			}
 		})
-		if _, err := db.Model(rolePerms).Insert(); err != nil {
+		if _, err := db.Model(&rolePerms).Insert(); err != nil {
 			return err
 		}
 		return nil

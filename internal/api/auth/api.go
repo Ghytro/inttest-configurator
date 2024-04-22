@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"time"
 
 	"configurator/internal/api"
 	"configurator/internal/entity"
@@ -30,7 +31,7 @@ func (a *API) Register(router fiber.Router, authMiddleware fiber.Handler, middle
 	router.Mount("/auth", r)
 
 	r = fiber.New()
-	r.Use("/users", authMiddleware)
+	r.Use("/", authMiddleware)
 	for _, m := range middlewares {
 		r.Use(m)
 	}
@@ -41,7 +42,7 @@ func (a *API) Register(router fiber.Router, authMiddleware fiber.Handler, middle
 	router.Mount("/users", r)
 
 	r = fiber.New()
-	r.Use("/roles", authMiddleware)
+	r.Use("/", authMiddleware)
 	for _, m := range middlewares {
 		r.Use(m)
 	}
@@ -52,6 +53,7 @@ func (a *API) Register(router fiber.Router, authMiddleware fiber.Handler, middle
 	router.Mount("/roles", r)
 
 	r = fiber.New()
+	r.Use("/", authMiddleware)
 	r.Get("/", a.listPerms)
 	router.Mount("/perms", r)
 }
@@ -210,7 +212,7 @@ func (a *API) auth(ctx *fiber.Ctx) error {
 		Name:     api.JwtCookieName,
 		Value:    token,
 		Path:     api.JwtCookiePath,
-		MaxAge:   0,
+		Expires:  time.Now().Add(time.Hour * 24 * 365),
 		SameSite: fiber.CookieSameSiteLaxMode,
 	})
 	return ctx.Send(nil)
@@ -342,7 +344,7 @@ func (a *API) updateRole(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	_, err = a.useCase.UpdateRole(ctx.Context(), user.Id, roleId, model.Name, model.PermIds...)
+	_, err = a.useCase.UpdateRole(ctx.Context(), user.Id, roleId, model.Name, model.Desc, model.PermIds...)
 	if err != nil {
 		return err
 	}

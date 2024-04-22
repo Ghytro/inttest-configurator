@@ -17,6 +17,6 @@ type IUseCase interface {
 	CreateRole(ctx context.Context, creatorId entity.BigIntPK, role entAuth.Role, permIds ...entity.BigIntPK) (result entAuth.Role, err error)
 	ListRoles(ctx context.Context, querierId entity.BigIntPK) ([]entAuth.Role, error)
 	ListPerms(ctx context.Context, querierId entity.BigIntPK) (result []entAuth.Perm, err error)
-	UpdateRole(ctx context.Context, updaterId entity.BigIntPK, roleId entity.BigIntPK, newName string, newPermIds ...entity.BigIntPK) (rule entAuth.Role, err error)
+	UpdateRole(ctx context.Context, updaterId entity.BigIntPK, roleId entity.BigIntPK, newName string, newDesc *string, newPermIds ...entity.BigIntPK) (rule entAuth.Role, err error)
 	DeleteRole(ctx context.Context, deleterId entity.BigIntPK, id entity.BigIntPK) error
 }
