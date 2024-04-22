@@ -5,6 +5,7 @@ import { Button, Checkbox, FloatButton, Form, Input, Modal, Table } from "antd";
 import { DeleteOutlined, EditOutlined, UserAddOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 import { InternalApiAuthListPermResponseItem, InternalApiAuthListRoleResponseItem, UsersApi } from "../../api/api";
 import { $notify, ENotifyKind } from "../../notifier";
+import { routesEnum } from "../../routesEnum";
 
 class UserEditPage extends Component<any, UserListModel> {
   private userApi: UsersApi;
@@ -298,6 +299,12 @@ class UserEditPage extends Component<any, UserListModel> {
 
     return (
       <>
+        <Button
+          type="link"
+          onClick={() => { window.location.href = routesEnum.projects }}
+        >
+          Назад
+        </Button>
         <Table
           columns={userListTableCols}
           dataSource={this.state.userListTableModel}
