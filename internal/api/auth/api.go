@@ -344,7 +344,7 @@ func (a *API) updateRole(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	_, err = a.useCase.UpdateRole(ctx.Context(), user.Id, roleId, model.Name, model.PermIds...)
+	_, err = a.useCase.UpdateRole(ctx.Context(), user.Id, roleId, model.Name, model.Desc, model.PermIds...)
 	if err != nil {
 		return err
 	}
