@@ -7,4 +7,9 @@ export default defineConfig({
   html: {
     template: "./public/index.html",
   },
+  server: {
+    proxy: {
+      "/api": "http://localhost:8080"
+    }
+  }
 });

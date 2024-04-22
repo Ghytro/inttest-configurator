@@ -1,6 +1,7 @@
 const routesEnum = {
     auth: "/auth",
-    projects: "/projects"
+    projects: "/projects",
+    users: "/users",
 };
 
 export { routesEnum };

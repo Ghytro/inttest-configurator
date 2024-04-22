@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.15.3",
+    "axios": "^1.6.8",
     "http-proxy-middleware": "^2.0.6",
     "query-string": "^9.0.0",
     "querystring-es3": "^0.2.1",

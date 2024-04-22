@@ -27,6 +27,7 @@ import (
 	"configurator/pkg/database"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/pressly/goose"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -133,8 +134,10 @@ func initFiberRouter(
 		EnableSplittingOnParsers: true,
 	})
 	apiV1 := fiberApi.Group("/api/v1")
+	apiV1.Use(logger.New())
+	authMiddleware := api.NewAuthMiddleware(uc)
 	for _, a := range apis {
-		a.Register(apiV1, api.NewAuthMiddleware(uc))
+		a.Register(apiV1, authMiddleware)
 	}
 	return fiberApi
 }
