@@ -4,7 +4,7 @@
 CREATE TABLE projects (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR NOT NULL,
-    desc VARCHAR,
+    description VARCHAR DEFAULT NULL,
     data JSONB NOT NULL
 );
 

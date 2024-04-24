@@ -25,13 +25,15 @@ func New(log *zap.SugaredLogger, useCase IUseCase) *API {
 	}
 }
 
-func (a *API) Register(router fiber.Router, authMiddleware fiber.Handler, middlewares ...fiber.Handler) {
+func (a *API) Register(router fiber.Router, authenticator api.Authenticator, middlewares ...fiber.Handler) {
+	authMw := authenticator.AuthMiddleware()
+
 	r := fiber.New()
 	r.Post("/", a.auth)
 	router.Mount("/auth", r)
 
 	r = fiber.New()
-	r.Use("/", authMiddleware)
+	r.Use("/", authMw)
 	for _, m := range middlewares {
 		r.Use(m)
 	}
@@ -42,7 +44,7 @@ func (a *API) Register(router fiber.Router, authMiddleware fiber.Handler, middle
 	router.Mount("/users", r)
 
 	r = fiber.New()
-	r.Use("/", authMiddleware)
+	r.Use("/", authMw)
 	for _, m := range middlewares {
 		r.Use(m)
 	}
@@ -53,7 +55,7 @@ func (a *API) Register(router fiber.Router, authMiddleware fiber.Handler, middle
 	router.Mount("/roles", r)
 
 	r = fiber.New()
-	r.Use("/", authMiddleware)
+	r.Use("/", authMw)
 	r.Get("/", a.listPerms)
 	router.Mount("/perms", r)
 }
@@ -113,7 +115,7 @@ func (a *API) updateUser(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&model); err != nil {
 		return err
 	}
-	userId, err := entity.ParseBigIntPK(ctx.Params("id"))
+	userId, err := api.ParseUrlParamsId[entity.BigIntPK](ctx, "id")
 	if err != nil {
 		return err
 	}
@@ -334,7 +336,7 @@ func (a *API) updateRole(ctx *fiber.Ctx) error {
 		return errors.New("user unauthorized")
 	}
 
-	roleId, err := entity.ParseBigIntPK(ctx.Params("id"))
+	roleId, err := api.ParseUrlParamsId[entity.BigIntPK](ctx, "id")
 	if err != nil {
 		return err
 	}
@@ -370,7 +372,7 @@ func (a *API) deleteRole(ctx *fiber.Ctx) error {
 		return errors.New("user unauthorized")
 	}
 
-	roleId, err := entity.ParseBigIntPK(ctx.Params("id"))
+	roleId, err := api.ParseUrlParamsId[entity.BigIntPK](ctx, "id")
 	if err != nil {
 		return err
 	}

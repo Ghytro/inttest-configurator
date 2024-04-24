@@ -268,3 +268,14 @@ func (uc *UseCase) DeleteRole(ctx context.Context, deleterId entity.BigIntPK, id
 		return nil
 	})
 }
+
+func (uc *UseCase) CheckUserPermissions(ctx context.Context, id entity.BigIntPK, neededPerms ...entAuth.EPermission) error {
+	user, err := uc.userRepo.GetUser(ctx, id, true)
+	if err != nil {
+		return err
+	}
+	if err := rulesAuth.UserHasPerms(user, neededPerms...); err != nil {
+		return err
+	}
+	return nil
+}

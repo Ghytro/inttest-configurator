@@ -9,7 +9,7 @@ import (
 type Project struct {
 	Id      entity.BigIntPK `json:"id" pg:"id,pk"`
 	Name    string          `json:"name" pg:"name"`
-	Desc    *string         `json:"desc" pg:"desc"`
+	Desc    *string         `json:"desc" pg:"description"`
 	RawData json.RawMessage `json:"-" pg:"data,type:jsonb"`
 }
 
@@ -19,5 +19,4 @@ func (p Project) ParsedData() (conf exportstruct.Config, err error) {
 }
 
 type ProjectListFilter struct {
-	
 }

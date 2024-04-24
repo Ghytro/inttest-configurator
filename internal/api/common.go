@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"configurator/internal/entity"
+	entAuth "configurator/internal/entity/auth"
 
 	"github.com/samber/lo"
 
@@ -44,4 +45,22 @@ func ParseUrlParamsId[T parseable](ctx *fiber.Ctx, key string) (T, error) {
 		return any(result).(T), nil
 	}
 	return lo.Empty[T](), errors.New("unknown id type in url params")
+}
+
+type Authenticator struct {
+	uc AuthMiddlewareUseCase
+}
+
+func NewAuthenticator(uc AuthMiddlewareUseCase) Authenticator {
+	return Authenticator{
+		uc: uc,
+	}
+}
+
+func (a Authenticator) AuthMiddleware() fiber.Handler {
+	return NewAuthMiddleware(a.uc)
+}
+
+func (a Authenticator) CheckPermsMiddleware(perms ...entAuth.EPermission) fiber.Handler {
+	return MakePermValidator(a.uc)(perms...)
 }

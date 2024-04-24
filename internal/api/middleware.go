@@ -1,8 +1,10 @@
 package api
 
 import (
+	"context"
 	"errors"
 
+	"configurator/internal/entity"
 	entAuth "configurator/internal/entity/auth"
 
 	"configurator/internal/usecase/auth"
@@ -14,7 +16,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func NewAuthMiddleware(useCase *auth.UseCase) fiber.Handler {
+func NewAuthMiddleware(useCase AuthMiddlewareUseCase) fiber.Handler {
 	return jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{
 			Key: []byte(secrets.JwtSecret),
@@ -36,7 +38,12 @@ func NewAuthMiddleware(useCase *auth.UseCase) fiber.Handler {
 	})
 }
 
-func JwtValidator(useCase *auth.UseCase, c *fiber.Ctx) error {
+type AuthMiddlewareUseCase interface {
+	AuthUser(ctx context.Context, username, password string) (user entAuth.User, err error)
+	CheckUserPermissions(ctx context.Context, id entity.BigIntPK, neededPerms ...entAuth.EPermission) error
+}
+
+func JwtValidator(useCase AuthMiddlewareUseCase, c *fiber.Ctx) error {
 	// если удачно распарсили, надо сверить данные с акутальными
 	token, ok := GetJwt(c)
 	if !ok {
@@ -76,6 +83,21 @@ func GetUserEntity(ctx *fiber.Ctx) (entAuth.User, bool) {
 		return entAuth.User{}, false
 	}
 	return v.(entAuth.User), true
+}
+
+func MakePermValidator(uc AuthMiddlewareUseCase) func(perms ...entAuth.EPermission) fiber.Handler {
+	return func(perms ...entAuth.EPermission) fiber.Handler {
+		return func(ctx *fiber.Ctx) error {
+			user, ok := GetUserEntity(ctx)
+			if !ok {
+				return errors.New("incorrect middleware order: fetch the user entity first")
+			}
+			if err := uc.CheckUserPermissions(ctx.Context(), user.Id, perms...); err != nil {
+				return err
+			}
+			return ctx.Next()
+		}
+	}
 }
 
 func ErrorHandler(ctx *fiber.Ctx, err error) error {
