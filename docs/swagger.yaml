@@ -107,6 +107,22 @@ definitions:
       username:
         type: string
     type: object
+  configurator_internal_api_projects.listProjectResponseItem:
+    properties:
+      desc:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  configurator_internal_api_projects.updateProjectMetaRequest:
+    properties:
+      desc:
+        type: string
+      name:
+        type: string
+    type: object
   internal_api_auth.authRequest:
     properties:
       password:
@@ -205,6 +221,22 @@ definitions:
       username:
         type: string
     type: object
+  internal_api_projects.listProjectResponseItem:
+    properties:
+      desc:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  internal_api_projects.updateProjectMetaRequest:
+    properties:
+      desc:
+        type: string
+      name:
+        type: string
+    type: object
 info:
   contact: {}
   description: |-
@@ -274,6 +306,174 @@ paths:
       summary: list all the perms in the system
       tags:
       - users
+  /projects:
+    get:
+      consumes:
+      - application/json
+      operationId: listProjects
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal_api_projects.listProjectResponseItem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: list all the projects in configurator
+      tags:
+      - projects
+    post:
+      consumes:
+      - multipart/form-data
+      operationId: createProject
+      parameters:
+      - description: file with config to create project based on it
+        in: formData
+        name: file
+        type: file
+      - description: name of created project
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: description of a created project
+        in: formData
+        name: desc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: create a new project
+      tags:
+      - projects
+  /projects/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: deleteProject
+      parameters:
+      - description: id of a project to delete
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: delete a project forever
+      tags:
+      - projects
+    put:
+      consumes:
+      - application/json
+      operationId: updateProjectMeta
+      parameters:
+      - description: id of an updated project
+        in: path
+        name: id
+        required: true
+        type: number
+      - description: form to update project meta
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/internal_api_projects.updateProjectMetaRequest'
+      - description: id of updated project
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: update name and desc of a project
+      tags:
+      - projects
+  /projects/{id}/unload:
+    post:
+      consumes:
+      - application/json
+      operationId: unloadProject
+      parameters:
+      - description: id of a project to unload
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: configuration file
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: form a json config, unload project from configurator
+      tags:
+      - projects
   /roles:
     get:
       consumes:

@@ -190,7 +190,7 @@ class UserEditPage extends Component<any, UserListModel> {
     .catch((e) => $notify(ENotifyKind.ERROR, e))
   }
 
-  render() {
+  render(): React.ReactNode {
     console.log(this.state);
     const userListTableCols = [
       {

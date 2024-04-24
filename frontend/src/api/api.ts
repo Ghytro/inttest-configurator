@@ -275,6 +275,50 @@ export interface ConfiguratorInternalApiAuthUpdateUserRequest {
 /**
  * 
  * @export
+ * @interface ConfiguratorInternalApiProjectsListProjectResponseItem
+ */
+export interface ConfiguratorInternalApiProjectsListProjectResponseItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfiguratorInternalApiProjectsListProjectResponseItem
+     */
+    'desc'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ConfiguratorInternalApiProjectsListProjectResponseItem
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfiguratorInternalApiProjectsListProjectResponseItem
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ConfiguratorInternalApiProjectsUpdateProjectMetaRequest
+ */
+export interface ConfiguratorInternalApiProjectsUpdateProjectMetaRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfiguratorInternalApiProjectsUpdateProjectMetaRequest
+     */
+    'desc'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfiguratorInternalApiProjectsUpdateProjectMetaRequest
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface InternalApiAuthAuthRequest
  */
 export interface InternalApiAuthAuthRequest {
@@ -504,6 +548,455 @@ export interface InternalApiAuthUpdateUserRequest {
      */
     'username'?: string;
 }
+/**
+ * 
+ * @export
+ * @interface InternalApiProjectsListProjectResponseItem
+ */
+export interface InternalApiProjectsListProjectResponseItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof InternalApiProjectsListProjectResponseItem
+     */
+    'desc'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof InternalApiProjectsListProjectResponseItem
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof InternalApiProjectsListProjectResponseItem
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface InternalApiProjectsUpdateProjectMetaRequest
+ */
+export interface InternalApiProjectsUpdateProjectMetaRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof InternalApiProjectsUpdateProjectMetaRequest
+     */
+    'desc'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InternalApiProjectsUpdateProjectMetaRequest
+     */
+    'name'?: string;
+}
+
+/**
+ * ProjectsApi - axios parameter creator
+ * @export
+ */
+export const ProjectsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary create a new project
+         * @param {string} name name of created project
+         * @param {any} [file] file with config to create project based on it
+         * @param {string} [desc] description of a created project
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProject: async (name: string, file?: any, desc?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('createProject', 'name', name)
+            const localVarPath = `/projects`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
+    
+            if (name !== undefined) { 
+                localVarFormParams.append('name', name as any);
+            }
+    
+            if (desc !== undefined) { 
+                localVarFormParams.append('desc', desc as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary delete a project forever
+         * @param {number} id id of a project to delete
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProject: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteProject', 'id', id)
+            const localVarPath = `/projects/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary list all the projects in configurator
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjects: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/projects`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary form a json config, unload project from configurator
+         * @param {number} id id of a project to unload
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unloadProject: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('unloadProject', 'id', id)
+            const localVarPath = `/projects/{id}/unload`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary update name and desc of a project
+         * @param {number} id id of an updated project
+         * @param {number} id2 id of updated project
+         * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProjectMeta: async (id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateProjectMeta', 'id', id)
+            // verify required parameter 'id2' is not null or undefined
+            assertParamExists('updateProjectMeta', 'id2', id2)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('updateProjectMeta', 'form', form)
+            const localVarPath = `/projects/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"id"}}`, encodeURIComponent(String(id2)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ProjectsApi - functional programming interface
+ * @export
+ */
+export const ProjectsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary create a new project
+         * @param {string} name name of created project
+         * @param {any} [file] file with config to create project based on it
+         * @param {string} [desc] description of a created project
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createProject(name: string, file?: any, desc?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProject(name, file, desc, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary delete a project forever
+         * @param {number} id id of a project to delete
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteProject(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProject(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary list all the projects in configurator
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listProjects(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiProjectsListProjectResponseItem>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjects(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary form a json config, unload project from configurator
+         * @param {number} id id of a project to unload
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async unloadProject(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.unloadProject(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary update name and desc of a project
+         * @param {number} id id of an updated project
+         * @param {number} id2 id of updated project
+         * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateProjectMeta(id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProjectMeta(id, id2, form, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ProjectsApi - factory interface
+ * @export
+ */
+export const ProjectsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary create a new project
+         * @param {string} name name of created project
+         * @param {any} [file] file with config to create project based on it
+         * @param {string} [desc] description of a created project
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createProject(name: string, file?: any, desc?: string, options?: any): AxiosPromise<object> {
+            return localVarFp.createProject(name, file, desc, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary delete a project forever
+         * @param {number} id id of a project to delete
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteProject(id: number, options?: any): AxiosPromise<object> {
+            return localVarFp.deleteProject(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary list all the projects in configurator
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listProjects(options?: any): AxiosPromise<Array<InternalApiProjectsListProjectResponseItem>> {
+            return localVarFp.listProjects(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary form a json config, unload project from configurator
+         * @param {number} id id of a project to unload
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        unloadProject(id: number, options?: any): AxiosPromise<string> {
+            return localVarFp.unloadProject(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary update name and desc of a project
+         * @param {number} id id of an updated project
+         * @param {number} id2 id of updated project
+         * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateProjectMeta(id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options?: any): AxiosPromise<object> {
+            return localVarFp.updateProjectMeta(id, id2, form, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ProjectsApi - object-oriented interface
+ * @export
+ * @class ProjectsApi
+ * @extends {BaseAPI}
+ */
+export class ProjectsApi extends BaseAPI {
+    /**
+     * 
+     * @summary create a new project
+     * @param {string} name name of created project
+     * @param {any} [file] file with config to create project based on it
+     * @param {string} [desc] description of a created project
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public createProject(name: string, file?: any, desc?: string, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).createProject(name, file, desc, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary delete a project forever
+     * @param {number} id id of a project to delete
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public deleteProject(id: number, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).deleteProject(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary list all the projects in configurator
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public listProjects(options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).listProjects(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary form a json config, unload project from configurator
+     * @param {number} id id of a project to unload
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public unloadProject(id: number, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).unloadProject(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary update name and desc of a project
+     * @param {number} id id of an updated project
+     * @param {number} id2 id of updated project
+     * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public updateProjectMeta(id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).updateProjectMeta(id, id2, form, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * UsersApi - axios parameter creator

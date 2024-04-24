@@ -9,7 +9,7 @@ type (
 		Desc *string         `json:"desc"`
 	}
 
-	updateProjectMetaReqest struct {
+	updateProjectMetaRequest struct {
 		Name string  `json:"name"`
 		Desc *string `json:"desc"`
 	}

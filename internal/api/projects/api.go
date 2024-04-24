@@ -155,7 +155,7 @@ func (a *API) updateProjectMeta(ctx *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	form, err := api.ParseBody[updateProjectMetaReqest](ctx)
+	form, err := api.ParseBody[updateProjectMetaRequest](ctx)
 	if err != nil {
 		return err
 	}
