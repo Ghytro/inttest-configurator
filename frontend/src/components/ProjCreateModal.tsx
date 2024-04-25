@@ -87,6 +87,11 @@ class ProjCreateModal extends Component<
         this.state.projDescInputValue
       )
       .then(({ data }) => {
+        this.setState({
+          projNameInputValue: "",
+          projDescInputValue: undefined,
+          projUploadedFile: undefined,
+        });
         this.props.setClosed();
       })
       .catch((e) => $notify(ENotifyKind.ERROR, e))

@@ -32,17 +32,18 @@ func (uc *UseCase) UploadProject(ctx context.Context, projectName string, projec
 		if err := projectRules.ValidateProjectNameUniq(ctx, uc.projRepo, projectName); err != nil {
 			return err
 		}
-		confRaw, err := io.ReadAll(uploadedConfig)
-		if err != nil {
-			return err
-		}
-		uploadedConfig.Close()
 		var parsedConfig exportstruct.Config
-		if err := json.Unmarshal(confRaw, &parsedConfig); err != nil {
-			return err
+		if uploadedConfig != nil {
+			if err := json.NewDecoder(uploadedConfig).Decode(&parsedConfig); err != nil {
+				return err
+			}
+			uploadedConfig.Close()
+			if err := parsedConfig.Validate(); err != nil {
+				return err
+			}
 		}
-		uploadedConfig.Close()
-		if err := parsedConfig.Validate(); err != nil {
+		confRaw, err := json.Marshal(&parsedConfig)
+		if err != nil {
 			return err
 		}
 		createdProj := entProjects.Project{
