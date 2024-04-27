@@ -47,6 +47,18 @@ func ParseUrlParamsId[T parseable](ctx *fiber.Ctx, key string) (T, error) {
 	return lo.Empty[T](), errors.New("unknown id type in url params")
 }
 
+func ParseQueryParam[T parseable](ctx *fiber.Ctx, query string) (T, error) {
+	switch any(lo.Empty[T]()).(type) {
+	case entity.BigIntPK:
+		result, err := entity.ParseBigIntPK(ctx.Query(query))
+		if err != nil {
+			return lo.Empty[T](), err
+		}
+		return any(result).(T), nil
+	}
+	return lo.Empty[T](), errors.New("unknown id type in url params")
+}
+
 type Authenticator struct {
 	uc AuthMiddlewareUseCase
 }

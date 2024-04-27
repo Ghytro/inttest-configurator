@@ -1,7 +1,12 @@
 const routesEnum = {
     auth: "/auth",
     projects: "/projects",
+    projectPageMask: "/projects/:id",
     users: "/users",
 };
 
-export { routesEnum };
+function projPageUrl(id: number): string {
+    return "/projects/"+id.toString();
+}
+
+export { routesEnum, projPageUrl };

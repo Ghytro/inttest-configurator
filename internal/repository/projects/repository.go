@@ -5,7 +5,9 @@ import (
 	entProjects "configurator/internal/entity/projects"
 	"configurator/internal/repository/internal/common"
 	"configurator/pkg/database"
+	"configurator/pkg/exportstruct"
 	"context"
+	"encoding/json"
 
 	"github.com/go-pg/pg/v10/orm"
 	"go.uber.org/zap"
@@ -94,4 +96,40 @@ func (r *Repository) DeleteProject(ctx context.Context, id entity.BigIntPK, soft
 		}
 		return nil
 	})
+}
+
+func (r *Repository) UpdateProjectData(ctx context.Context, projectId entity.BigIntPK, newData exportstruct.Config) error {
+	rawData, err := json.Marshal(newData)
+	if err != nil {
+		return err
+	}
+	return r.DB.RunInTransaction(ctx, func(db orm.DB) error {
+		project, err := r.GetProject(ctx, projectId, false)
+		if err != nil {
+			return err
+		}
+		project.RawData = rawData
+		if _, err := db.Model(&project).WherePK().Update(); err != nil {
+			return err
+		}
+		return nil
+	})
+}
+
+func (r *Repository) ModifyProjectData(ctx context.Context, projectId entity.BigIntPK, fn func(data *exportstruct.Config) error) error {
+	proj, err := r.GetProject(ctx, projectId, true)
+	if err != nil {
+		return err
+	}
+	data, err := proj.ParsedData()
+	if err != nil {
+		return err
+	}
+	if err := fn(&data); err != nil {
+		return err
+	}
+	if err := r.UpdateProjectData(ctx, projectId, data); err != nil {
+		return err
+	}
+	return nil
 }

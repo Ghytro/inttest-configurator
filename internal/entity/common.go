@@ -15,7 +15,15 @@ func ParseBigIntPK(s string) (BigIntPK, error) {
 }
 
 type BaseTimestamps struct {
-	CreatedAt time.Time      `pg:"created_at"`
-	UpdatedAt types.NullTime `pg:"updated_at"`
-	DeletedAt types.NullTime `pg:"deleted_at"`
+	CreatedAt time.Time      `json:"created_at" pg:"created_at"`
+	UpdatedAt types.NullTime `json:"updated_at" pg:"updated_at"`
+	DeletedAt types.NullTime `json:"deleted_at" pg:"deleted_at"`
+}
+
+type Mixin[TId any] struct {
+	Id TId `json:"id" pg:"id,pk"`
+
+	CreatedAt time.Time      `json:"created_at" pg:"created_at"`
+	UpdatedAt types.NullTime `json:"updated_at" pg:"updated_at"`
+	DeletedAt types.NullTime `json:"deleted_at" pg:"deleted_at"`
 }

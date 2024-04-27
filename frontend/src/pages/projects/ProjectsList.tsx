@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { ProjectsApi } from "../../api/api";
 import { $notify, ENotifyKind } from "../../notifier";
-import { FloatButton, List } from "antd";
+import { Button, FloatButton, List } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import ProjCreateModal from "../../components/ProjCreateModal";
+import { projPageUrl, routesEnum } from "../../routesEnum";
 
-class ProjectsPage extends Component<any, ProjectsPageState> {
+class ProjectsListPage extends Component<any, ProjectsPageState> {
   private projectApi: ProjectsApi;
 
   constructor(props: any) {
@@ -29,6 +30,7 @@ class ProjectsPage extends Component<any, ProjectsPageState> {
           projectsList: data.map(
             (resp) =>
               ({
+                id: resp.id,
                 name: resp.name,
                 description: resp.desc,
               } as ViewedProject)
@@ -50,10 +52,15 @@ class ProjectsPage extends Component<any, ProjectsPageState> {
           dataSource={this.state.projectsList}
           renderItem={(item) => (
             <List.Item>
-              <List.Item.Meta
-                title={item.name}
-                description={item.description}
-              />
+              <Button
+                type="link"
+                onClick={() => {
+                  window.location.href = projPageUrl(item.id);
+                }}
+              >
+                {item.name}
+              </Button>
+              {item.description}
             </List.Item>
           )}
         />
@@ -91,8 +98,9 @@ interface ProjectsPageState {
 }
 
 interface ViewedProject {
+  id: number;
   name: string;
   description: string;
 }
 
-export default ProjectsPage;
+export default ProjectsListPage;
