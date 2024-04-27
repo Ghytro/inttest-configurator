@@ -14,6 +14,7 @@ const AppRoutes = () => {
         <Route path={routesEnum.auth} element={<AuthPage />} />
         <Route path={routesEnum.projects} element={<ProjectsListPage />} />
         <Route path={routesEnum.users} element={<UserEditPage />} />
+        <Route path={routesEnum.projectPageMask element={<ProjectPage />}}
       </Routes>
     </>
   );
