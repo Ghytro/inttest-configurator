@@ -415,13 +415,17 @@ type UpdateStubBehaviorForm struct {
 func (uc *restServiceUseCase) UpdateRestStubBehavior(
 	ctx context.Context,
 	serviceId RestServiceIdentifier,
-	handlerId int,
+	handlerId, behaviorId int,
+	form UpdateStubBehaviorForm,
 ) error {
 	if handlerId < 0 {
 		return fmt.Errorf("некорректный идентификатор http-маршрута")
 	}
+	if behaviorId < 0 {
+		return fmt.Errorf("некорректный идентификатор поведения хендлера")
+	}
 	return uc.projRepo.ModifyProjectData(ctx, serviceId.ProjectId, func(data *exportstruct.Config) error {
-		service, ok := lo.Find(data.RpcServices, func(item exportstruct.RpcService) bool {
+		service, serviceIdx, ok := lo.FindIndexOf(data.RpcServices, func(item exportstruct.RpcService) bool {
 			return item.Type == exportstruct.RpcServiceType_REST && item.ID == serviceId.ServiceId
 		})
 		if !ok {
@@ -430,7 +434,85 @@ func (uc *restServiceUseCase) UpdateRestStubBehavior(
 		if handlerId >= len(service.RpcServiceUnion.HttpService.Routes) {
 			return fmt.Errorf("некорректный идентификатор http-маршрута")
 		}
-		route := service.RpcServiceUnion.HttpService.Routes[handlerId]
-		route.
+
+		servicePtr := &data.RpcServices[serviceIdx]
+		routePtr := &servicePtr.RpcServiceUnion.HttpService.Routes[handlerId]
+		if behaviorId >= len(routePtr.Behavior) {
+			return fmt.Errorf("некорректный идентификатор поведения хендлера")
+		}
+		behaviorPtr := &routePtr.Behavior[behaviorId]
+		stubBehaviorPtr := &behaviorPtr.HttpHandlerBehaviorUnion.HttpStubBehavior
+		stubBehaviorPtr.Params.Headers = form.Headers
+		stubBehaviorPtr.Params.Query = form.Query
+		stubBehaviorPtr.Params.Url = form.UrlParams
+		stubBehaviorPtr.Params.Body = form.Body
+		stubBehaviorPtr.Response.Headers = form.ResponseHeaders
+		stubBehaviorPtr.Response.Status = exportstruct.HttpStatus(form.ResponseStatus)
+		stubBehaviorPtr.Response.Body = form.ResponseBody
+		return nil
+	})
+}
+
+type UpdateMockBehaviorForm struct {
+	Impl []string `json:"impl"`
+}
+
+func (uc *restServiceUseCase) UpdateRestMockBehavior(
+	ctx context.Context,
+	serviceId RestServiceIdentifier,
+	handlerId, behaviorId int,
+	form UpdateMockBehaviorForm,
+) error {
+	if handlerId < 0 {
+		return fmt.Errorf("некорректный идентификатор http-маршрута")
+	}
+	if behaviorId < 0 {
+		return fmt.Errorf("некорректный идентификатор поведения хендлера")
+	}
+	return uc.projRepo.ModifyProjectData(ctx, serviceId.ProjectId, func(data *exportstruct.Config) error {
+		service, serviceIdx, ok := lo.FindIndexOf(data.RpcServices, func(item exportstruct.RpcService) bool {
+			return item.Type == exportstruct.RpcServiceType_REST && item.ID == serviceId.ServiceId
+		})
+		if !ok {
+			return fmt.Errorf("не найден REST-сервис по идентификатору %s", serviceId.ServiceId)
+		}
+		if handlerId >= len(service.RpcServiceUnion.HttpService.Routes) {
+			return fmt.Errorf("некорректный идентификатор http-маршрута")
+		}
+
+		servicePtr := &data.RpcServices[serviceIdx]
+		routePtr := &servicePtr.RpcServiceUnion.HttpService.Routes[handlerId]
+		if behaviorId >= len(routePtr.Behavior) {
+			return fmt.Errorf("некорректный идентификатор поведения хендлера")
+		}
+		behaviorPtr := &routePtr.Behavior[behaviorId]
+		mockBehaviorPtr := &behaviorPtr.HttpHandlerBehaviorUnion.HttpMockBehavior
+		mockBehaviorPtr.Impl = form.Impl
+		return nil
+	})
+}
+
+func (uc *restServiceUseCase) MoveRestBehaviorPriority(
+	ctx context.Context,
+	serviceId RestServiceIdentifier,
+	handlerId, behaviorId int,
+	newPriority int,
+) error {
+	if handlerId < 0 {
+		return fmt.Errorf("некорректный идентификатор http-маршрута")
+	}
+	if behaviorId < 0 {
+		return fmt.Errorf("некорректный идентификатор поведения хендлера")
+	}
+	return uc.projRepo.ModifyProjectData(ctx, serviceId.ProjectId, func(data *exportstruct.Config) error {
+		service, serviceIdx, ok := lo.FindIndexOf(data.RpcServices, func(item exportstruct.RpcService) bool {
+			return item.Type == exportstruct.RpcServiceType_REST && item.ID == serviceId.ServiceId
+		})
+		if !ok {
+			return fmt.Errorf("не найден REST-сервис по идентификатору %s", serviceId.ServiceId)
+		}
+		if handlerId >= len(service.RpcServiceUnion.HttpService.Routes) {
+			return fmt.Errorf("некорректный идентификатор http-маршрута")
+		}
 	})
 }
