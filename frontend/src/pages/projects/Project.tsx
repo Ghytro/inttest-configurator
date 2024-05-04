@@ -55,4 +55,5 @@ interface ProjectPageProps {
 
 interface ProjectPageState {
   loading: boolean;
+  
 }
