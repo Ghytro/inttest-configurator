@@ -400,7 +400,7 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.authRequest'
+          $ref: '#/definitions/internal_api_auth.authRequest'
       produces:
       - application/json
       responses:
@@ -447,7 +447,7 @@ paths:
             $ref: '#/definitions/api.ErrResponse'
       security:
       - ApiKeyAuth: []
-      summary: list all the services in project
+      summary: '"list all the services in project"'
       tags:
       - mockservices
   /mockservices/rest:
@@ -520,7 +520,7 @@ paths:
             $ref: '#/definitions/api.ErrResponse'
       security:
       - ApiKeyAuth: []
-      summary: delete rest service
+      summary: '"delete rest service"'
       tags:
       - mockservices
     put:
@@ -564,6 +564,480 @@ paths:
       summary: '"update rest service"'
       tags:
       - mockservices
+  /mockservices/rest/{serviceId}/handlers:
+    get:
+      consumes:
+      - application/json
+      operationId: listRestHandlers
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/mockservice.ListRestRoutesResult'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"list all the rest handlers available"'
+      tags:
+      - mockservices
+    post:
+      consumes:
+      - application/json
+      operationId: addRestHandler
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: body model
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.CreateRestHandlerForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"add new rest handler"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{handlerId}/addRestMockBehavior:
+    post:
+      consumes:
+      - application/json
+      operationId: addRestMockBehavior
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of rest handler
+        in: path
+        name: handlerId
+        required: true
+        type: number
+      - description: body model
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.CreateRestMockBehaviorForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"add new mock behavior to rest route"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{handlerId}/addRestStubBehavior:
+    post:
+      consumes:
+      - application/json
+      operationId: addRestStubBehavior
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of rest handler
+        in: path
+        name: handlerId
+        required: true
+        type: number
+      - description: body model
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.CreateRestStubBehaviorForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"add new stub behavior to rest route"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors:
+    get:
+      consumes:
+      - application/json
+      operationId: listRestBehaviors
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of rest handler
+        in: path
+        name: handlerId
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mockservice.ListRestBehaviorResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"list all available behaviors of rest handler"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: deleteRestBehavior
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of rest handler
+        in: path
+        name: handlerId
+        required: true
+        type: number
+      - description: id of a rest handler
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"delete behavior of rest route"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id}/move:
+    patch:
+      consumes:
+      - application/json
+      operationId: moveRestBehaviorPriority
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of rest handler
+        in: path
+        name: handlerId
+        required: true
+        type: number
+      - description: id of a rest handler
+        in: path
+        name: id
+        required: true
+        type: number
+      - description: new priority of a rest handler behavior
+        in: query
+        name: priority
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"move behavior in list to change priority of execution"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestMockBehavior/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: updateRestMockBehavior
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of rest handler
+        in: path
+        name: handlerId
+        required: true
+        type: number
+      - description: id of behavior to update
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update existing mock behavior"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestStubBehavior/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: updateRestStubBehavior
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of rest handler
+        in: path
+        name: handlerId
+        required: true
+        type: number
+      - description: id of behavior to update
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update existing stub behavior"'
+      tags:
+      - mockservices
+  /mockservices/rest/{serviceId}/handlers/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: deleteRestHandler
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of a rest handler
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"delete existing rest handler"'
+      tags:
+      - mockservices
+    put:
+      consumes:
+      - application/json
+      operationId: updateRestHandler
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: id of a rest handler
+        in: path
+        name: id
+        required: true
+        type: number
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.UpdateRestHandlerForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update existing rest handler"'
+      tags:
+      - mockservices
   /perms:
     get:
       consumes:
@@ -576,7 +1050,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/configurator_internal_api_auth.listPermResponseItem'
+              $ref: '#/definitions/internal_api_auth.listPermResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -771,7 +1245,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/configurator_internal_api_auth.listRoleResponseItem'
+              $ref: '#/definitions/internal_api_auth.listRoleResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -796,14 +1270,14 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.roleCreateRequest'
+          $ref: '#/definitions/internal_api_auth.roleCreateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_auth.roleCreateResponse'
+            $ref: '#/definitions/internal_api_auth.roleCreateResponse'
         "400":
           description: Bad Request
           schema:
@@ -863,14 +1337,14 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.updateRoleRequest'
+          $ref: '#/definitions/internal_api_auth.updateRoleRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_auth.updateRoleResponse'
+            $ref: '#/definitions/internal_api_auth.updateRoleResponse'
         "400":
           description: Bad Request
           schema:
@@ -896,7 +1370,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/configurator_internal_api_auth.listUsersResponseItem'
+              $ref: '#/definitions/internal_api_auth.listUsersResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -921,14 +1395,14 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.createUserRequest'
+          $ref: '#/definitions/internal_api_auth.createUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_auth.createUserResponse'
+            $ref: '#/definitions/internal_api_auth.createUserResponse'
         "400":
           description: Bad Request
           schema:
@@ -983,7 +1457,7 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.updateUserRequest'
+          $ref: '#/definitions/internal_api_auth.updateUserRequest'
       - description: id of a user to update
         in: path
         name: id

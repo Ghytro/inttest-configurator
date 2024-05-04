@@ -23,14 +23,14 @@ func New(log *zap.SugaredLogger, useCase IUseCase) *API {
 func (a *API) Register(router fiber.Router, authenticator api.Authenticator, middlewares ...fiber.Handler) {
 	r := fiber.New()
 	r.Use("/", authenticator.AuthMiddleware())
-	r.Get("/", a.listServices)
 	a.registerRestRoutes(r)
+	r.Get("/", a.listServices)
 	router.Mount("/mockservices", r)
 }
 
 // listServices godoc
 // @ID listServices
-// @Summary list all the services in project
+// @Summary "list all the services in project"
 // @Tags mockservices
 // @Accept json
 // @Produce json

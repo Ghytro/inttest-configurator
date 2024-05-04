@@ -33,7 +33,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.authRequest"
+                            "$ref": "#/definitions/internal_api_auth.authRequest"
                         }
                     }
                 ],
@@ -75,7 +75,7 @@
                 "tags": [
                     "mockservices"
                 ],
-                "summary": "list all the services in project",
+                "summary": "\"list all the services in project\"",
                 "operationId": "listServices",
                 "parameters": [
                     {
@@ -245,7 +245,7 @@
                 "tags": [
                     "mockservices"
                 ],
-                "summary": "delete rest service",
+                "summary": "\"delete rest service\"",
                 "operationId": "deleteRestService",
                 "parameters": [
                     {
@@ -260,6 +260,731 @@
                         "description": "id of a project where service is located",
                         "name": "projectId",
                         "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"list all the rest handlers available\"",
+                "operationId": "listRestHandlers",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mockservice.ListRestRoutesResult"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"add new rest handler\"",
+                "operationId": "addRestHandler",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body model",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateRestHandlerForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{handlerId}/addRestMockBehavior": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"add new mock behavior to rest route\"",
+                "operationId": "addRestMockBehavior",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of rest handler",
+                        "name": "handlerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body model",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateRestMockBehaviorForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{handlerId}/addRestStubBehavior": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"add new stub behavior to rest route\"",
+                "operationId": "addRestStubBehavior",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of rest handler",
+                        "name": "handlerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body model",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateRestStubBehaviorForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"list all available behaviors of rest handler\"",
+                "operationId": "listRestBehaviors",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of rest handler",
+                        "name": "handlerId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.ListRestBehaviorResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"delete behavior of rest route\"",
+                "operationId": "deleteRestBehavior",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of rest handler",
+                        "name": "handlerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of a rest handler",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id}/move": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"move behavior in list to change priority of execution\"",
+                "operationId": "moveRestBehaviorPriority",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of rest handler",
+                        "name": "handlerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of a rest handler",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "new priority of a rest handler behavior",
+                        "name": "priority",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestMockBehavior/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update existing mock behavior\"",
+                "operationId": "updateRestMockBehavior",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of rest handler",
+                        "name": "handlerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of behavior to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestStubBehavior/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update existing stub behavior\"",
+                "operationId": "updateRestStubBehavior",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of rest handler",
+                        "name": "handlerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of behavior to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{serviceId}/handlers/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update existing rest handler\"",
+                "operationId": "updateRestHandler",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of a rest handler",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.UpdateRestHandlerForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"delete existing rest handler\"",
+                "operationId": "deleteRestHandler",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of a rest handler",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -309,7 +1034,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listPermResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listPermResponseItem"
                             }
                         }
                     },
@@ -615,7 +1340,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listRoleResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listRoleResponseItem"
                             }
                         }
                     },
@@ -657,7 +1382,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateRequest"
+                            "$ref": "#/definitions/internal_api_auth.roleCreateRequest"
                         }
                     }
                 ],
@@ -665,7 +1390,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateResponse"
+                            "$ref": "#/definitions/internal_api_auth.roleCreateResponse"
                         }
                     },
                     "400": {
@@ -715,7 +1440,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleRequest"
+                            "$ref": "#/definitions/internal_api_auth.updateRoleRequest"
                         }
                     }
                 ],
@@ -723,7 +1448,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleResponse"
+                            "$ref": "#/definitions/internal_api_auth.updateRoleResponse"
                         }
                     },
                     "400": {
@@ -812,7 +1537,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listUsersResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listUsersResponseItem"
                             }
                         }
                     },
@@ -854,7 +1579,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.createUserRequest"
+                            "$ref": "#/definitions/internal_api_auth.createUserRequest"
                         }
                     }
                 ],
@@ -862,7 +1587,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.createUserResponse"
+                            "$ref": "#/definitions/internal_api_auth.createUserResponse"
                         }
                     },
                     "400": {
@@ -905,7 +1630,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateUserRequest"
+                            "$ref": "#/definitions/internal_api_auth.updateUserRequest"
                         }
                     },
                     {

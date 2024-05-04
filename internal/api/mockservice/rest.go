@@ -106,7 +106,7 @@ func (a *API) updateRestService(ctx *fiber.Ctx) error {
 
 // deleteRestService godoc
 // @ID deleteRestService
-// @Summary delete rest service
+// @Summary "delete rest service"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -138,7 +138,7 @@ func (a *API) deleteRestService(ctx *fiber.Ctx) error {
 
 // listRestHandlers godoc
 // @ID listRestHandlers
-// @Summary list all the rest handlers available
+// @Summary "list all the rest handlers available"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -148,7 +148,7 @@ func (a *API) deleteRestService(ctx *fiber.Ctx) error {
 // @Security ApiKeyAuth
 // @Param projectId query number true "id of a project where service is located"
 // @Param serviceId path string true "id of a rest service"
-// @Route /mockservices/rest/{serviceId}/handlers [get]
+// @Router /mockservices/rest/{serviceId}/handlers [get]
 func (a *API) listRestHandlers(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -165,7 +165,7 @@ func (a *API) listRestHandlers(ctx *fiber.Ctx) error {
 
 // addRestHandler godoc
 // @ID addRestHandler
-// @Summary add new rest handler
+// @Summary "add new rest handler"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -176,7 +176,7 @@ func (a *API) listRestHandlers(ctx *fiber.Ctx) error {
 // @Param projectId query number true "id of a project where service is located"
 // @Param serviceId path string true "id of a rest service"
 // @Param form body mockservice.CreateRestHandlerForm true "body model"
-// @Route /mockservices/rest/{serviceId}/handlers [post]
+// @Router /mockservices/rest/{serviceId}/handlers [post]
 func (a *API) addRestHandler(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -196,7 +196,7 @@ func (a *API) addRestHandler(ctx *fiber.Ctx) error {
 
 // updateRestHandler godoc
 // @ID updateRestHandler
-// @Summary update existing rest handler
+// @Summary "update existing rest handler"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -208,7 +208,7 @@ func (a *API) addRestHandler(ctx *fiber.Ctx) error {
 // @Param serviceId path string true "id of a rest service"
 // @Param id path number true "id of a rest handler"
 // @Param form body mockservice.UpdateRestHandlerForm true "body form"
-// @Route /mockservices/rest/{serviceId}/handlers/{id} [put]
+// @Router /mockservices/rest/{serviceId}/handlers/{id} [put]
 func (a *API) updateRestHandler(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -231,7 +231,7 @@ func (a *API) updateRestHandler(ctx *fiber.Ctx) error {
 
 // deleteRestHandler godoc
 // @ID deleteRestHandler
-// @Summary delete existing rest handler
+// @Summary "delete existing rest handler"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -241,7 +241,8 @@ func (a *API) updateRestHandler(ctx *fiber.Ctx) error {
 // @Security ApiKeyAuth
 // @Param projectId query number true "id of a project where service is located"
 // @Param serviceId path string true "id of a rest service"
-// @Route /mockservices/rest/{serviceId}/handlers/{id} [delete]
+// @Param id path number true "id of a rest handler"
+// @Router /mockservices/rest/{serviceId}/handlers/{id} [delete]
 func (a *API) deleteRestHandler(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -260,7 +261,7 @@ func (a *API) deleteRestHandler(ctx *fiber.Ctx) error {
 
 // addRestStubBehavior godoc
 // @ID addRestStubBehavior
-// @Summary add new stub behavior to rest route
+// @Summary "add new stub behavior to rest route"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -272,7 +273,7 @@ func (a *API) deleteRestHandler(ctx *fiber.Ctx) error {
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
 // @Param form body mockservice.CreateRestStubBehaviorForm true "body model"
-// @Route /mockservices/rest/{serviceId}/handlers/{handlerId}/addRestStubBehavior [post]
+// @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/addRestStubBehavior [post]
 func (a *API) addRestStubBehavior(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -295,10 +296,11 @@ func (a *API) addRestStubBehavior(ctx *fiber.Ctx) error {
 
 // addRestMockBehavior godoc
 // @ID addRestMockBehavior
-// @Summary add new mock behavior to rest route
+// @Summary "add new mock behavior to rest route"
 // @Tags mockservices
 // @Accept json
 // @Produce json
+// @Success 200 {object} api.OK
 // @Failure 400 {object} api.ErrResponse
 // @Failure 500 {object} api.ErrResponse
 // @Security ApiKeyAuth
@@ -306,7 +308,7 @@ func (a *API) addRestStubBehavior(ctx *fiber.Ctx) error {
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
 // @Param form body mockservice.CreateRestMockBehaviorForm true "body model"
-// @Route /mockservices/rest/{serviceId}/handlers/{handlerId}/addRestMockBehavior [post]
+// @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/addRestMockBehavior [post]
 func (a *API) addRestMockBehavior(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -329,7 +331,7 @@ func (a *API) addRestMockBehavior(ctx *fiber.Ctx) error {
 
 // listRestBehaviors godoc
 // @ID listRestBehaviors
-// @Summary list all available behaviors of rest handler
+// @Summary "list all available behaviors of rest handler"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -340,7 +342,7 @@ func (a *API) addRestMockBehavior(ctx *fiber.Ctx) error {
 // @Param projectId query number true "id of a project where service is located"
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
-// @Route /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors [get]
+// @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors [get]
 func (a *API) listRestBehaviors(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -359,7 +361,7 @@ func (a *API) listRestBehaviors(ctx *fiber.Ctx) error {
 
 // updateRestStubBehavior godoc
 // @ID updateRestStubBehavior
-// @Summary update existing stub behavior
+// @Summary "update existing stub behavior"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -370,7 +372,7 @@ func (a *API) listRestBehaviors(ctx *fiber.Ctx) error {
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
 // @Param id path number true "id of behavior to update"
-// @Route /mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestStubBehavior/{id} [put]
+// @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestStubBehavior/{id} [put]
 func (a *API) updateRestStubBehavior(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -397,7 +399,7 @@ func (a *API) updateRestStubBehavior(ctx *fiber.Ctx) error {
 
 // updateRestMockBehavior godoc
 // @ID updateRestMockBehavior
-// @Summary update existing mock behavior
+// @Summary "update existing mock behavior"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -408,7 +410,7 @@ func (a *API) updateRestStubBehavior(ctx *fiber.Ctx) error {
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
 // @Param id path number true "id of behavior to update"
-// @Route /mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestMockBehavior/{id} [put]
+// @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestMockBehavior/{id} [put]
 func (a *API) updateRestMockBehavior(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -435,7 +437,7 @@ func (a *API) updateRestMockBehavior(ctx *fiber.Ctx) error {
 
 // moveRestBehaviorPriority godoc
 // @ID moveRestBehaviorPriority
-// @Summary move behavior in list to change priority of execution
+// @Summary "move behavior in list to change priority of execution"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -445,8 +447,9 @@ func (a *API) updateRestMockBehavior(ctx *fiber.Ctx) error {
 // @Param projectId query number true "id of a project where service is located"
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
+// @Param id path number true "id of a rest handler"
 // @Param priority query number true "new priority of a rest handler behavior"
-// @Route /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id}/move [patch]
+// @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id}/move [patch]
 func (a *API) moveRestBehaviorPriority(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
@@ -473,7 +476,7 @@ func (a *API) moveRestBehaviorPriority(ctx *fiber.Ctx) error {
 
 // deleteRestBehavior godoc
 // @ID deleteRestBehavior
-// @Summary delete behavior of rest route
+// @Summary "delete behavior of rest route"
 // @Tags mockservices
 // @Accept json
 // @Produce json
@@ -483,7 +486,8 @@ func (a *API) moveRestBehaviorPriority(ctx *fiber.Ctx) error {
 // @Param projectId query number true "id of a project where service is located"
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
-// @Route /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id} [delete]
+// @Param id path number true "id of a rest handler"
+// @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/behaviors/{id} [delete]
 func (a *API) deleteRestBehavior(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
 	if err != nil {
