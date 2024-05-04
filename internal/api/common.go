@@ -2,6 +2,7 @@ package api
 
 import (
 	"errors"
+	"strconv"
 
 	"configurator/internal/entity"
 	entAuth "configurator/internal/entity/auth"
@@ -32,7 +33,7 @@ func ParseBody[T any](ctx *fiber.Ctx) (T, error) {
 }
 
 type parseable interface {
-	entity.BigIntPK
+	entity.BigIntPK | string | int
 }
 
 func ParseUrlParamsId[T parseable](ctx *fiber.Ctx, key string) (T, error) {
@@ -43,6 +44,14 @@ func ParseUrlParamsId[T parseable](ctx *fiber.Ctx, key string) (T, error) {
 			return lo.Empty[T](), err
 		}
 		return any(result).(T), nil
+	case int:
+		result, err := strconv.Atoi(ctx.Params(key))
+		if err != nil {
+			return lo.Empty[T](), err
+		}
+		return any(result).(T), nil
+	case string:
+		return any(ctx.Params(key)).(T), nil
 	}
 	return lo.Empty[T](), errors.New("unknown id type in url params")
 }
@@ -55,6 +64,14 @@ func ParseQueryParam[T parseable](ctx *fiber.Ctx, query string) (T, error) {
 			return lo.Empty[T](), err
 		}
 		return any(result).(T), nil
+	case int:
+		result, err := strconv.Atoi(ctx.Query(query))
+		if err != nil {
+			return lo.Empty[T](), err
+		}
+		return any(result).(T), nil
+	case string:
+		return any(ctx.Query(query)).(T), nil
 	}
 	return lo.Empty[T](), errors.New("unknown id type in url params")
 }

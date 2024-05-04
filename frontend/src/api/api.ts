@@ -592,6 +592,643 @@ export interface InternalApiProjectsUpdateProjectMetaRequest {
      */
     'name'?: string;
 }
+/**
+ * 
+ * @export
+ * @interface MockserviceCreateRestHandlerForm
+ */
+export interface MockserviceCreateRestHandlerForm {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateRestHandlerForm
+     */
+    'method'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateRestHandlerForm
+     */
+    'route'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceCreateRestMockBehaviorForm
+ */
+export interface MockserviceCreateRestMockBehaviorForm {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MockserviceCreateRestMockBehaviorForm
+     */
+    'impl'?: Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceCreateRestServiceReq
+ */
+export interface MockserviceCreateRestServiceReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateRestServiceReq
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceCreateRestServiceReq
+     */
+    'port'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceCreateRestStubBehaviorForm
+ */
+export interface MockserviceCreateRestStubBehaviorForm {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateRestStubBehaviorForm
+     */
+    'body'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceCreateRestStubBehaviorForm
+     */
+    'headers'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceCreateRestStubBehaviorForm
+     */
+    'query'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateRestStubBehaviorForm
+     */
+    'response_body'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceCreateRestStubBehaviorForm
+     */
+    'response_headers'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceCreateRestStubBehaviorForm
+     */
+    'response_status'?: number;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceCreateRestStubBehaviorForm
+     */
+    'url_params'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListRestBehaviorResult
+ */
+export interface MockserviceListRestBehaviorResult {
+    /**
+     * 
+     * @type {Array<MockserviceListRestBehaviorResultMock>}
+     * @memberof MockserviceListRestBehaviorResult
+     */
+    'mocks'?: Array<MockserviceListRestBehaviorResultMock>;
+    /**
+     * 
+     * @type {Array<MockserviceListRestBehaviorResultStub>}
+     * @memberof MockserviceListRestBehaviorResult
+     */
+    'stubs'?: Array<MockserviceListRestBehaviorResultStub>;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListRestBehaviorResultMock
+ */
+export interface MockserviceListRestBehaviorResultMock {
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListRestBehaviorResultMock
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MockserviceListRestBehaviorResultMock
+     */
+    'impl'?: Array<string>;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListRestBehaviorResultMock
+     */
+    'priority'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListRestBehaviorResultStub
+ */
+export interface MockserviceListRestBehaviorResultStub {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'body'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'headers'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'priority'?: number;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'query'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'response_body'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'response_headers'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'response_status'?: number;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceListRestBehaviorResultStub
+     */
+    'url_params'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListRestRoutesResult
+ */
+export interface MockserviceListRestRoutesResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListRestRoutesResult
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListRestRoutesResult
+     */
+    'method'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListRestRoutesResult
+     */
+    'route'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListServiceResult
+ */
+export interface MockserviceListServiceResult {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListServiceResult
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListServiceResult
+     */
+    'port'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceRestServiceUpdateForm
+ */
+export interface MockserviceRestServiceUpdateForm {
+    /**
+     * todo: id выглядит странновато, мб переделать на name? если мигрировать на норм бд, это поле может вызвать непонимание
+     * @type {string}
+     * @memberof MockserviceRestServiceUpdateForm
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceRestServiceUpdateForm
+     */
+    'port'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceUpdateRestHandlerForm
+ */
+export interface MockserviceUpdateRestHandlerForm {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdateRestHandlerForm
+     */
+    'method'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdateRestHandlerForm
+     */
+    'route'?: string;
+}
+
+/**
+ * MockservicesApi - axios parameter creator
+ * @export
+ */
+export const MockservicesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary \"create rest service\"
+         * @param {number} projectId project id to list all services
+         * @param {MockserviceCreateRestServiceReq} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRestService: async (projectId: number, form: MockserviceCreateRestServiceReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('createRestService', 'projectId', projectId)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('createRestService', 'form', form)
+            const localVarPath = `/mockservices/rest`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary delete rest service
+         * @param {string} id id of a service to delete
+         * @param {number} projectId id of a project where service is located
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteRestService: async (id: string, projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteRestService', 'id', id)
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('deleteRestService', 'projectId', projectId)
+            const localVarPath = `/mockservices/rest/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary list all the services in project
+         * @param {number} projectId project id to list all services
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listServices: async (projectId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('listServices', 'projectId', projectId)
+            const localVarPath = `/mockservices`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary \"update rest service\"
+         * @param {number} projectId project id to list all services
+         * @param {string} id id of service to update
+         * @param {MockserviceRestServiceUpdateForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateRestService: async (projectId: number, id: string, form: MockserviceRestServiceUpdateForm, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('updateRestService', 'projectId', projectId)
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateRestService', 'id', id)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('updateRestService', 'form', form)
+            const localVarPath = `/mockservices/rest/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MockservicesApi - functional programming interface
+ * @export
+ */
+export const MockservicesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MockservicesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary \"create rest service\"
+         * @param {number} projectId project id to list all services
+         * @param {MockserviceCreateRestServiceReq} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createRestService(projectId: number, form: MockserviceCreateRestServiceReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRestService(projectId, form, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary delete rest service
+         * @param {string} id id of a service to delete
+         * @param {number} projectId id of a project where service is located
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteRestService(id: string, projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteRestService(id, projectId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary list all the services in project
+         * @param {number} projectId project id to list all services
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listServices(projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Array<MockserviceListServiceResult>; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listServices(projectId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary \"update rest service\"
+         * @param {number} projectId project id to list all services
+         * @param {string} id id of service to update
+         * @param {MockserviceRestServiceUpdateForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateRestService(projectId: number, id: string, form: MockserviceRestServiceUpdateForm, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRestService(projectId, id, form, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * MockservicesApi - factory interface
+ * @export
+ */
+export const MockservicesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MockservicesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary \"create rest service\"
+         * @param {number} projectId project id to list all services
+         * @param {MockserviceCreateRestServiceReq} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRestService(projectId: number, form: MockserviceCreateRestServiceReq, options?: any): AxiosPromise<object> {
+            return localVarFp.createRestService(projectId, form, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary delete rest service
+         * @param {string} id id of a service to delete
+         * @param {number} projectId id of a project where service is located
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteRestService(id: string, projectId: number, options?: any): AxiosPromise<object> {
+            return localVarFp.deleteRestService(id, projectId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary list all the services in project
+         * @param {number} projectId project id to list all services
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listServices(projectId: number, options?: any): AxiosPromise<{ [key: string]: Array<MockserviceListServiceResult>; }> {
+            return localVarFp.listServices(projectId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary \"update rest service\"
+         * @param {number} projectId project id to list all services
+         * @param {string} id id of service to update
+         * @param {MockserviceRestServiceUpdateForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateRestService(projectId: number, id: string, form: MockserviceRestServiceUpdateForm, options?: any): AxiosPromise<object> {
+            return localVarFp.updateRestService(projectId, id, form, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * MockservicesApi - object-oriented interface
+ * @export
+ * @class MockservicesApi
+ * @extends {BaseAPI}
+ */
+export class MockservicesApi extends BaseAPI {
+    /**
+     * 
+     * @summary \"create rest service\"
+     * @param {number} projectId project id to list all services
+     * @param {MockserviceCreateRestServiceReq} form body form
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public createRestService(projectId: number, form: MockserviceCreateRestServiceReq, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).createRestService(projectId, form, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary delete rest service
+     * @param {string} id id of a service to delete
+     * @param {number} projectId id of a project where service is located
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public deleteRestService(id: string, projectId: number, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).deleteRestService(id, projectId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary list all the services in project
+     * @param {number} projectId project id to list all services
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public listServices(projectId: number, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).listServices(projectId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary \"update rest service\"
+     * @param {number} projectId project id to list all services
+     * @param {string} id id of service to update
+     * @param {MockserviceRestServiceUpdateForm} form body form
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public updateRestService(projectId: number, id: string, form: MockserviceRestServiceUpdateForm, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).updateRestService(projectId, id, form, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * ProjectsApi - axios parameter creator
@@ -753,11 +1390,11 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
          * @summary update name and desc of a project
          * @param {number} id id of an updated project
          * @param {number} id2 id of updated project
-         * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+         * @param {ConfiguratorInternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProjectMeta: async (id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateProjectMeta: async (id: number, id2: number, form: ConfiguratorInternalApiProjectsUpdateProjectMetaRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateProjectMeta', 'id', id)
             // verify required parameter 'id2' is not null or undefined
@@ -832,7 +1469,7 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listProjects(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiProjectsListProjectResponseItem>>> {
+        async listProjects(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConfiguratorInternalApiProjectsListProjectResponseItem>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listProjects(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -852,11 +1489,11 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          * @summary update name and desc of a project
          * @param {number} id id of an updated project
          * @param {number} id2 id of updated project
-         * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+         * @param {ConfiguratorInternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProjectMeta(id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async updateProjectMeta(id: number, id2: number, form: ConfiguratorInternalApiProjectsUpdateProjectMetaRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProjectMeta(id, id2, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -898,7 +1535,7 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listProjects(options?: any): AxiosPromise<Array<InternalApiProjectsListProjectResponseItem>> {
+        listProjects(options?: any): AxiosPromise<Array<ConfiguratorInternalApiProjectsListProjectResponseItem>> {
             return localVarFp.listProjects(options).then((request) => request(axios, basePath));
         },
         /**
@@ -916,11 +1553,11 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          * @summary update name and desc of a project
          * @param {number} id id of an updated project
          * @param {number} id2 id of updated project
-         * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+         * @param {ConfiguratorInternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProjectMeta(id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options?: any): AxiosPromise<object> {
+        updateProjectMeta(id: number, id2: number, form: ConfiguratorInternalApiProjectsUpdateProjectMetaRequest, options?: any): AxiosPromise<object> {
             return localVarFp.updateProjectMeta(id, id2, form, options).then((request) => request(axios, basePath));
         },
     };
@@ -987,12 +1624,12 @@ export class ProjectsApi extends BaseAPI {
      * @summary update name and desc of a project
      * @param {number} id id of an updated project
      * @param {number} id2 id of updated project
-     * @param {InternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
+     * @param {ConfiguratorInternalApiProjectsUpdateProjectMetaRequest} form form to update project meta
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
      */
-    public updateProjectMeta(id: number, id2: number, form: InternalApiProjectsUpdateProjectMetaRequest, options?: AxiosRequestConfig) {
+    public updateProjectMeta(id: number, id2: number, form: ConfiguratorInternalApiProjectsUpdateProjectMetaRequest, options?: AxiosRequestConfig) {
         return ProjectsApiFp(this.configuration).updateProjectMeta(id, id2, form, options).then((request) => request(this.axios, this.basePath));
     }
 }

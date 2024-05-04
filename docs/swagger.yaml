@@ -237,6 +237,146 @@ definitions:
       name:
         type: string
     type: object
+  mockservice.CreateRestHandlerForm:
+    properties:
+      method:
+        type: string
+      route:
+        type: string
+    type: object
+  mockservice.CreateRestMockBehaviorForm:
+    properties:
+      impl:
+        items:
+          type: string
+        type: array
+    type: object
+  mockservice.CreateRestServiceReq:
+    properties:
+      id:
+        type: string
+      port:
+        type: integer
+    type: object
+  mockservice.CreateRestServiceResult:
+    type: object
+  mockservice.CreateRestStubBehaviorForm:
+    properties:
+      body:
+        type: string
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      query:
+        additionalProperties:
+          type: string
+        type: object
+      response_body:
+        type: string
+      response_headers:
+        additionalProperties:
+          type: string
+        type: object
+      response_status:
+        type: integer
+      url_params:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  mockservice.ListRestBehaviorResult:
+    properties:
+      mocks:
+        items:
+          $ref: '#/definitions/mockservice.ListRestBehaviorResult_Mock'
+        type: array
+      stubs:
+        items:
+          $ref: '#/definitions/mockservice.ListRestBehaviorResult_Stub'
+        type: array
+    type: object
+  mockservice.ListRestBehaviorResult_Mock:
+    properties:
+      id:
+        type: integer
+      impl:
+        items:
+          type: string
+        type: array
+      priority:
+        type: integer
+    type: object
+  mockservice.ListRestBehaviorResult_Stub:
+    properties:
+      body:
+        type: string
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      id:
+        type: integer
+      priority:
+        type: integer
+      query:
+        additionalProperties:
+          type: string
+        type: object
+      response_body:
+        type: string
+      response_headers:
+        additionalProperties:
+          type: string
+        type: object
+      response_status:
+        type: integer
+      url_params:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  mockservice.ListRestRoutesResult:
+    properties:
+      id:
+        type: integer
+      method:
+        type: string
+      route:
+        type: string
+    type: object
+  mockservice.RestServiceUpdateForm:
+    properties:
+      id:
+        description: |-
+          todo: id выглядит странновато, мб переделать на name?
+          если мигрировать на норм бд, это поле может вызвать непонимание
+        type: string
+      port:
+        type: integer
+    type: object
+  mockservice.RestServiceUpdateResult:
+    type: object
+  mockservice.UpdateRestHandlerForm:
+    properties:
+      method:
+        type: string
+      route:
+        type: string
+    type: object
+  mockservice.listServiceResponse:
+    additionalProperties:
+      items:
+        $ref: '#/definitions/mockservice.listServiceResult'
+      type: array
+    type: object
+  mockservice.listServiceResult:
+    properties:
+      id:
+        type: string
+      port:
+        type: integer
+    type: object
 info:
   contact: {}
   description: |-
@@ -279,6 +419,151 @@ paths:
       summary: create user
       tags:
       - users
+  /mockservices:
+    get:
+      consumes:
+      - application/json
+      operationId: listServices
+      parameters:
+      - description: project id to list all services
+        in: query
+        name: projectId
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mockservice.listServiceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: list all the services in project
+      tags:
+      - mockservices
+  /mockservices/rest:
+    post:
+      consumes:
+      - application/json
+      operationId: createRestService
+      parameters:
+      - description: project id to list all services
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.CreateRestServiceReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mockservice.CreateRestServiceResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"create rest service"'
+      tags:
+      - mockservices
+  /mockservices/rest/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: deleteRestService
+      parameters:
+      - description: id of a service to delete
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: delete rest service
+      tags:
+      - mockservices
+    put:
+      consumes:
+      - application/json
+      operationId: updateRestService
+      parameters:
+      - description: project id to list all services
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of service to update
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.RestServiceUpdateForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mockservice.RestServiceUpdateResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update rest service"'
+      tags:
+      - mockservices
   /perms:
     get:
       consumes:
@@ -318,7 +603,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/internal_api_projects.listProjectResponseItem'
+              $ref: '#/definitions/configurator_internal_api_projects.listProjectResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -417,7 +702,7 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/internal_api_projects.updateProjectMetaRequest'
+          $ref: '#/definitions/configurator_internal_api_projects.updateProjectMetaRequest'
       - description: id of updated project
         in: path
         name: id

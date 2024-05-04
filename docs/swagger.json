@@ -59,6 +59,232 @@
                 }
             }
         },
+        "/mockservices": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "list all the services in project",
+                "operationId": "listServices",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to list all services",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.listServiceResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"create rest service\"",
+                "operationId": "createRestService",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to list all services",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateRestServiceReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateRestServiceResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/rest/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update rest service\"",
+                "operationId": "updateRestService",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to list all services",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of service to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.RestServiceUpdateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.RestServiceUpdateResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "delete rest service",
+                "operationId": "deleteRestService",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of a service to delete",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/perms": {
             "get": {
                 "security": [
@@ -126,7 +352,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_api_projects.listProjectResponseItem"
+                                "$ref": "#/definitions/configurator_internal_api_projects.listProjectResponseItem"
                             }
                         }
                     },
@@ -236,7 +462,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_api_projects.updateProjectMetaRequest"
+                            "$ref": "#/definitions/configurator_internal_api_projects.updateProjectMetaRequest"
                         }
                     },
                     {
@@ -1126,6 +1352,218 @@
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "mockservice.CreateRestHandlerForm": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string"
+                },
+                "route": {
+                    "type": "string"
+                }
+            }
+        },
+        "mockservice.CreateRestMockBehaviorForm": {
+            "type": "object",
+            "properties": {
+                "impl": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "mockservice.CreateRestServiceReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mockservice.CreateRestServiceResult": {
+            "type": "object"
+        },
+        "mockservice.CreateRestStubBehaviorForm": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "response_body": {
+                    "type": "string"
+                },
+                "response_headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "response_status": {
+                    "type": "integer"
+                },
+                "url_params": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "mockservice.ListRestBehaviorResult": {
+            "type": "object",
+            "properties": {
+                "mocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mockservice.ListRestBehaviorResult_Mock"
+                    }
+                },
+                "stubs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mockservice.ListRestBehaviorResult_Stub"
+                    }
+                }
+            }
+        },
+        "mockservice.ListRestBehaviorResult_Mock": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "impl": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "priority": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mockservice.ListRestBehaviorResult_Stub": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "response_body": {
+                    "type": "string"
+                },
+                "response_headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "response_status": {
+                    "type": "integer"
+                },
+                "url_params": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "mockservice.ListRestRoutesResult": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "route": {
+                    "type": "string"
+                }
+            }
+        },
+        "mockservice.RestServiceUpdateForm": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "todo: id выглядит странновато, мб переделать на name?\nесли мигрировать на норм бд, это поле может вызвать непонимание",
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mockservice.RestServiceUpdateResult": {
+            "type": "object"
+        },
+        "mockservice.UpdateRestHandlerForm": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string"
+                },
+                "route": {
+                    "type": "string"
+                }
+            }
+        },
+        "mockservice.listServiceResponse": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/mockservice.listServiceResult"
+                }
+            }
+        },
+        "mockservice.listServiceResult": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
                 }
             }
         }

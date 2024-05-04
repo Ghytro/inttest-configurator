@@ -514,5 +514,50 @@ func (uc *restServiceUseCase) MoveRestBehaviorPriority(
 		if handlerId >= len(service.RpcServiceUnion.HttpService.Routes) {
 			return fmt.Errorf("некорректный идентификатор http-маршрута")
 		}
+		servicePtr := &data.RpcServices[serviceIdx]
+		routePtr := &servicePtr.RpcServiceUnion.HttpService.Routes[handlerId]
+		if behaviorId >= len(routePtr.Behavior) {
+			return fmt.Errorf("некорректный идентификатор поведения хендлера")
+		}
+		routePtr.Behavior = append(
+			routePtr.Behavior[:newPriority],
+			append(
+				routePtr.Behavior[behaviorId:behaviorId+1],
+				routePtr.Behavior[newPriority+1:]...,
+			)...,
+		)
+		return nil
+	})
+}
+
+func (uc *restServiceUseCase) DeleteRestBehavior(
+	ctx context.Context,
+	serviceId RestServiceIdentifier,
+	handlerId, behaviorId int,
+) error {
+	if handlerId < 0 {
+		return fmt.Errorf("некорректный идентификатор http-маршрута")
+	}
+	if behaviorId < 0 {
+		return fmt.Errorf("некорректный идентификатор поведения хендлера")
+	}
+	return uc.projRepo.ModifyProjectData(ctx, serviceId.ProjectId, func(data *exportstruct.Config) error {
+		service, serviceIdx, ok := lo.FindIndexOf(data.RpcServices, func(item exportstruct.RpcService) bool {
+			return item.Type == exportstruct.RpcServiceType_REST && item.ID == serviceId.ServiceId
+		})
+		if !ok {
+			return fmt.Errorf("не найден REST-сервис по идентификатору %s", serviceId.ServiceId)
+		}
+		if handlerId >= len(service.RpcServiceUnion.HttpService.Routes) {
+			return fmt.Errorf("некорректный идентификатор http-маршрута")
+		}
+		servicePtr := &data.RpcServices[serviceIdx]
+		routePtr := &servicePtr.RpcServiceUnion.HttpService.Routes[handlerId]
+		if behaviorId >= len(routePtr.Behavior) {
+			return fmt.Errorf("некорректный идентификатор поведения хендлера")
+		}
+
+		routePtr.Behavior = append(routePtr.Behavior[:behaviorId], routePtr.Behavior[behaviorId+1:]...)
+		return nil
 	})
 }
