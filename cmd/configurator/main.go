@@ -16,12 +16,14 @@ import (
 	"configurator/internal/api"
 
 	authApi "configurator/internal/api/auth"
+	mockserviceApi "configurator/internal/api/mockservice"
 	projectsApi "configurator/internal/api/projects"
 
 	authRepository "configurator/internal/repository/auth"
 	projectsRepository "configurator/internal/repository/projects"
 
 	authUseCase "configurator/internal/usecase/auth"
+	mockserviceUseCase "configurator/internal/usecase/mockservice"
 	projectsUseCase "configurator/internal/usecase/projects"
 
 	"configurator/pkg/database"
@@ -91,6 +93,10 @@ func main() {
 	{
 		useCase := projectsUseCase.New(projectRepo, logger)
 		apis = append(apis, projectsApi.New(useCase, logger))
+	}
+	{
+		useCase := mockserviceUseCase.New(logger, projectRepo)
+		apis = append(apis, mockserviceApi.New(logger, useCase))
 	}
 	app := initFiberRouter(apis, aUseCase)
 	ln, err := initFiberListener(":8080")

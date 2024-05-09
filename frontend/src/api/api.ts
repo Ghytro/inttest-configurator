@@ -879,6 +879,55 @@ export interface MockserviceUpdateRestHandlerForm {
      */
     'route'?: string;
 }
+/**
+ * 
+ * @export
+ * @interface MockserviceUpdateStubBehaviorForm
+ */
+export interface MockserviceUpdateStubBehaviorForm {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdateStubBehaviorForm
+     */
+    'body'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceUpdateStubBehaviorForm
+     */
+    'headers'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceUpdateStubBehaviorForm
+     */
+    'query'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdateStubBehaviorForm
+     */
+    'response_body'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceUpdateStubBehaviorForm
+     */
+    'response_headers'?: { [key: string]: string; };
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceUpdateStubBehaviorForm
+     */
+    'response_status'?: number;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof MockserviceUpdateStubBehaviorForm
+     */
+    'url_params'?: { [key: string]: string; };
+}
 
 /**
  * MockservicesApi - axios parameter creator
@@ -1546,10 +1595,11 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
          * @param {string} serviceId id of a rest service
          * @param {number} handlerId id of rest handler
          * @param {number} id id of behavior to update
+         * @param {MockserviceUpdateStubBehaviorForm} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRestStubBehavior: async (projectId: number, serviceId: string, handlerId: number, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRestStubBehavior: async (projectId: number, serviceId: string, handlerId: number, id: number, form: MockserviceUpdateStubBehaviorForm, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('updateRestStubBehavior', 'projectId', projectId)
             // verify required parameter 'serviceId' is not null or undefined
@@ -1558,6 +1608,8 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateRestStubBehavior', 'handlerId', handlerId)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateRestStubBehavior', 'id', id)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('updateRestStubBehavior', 'form', form)
             const localVarPath = `/mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestStubBehavior/{id}`
                 .replace(`{${"serviceId"}}`, encodeURIComponent(String(serviceId)))
                 .replace(`{${"handlerId"}}`, encodeURIComponent(String(handlerId)))
@@ -1579,9 +1631,12 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1789,11 +1844,12 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          * @param {string} serviceId id of a rest service
          * @param {number} handlerId id of rest handler
          * @param {number} id id of behavior to update
+         * @param {MockserviceUpdateStubBehaviorForm} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRestStubBehavior(projectId: number, serviceId: string, handlerId: number, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRestStubBehavior(projectId, serviceId, handlerId, id, options);
+        async updateRestStubBehavior(projectId: number, serviceId: string, handlerId: number, id: number, form: MockserviceUpdateStubBehaviorForm, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRestStubBehavior(projectId, serviceId, handlerId, id, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1983,11 +2039,12 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          * @param {string} serviceId id of a rest service
          * @param {number} handlerId id of rest handler
          * @param {number} id id of behavior to update
+         * @param {MockserviceUpdateStubBehaviorForm} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRestStubBehavior(projectId: number, serviceId: string, handlerId: number, id: number, options?: any): AxiosPromise<void> {
-            return localVarFp.updateRestStubBehavior(projectId, serviceId, handlerId, id, options).then((request) => request(axios, basePath));
+        updateRestStubBehavior(projectId: number, serviceId: string, handlerId: number, id: number, form: MockserviceUpdateStubBehaviorForm, options?: any): AxiosPromise<void> {
+            return localVarFp.updateRestStubBehavior(projectId, serviceId, handlerId, id, form, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2204,12 +2261,13 @@ export class MockservicesApi extends BaseAPI {
      * @param {string} serviceId id of a rest service
      * @param {number} handlerId id of rest handler
      * @param {number} id id of behavior to update
+     * @param {MockserviceUpdateStubBehaviorForm} form body form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockservicesApi
      */
-    public updateRestStubBehavior(projectId: number, serviceId: string, handlerId: number, id: number, options?: AxiosRequestConfig) {
-        return MockservicesApiFp(this.configuration).updateRestStubBehavior(projectId, serviceId, handlerId, id, options).then((request) => request(this.axios, this.basePath));
+    public updateRestStubBehavior(projectId: number, serviceId: string, handlerId: number, id: number, form: MockserviceUpdateStubBehaviorForm, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).updateRestStubBehavior(projectId, serviceId, handlerId, id, form, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2628,11 +2686,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthAuthRequest} form login/pass form
+         * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        auth: async (form: InternalApiAuthAuthRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        auth: async (form: ConfiguratorInternalApiAuthAuthRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'form' is not null or undefined
             assertParamExists('auth', 'form', form)
             const localVarPath = `/auth`;
@@ -2664,11 +2722,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary create role
-         * @param {InternalApiAuthRoleCreateRequest} form create role form
+         * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRole: async (form: InternalApiAuthRoleCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createRole: async (form: ConfiguratorInternalApiAuthRoleCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'form' is not null or undefined
             assertParamExists('createRole', 'form', form)
             const localVarPath = `/roles`;
@@ -2700,11 +2758,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthCreateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser: async (form: InternalApiAuthCreateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createUser: async (form: ConfiguratorInternalApiAuthCreateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'form' is not null or undefined
             assertParamExists('createUser', 'form', form)
             const localVarPath = `/users`;
@@ -2895,11 +2953,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * 
          * @summary update role
          * @param {number} id id of a role to update
-         * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+         * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRole: async (id: number, form: InternalApiAuthUpdateRoleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRole: async (id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateRole', 'id', id)
             // verify required parameter 'form' is not null or undefined
@@ -2935,11 +2993,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * 
          * @summary update user
          * @param {number} id id of a user to update
-         * @param {InternalApiAuthUpdateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser: async (id: number, form: InternalApiAuthUpdateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateUser: async (id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateUser', 'id', id)
             // verify required parameter 'form' is not null or undefined
@@ -2984,33 +3042,33 @@ export const UsersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthAuthRequest} form login/pass form
+         * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async auth(form: InternalApiAuthAuthRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async auth(form: ConfiguratorInternalApiAuthAuthRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.auth(form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @summary create role
-         * @param {InternalApiAuthRoleCreateRequest} form create role form
+         * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRole(form: InternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InternalApiAuthRoleCreateResponse>> {
+        async createRole(form: ConfiguratorInternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfiguratorInternalApiAuthRoleCreateResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createRole(form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthCreateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUser(form: InternalApiAuthCreateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InternalApiAuthCreateUserResponse>> {
+        async createUser(form: ConfiguratorInternalApiAuthCreateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfiguratorInternalApiAuthCreateUserResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3042,7 +3100,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listPerms(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiAuthListPermResponseItem>>> {
+        async listPerms(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConfiguratorInternalApiAuthListPermResponseItem>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listPerms(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3052,7 +3110,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listRoles(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiAuthListRoleResponseItem>>> {
+        async listRoles(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConfiguratorInternalApiAuthListRoleResponseItem>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3062,7 +3120,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listUsers(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiAuthListUsersResponseItem>>> {
+        async listUsers(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConfiguratorInternalApiAuthListUsersResponseItem>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listUsers(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3070,11 +3128,11 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * 
          * @summary update role
          * @param {number} id id of a role to update
-         * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+         * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRole(id: number, form: InternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async updateRole(id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateRole(id, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3082,11 +3140,11 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * 
          * @summary update user
          * @param {number} id id of a user to update
-         * @param {InternalApiAuthUpdateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUser(id: number, form: InternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async updateUser(id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(id, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3103,31 +3161,31 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthAuthRequest} form login/pass form
+         * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        auth(form: InternalApiAuthAuthRequest, options?: any): AxiosPromise<object> {
+        auth(form: ConfiguratorInternalApiAuthAuthRequest, options?: any): AxiosPromise<object> {
             return localVarFp.auth(form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary create role
-         * @param {InternalApiAuthRoleCreateRequest} form create role form
+         * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRole(form: InternalApiAuthRoleCreateRequest, options?: any): AxiosPromise<InternalApiAuthRoleCreateResponse> {
+        createRole(form: ConfiguratorInternalApiAuthRoleCreateRequest, options?: any): AxiosPromise<ConfiguratorInternalApiAuthRoleCreateResponse> {
             return localVarFp.createRole(form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthCreateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(form: InternalApiAuthCreateUserRequest, options?: any): AxiosPromise<InternalApiAuthCreateUserResponse> {
+        createUser(form: ConfiguratorInternalApiAuthCreateUserRequest, options?: any): AxiosPromise<ConfiguratorInternalApiAuthCreateUserResponse> {
             return localVarFp.createUser(form, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3156,7 +3214,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listPerms(options?: any): AxiosPromise<Array<InternalApiAuthListPermResponseItem>> {
+        listPerms(options?: any): AxiosPromise<Array<ConfiguratorInternalApiAuthListPermResponseItem>> {
             return localVarFp.listPerms(options).then((request) => request(axios, basePath));
         },
         /**
@@ -3165,7 +3223,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles(options?: any): AxiosPromise<Array<InternalApiAuthListRoleResponseItem>> {
+        listRoles(options?: any): AxiosPromise<Array<ConfiguratorInternalApiAuthListRoleResponseItem>> {
             return localVarFp.listRoles(options).then((request) => request(axios, basePath));
         },
         /**
@@ -3174,29 +3232,29 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsers(options?: any): AxiosPromise<Array<InternalApiAuthListUsersResponseItem>> {
+        listUsers(options?: any): AxiosPromise<Array<ConfiguratorInternalApiAuthListUsersResponseItem>> {
             return localVarFp.listUsers(options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary update role
          * @param {number} id id of a role to update
-         * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+         * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRole(id: number, form: InternalApiAuthUpdateRoleRequest, options?: any): AxiosPromise<object> {
+        updateRole(id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options?: any): AxiosPromise<object> {
             return localVarFp.updateRole(id, form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary update user
          * @param {number} id id of a user to update
-         * @param {InternalApiAuthUpdateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(id: number, form: InternalApiAuthUpdateUserRequest, options?: any): AxiosPromise<object> {
+        updateUser(id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options?: any): AxiosPromise<object> {
             return localVarFp.updateUser(id, form, options).then((request) => request(axios, basePath));
         },
     };
@@ -3212,36 +3270,36 @@ export class UsersApi extends BaseAPI {
     /**
      * 
      * @summary create user
-     * @param {InternalApiAuthAuthRequest} form login/pass form
+     * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public auth(form: InternalApiAuthAuthRequest, options?: AxiosRequestConfig) {
+    public auth(form: ConfiguratorInternalApiAuthAuthRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).auth(form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary create role
-     * @param {InternalApiAuthRoleCreateRequest} form create role form
+     * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public createRole(form: InternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig) {
+    public createRole(form: ConfiguratorInternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).createRole(form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary create user
-     * @param {InternalApiAuthCreateUserRequest} form create user request model
+     * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public createUser(form: InternalApiAuthCreateUserRequest, options?: AxiosRequestConfig) {
+    public createUser(form: ConfiguratorInternalApiAuthCreateUserRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).createUser(form, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -3306,12 +3364,12 @@ export class UsersApi extends BaseAPI {
      * 
      * @summary update role
      * @param {number} id id of a role to update
-     * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+     * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateRole(id: number, form: InternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig) {
+    public updateRole(id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).updateRole(id, form, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -3319,12 +3377,12 @@ export class UsersApi extends BaseAPI {
      * 
      * @summary update user
      * @param {number} id id of a user to update
-     * @param {InternalApiAuthUpdateUserRequest} form create user request model
+     * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUser(id: number, form: InternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig) {
+    public updateUser(id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).updateUser(id, form, options).then((request) => request(this.axios, this.basePath));
     }
 }

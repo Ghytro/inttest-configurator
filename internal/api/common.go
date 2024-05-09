@@ -2,6 +2,7 @@ package api
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 
 	"configurator/internal/entity"
@@ -37,6 +38,10 @@ type parseable interface {
 }
 
 func ParseUrlParamsId[T parseable](ctx *fiber.Ctx, key string) (T, error) {
+	strVal := ctx.Params(key)
+	if strVal == "" {
+		return lo.Empty[T](), fmt.Errorf("отсутствует значение %s в url-параметрах", key)
+	}
 	switch any(lo.Empty[T]()).(type) {
 	case entity.BigIntPK:
 		result, err := entity.ParseBigIntPK(ctx.Params(key))

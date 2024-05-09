@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { MockservicesApi } from "../../api/api";
-import { withRouter } from "../../AppRoutes";
-import { Params } from "react-router-dom";
+import { Params, useParams } from "react-router-dom";
 import { $notify, ENotifyKind } from "../../notifier";
 import {
   ServiceCascaderOptVal,
   ServiceSelectionCascader,
 } from "../../components/ServiceSelectionCascader";
-import { Button, Divider, Dropdown, MenuProps } from "antd";
+import { Button, Divider, Dropdown, Flex, Space } from "antd";
 import {
   redisServiceType,
   restServiceType,
@@ -17,6 +16,7 @@ import {
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import CreateRestServiceDialog from "../../components/CreateRestServiceDialog";
 import RestServiceEditTab from "../../components/RestServiceEditTab";
+import { DownOutlined } from "@ant-design/icons";
 
 class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
   private mockServiceApi: MockservicesApi;
@@ -27,7 +27,10 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
     this.mockServiceApi = new MockservicesApi();
     this.state = {
       loading: false,
-      createdServiceType: undefined,
+      editedServiceData: {
+        id: "",
+        port: 0,
+      },
     };
   }
 
@@ -50,40 +53,52 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
   render(): React.ReactNode {
     return (
       <>
-        <ServiceSelectionCascader
-          mockServiceApi={this.mockServiceApi}
-          projectId={parseInt(this.props.urlParams.id!)}
-          selectEditedService={(
-            serviceType: string,
-            serviceData: ServiceCascaderOptVal
-          ) => {}}
-        />
-        <Dropdown
-          menu={{
-            items: [restServiceType, soapServiceType, redisServiceType].map(
-              (t): ItemType => {
-                return {
-                  key: t,
-                  label: (
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        this.setState({ createdServiceType: t });
-                      }}
-                    >
-                      {translateServiceType[t]}
-                    </Button>
-                  ),
-                };
-              }
-            ),
-          }}
-        >
-          Создать сервис...
-        </Dropdown>
+        <Flex gap="middle" vertical={false} justify="space-around">
+          <ServiceSelectionCascader
+            mockServiceApi={this.mockServiceApi}
+            projectId={parseInt(this.props.urlParams.id!)}
+            selectEditedService={(
+              serviceType: string | undefined,
+              serviceData: ServiceCascaderOptVal
+            ) => {
+              this.setState({
+                editedServiceType: serviceType,
+                editedServiceData: serviceData,
+              });
+            }}
+          />
+          <Dropdown
+            menu={{
+              items: [restServiceType, soapServiceType, redisServiceType].map(
+                (t): ItemType => {
+                  return {
+                    key: t,
+                    label: (
+                      <Button
+                        type="link"
+                        onClick={() => {
+                          this.setState({ createdServiceType: t });
+                        }}
+                      >
+                        {translateServiceType[t]}
+                      </Button>
+                    ),
+                  };
+                }
+              ),
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                Создать сервис...
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        </Flex>
         <Divider />
         {(() => {
-          switch (this.state.createdServiceType) {
+          switch (this.state.editedServiceType) {
             case restServiceType:
               return (
                 <RestServiceEditTab
@@ -107,7 +122,12 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
   }
 }
 
-export default withRouter(ProjectPage);
+const ProjectPageFC = (props) => {
+  const params = useParams();
+  return <ProjectPage {...props} urlParams={params} />;
+};
+
+export default ProjectPageFC;
 
 interface ProjectPageProps {
   urlParams: Readonly<Params<string>>;
@@ -115,6 +135,7 @@ interface ProjectPageProps {
 
 interface ProjectPageState {
   loading: boolean;
-  createdServiceType: string | undefined;
+  createdServiceType?: string;
   editedServiceData: ServiceCascaderOptVal;
+  editedServiceType?: string;
 }

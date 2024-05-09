@@ -9,7 +9,9 @@ class RestRouteBehaviorItem_Mock extends Component<
     super(props);
   }
 
-  render(): React.ReactNode {}
+  render(): React.ReactNode {
+    return <></>;
+  }
 }
 
 export default RestRouteBehaviorItem_Mock;

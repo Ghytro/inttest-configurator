@@ -3,9 +3,9 @@ const soapServiceType = "soap";
 const redisServiceType = "redis-pubsub";
 
 const translateServiceType = {
-  restServiceType: "REST API",
-  soapServiceType: "SOAP API",
-  redisServiceType: "Redis PubSub",
+  [restServiceType]: "REST API",
+  [soapServiceType]: "SOAP API",
+  [redisServiceType]: "Redis PubSub",
 };
 
 const stubBehaviorType = "stub";

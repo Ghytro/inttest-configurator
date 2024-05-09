@@ -54,7 +54,7 @@ func (r *Repository) CreateProject(ctx context.Context, project entProjects.Proj
 
 func (r *Repository) GetProject(ctx context.Context, id entity.BigIntPK, fetchData bool) (result entProjects.Project, err error) {
 	err = r.DB.RunInTransaction(ctx, func(db orm.DB) error {
-		columns := []string{"id", "name", "desc"}
+		columns := []string{"id", "name", "description"}
 		if fetchData {
 			columns = append(columns, "data")
 		}

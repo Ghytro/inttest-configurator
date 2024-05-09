@@ -372,6 +372,7 @@ func (a *API) listRestBehaviors(ctx *fiber.Ctx) error {
 // @Param serviceId path string true "id of a rest service"
 // @Param handlerId path number true "id of rest handler"
 // @Param id path number true "id of behavior to update"
+// @Param form body mockservice.UpdateStubBehaviorForm true "body form"
 // @Router /mockservices/rest/{serviceId}/handlers/{handlerId}/updateRestStubBehavior/{id} [put]
 func (a *API) updateRestStubBehavior(ctx *fiber.Ctx) error {
 	serviceId, err := parseServiceId(ctx)
@@ -509,7 +510,7 @@ func (a *API) deleteRestBehavior(ctx *fiber.Ctx) error {
 }
 
 func parseServiceId(ctx *fiber.Ctx) (mockservice.RestServiceIdentifier, error) {
-	serviceId, err := api.ParseUrlParamsId[string](ctx, "id")
+	serviceId, err := api.ParseUrlParamsId[string](ctx, "serviceId")
 	if err != nil {
 		return mockservice.RestServiceIdentifier{}, err
 	}

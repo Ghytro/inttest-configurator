@@ -16,9 +16,16 @@ class RestRouteBehaviors extends Component<
 > {
   constructor(props: RestRouteBehaviorsProps) {
     super(props);
+
+    this.state = {
+      loading: false,
+      behaviorsModel: [],
+    };
   }
 
-  componentDidMount(): void {}
+  componentDidMount(): void {
+    this.fetchBehaviors();
+  }
 
   fetchBehaviors() {
     this.setState({ loading: true });
@@ -91,6 +98,8 @@ class RestRouteBehaviors extends Component<
     );
   }
 }
+
+export default RestRouteBehaviors;
 
 interface RestRouteBehaviorsProps {
   mockServiceApi: MockservicesApi;

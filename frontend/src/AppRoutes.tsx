@@ -5,8 +5,8 @@ import ProjectsListPage from "./pages/projects/ProjectsList";
 import { routesEnum } from "./routesEnum";
 import UserEditPage from "./pages/users/UserEditor";
 import ConfiguratorHeader from "./components/ConfiguratorHeader";
-import ProjectPage from "./pages/projects/Project";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
+import ProjectPageFC from "./pages/projects/Project";
 
 const AppRoutes = () => {
   return (
@@ -16,16 +16,16 @@ const AppRoutes = () => {
         <Route path={routesEnum.auth} element={<AuthPage />} />
         <Route path={routesEnum.projects} element={<ProjectsListPage />} />
         <Route path={routesEnum.users} element={<UserEditPage />} />
-        <Route path={routesEnum.projectPageMask} element={<ProjectPage />} />
+        <Route path={routesEnum.projectPageMask} element={<ProjectPageFC />} />
       </Routes>
     </>
   );
 };
 
-const withRouter = (WrappedComponent) => (props) => {
-  const params = useParams();
+// const withRouter = (WrappedComponent) => (props) => {
+//   const params = useParams();
 
-  return <WrappedComponent {...props} urlParams={params} />;
-};
+//   return <WrappedComponent {...props} urlParams={params} />;
+// };
 
-export { AppRoutes, withRouter };
+export default AppRoutes;

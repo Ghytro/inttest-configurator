@@ -57,6 +57,7 @@ class ServiceSelectionCascader extends Component<
         onChange={(values: any[]) => {
           this.props.selectEditedService(values[0], values[1]);
         }}
+        placeholder="Сервис..."
       />
     );
   }
@@ -91,7 +92,7 @@ interface ServiceSelectionCascaderProps {
   mockServiceApi: MockservicesApi;
   projectId: number;
   selectEditedService: (
-    serviceType: string,
+    serviceType: string | undefined,
     serviceData: ServiceCascaderOptVal
   ) => void;
 }

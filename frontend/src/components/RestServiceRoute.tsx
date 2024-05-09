@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import { MockserviceListRestRoutesResult, MockservicesApi } from "../api/api";
+import {
+  MockserviceListRestBehaviorResultStub,
+  MockserviceListRestRoutesResult,
+  MockservicesApi,
+} from "../api/api";
 import { $notify, ENotifyKind } from "../notifier";
 import { Collapse } from "antd";
+import RestRouteBehaviors from "./RestRouteBehaviors";
 
 class RestServiceRoutes extends Component<
   RestServiceRouteProps,
@@ -11,7 +16,6 @@ class RestServiceRoutes extends Component<
     super(props);
     this.state = {
       loading: false,
-      allRoutes: undefined,
     };
   }
 
@@ -35,11 +39,19 @@ class RestServiceRoutes extends Component<
   render(): React.ReactNode {
     return (
       <Collapse
+        accordion
         items={this.state.allRoutes?.map((r) => {
           return {
             key: r.id!,
             label: `${r.route} [${r.method}]`,
-            children: ,
+            children: (
+              <RestRouteBehaviors
+                mockServiceApi={this.props.mockServiceApi}
+                projectId={this.props.projectId}
+                serviceId={this.props.serviceId}
+                handlerId={r.id!}
+              />
+            ),
           };
         })}
       />
