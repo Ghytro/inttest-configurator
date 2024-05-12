@@ -116,6 +116,7 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
           </Dropdown>
         </Flex>
         <Divider />
+
         {(() => {
           switch (this.state.editedServiceType) {
             case restServiceType:
@@ -129,6 +130,7 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
               );
           }
         })()}
+
         <CreateRestServiceDialog
           mockServiceApi={this.mockServiceApi}
           projectId={parseInt(this.props.urlParams.id!)}
@@ -141,6 +143,9 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
         <CreateRedisPubSubDialog
           open={this.state.createdServiceType == redisServiceType}
           setClosed={() => this.setState({ createdServiceType: undefined })}
+          mockServiceApi={this.mockServiceApi}
+          projectId={parseInt(this.props.urlParams.id!)}
+          refetch={() => this.fetchServicesList()}
         />
       </>
     );

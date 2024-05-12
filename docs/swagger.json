@@ -33,7 +33,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.authRequest"
+                            "$ref": "#/definitions/configurator_internal_api_auth.authRequest"
                         }
                     }
                 ],
@@ -90,7 +90,252 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_api_mockservice.listServiceResponse"
+                            "$ref": "#/definitions/configurator_internal_api_mockservice.listServiceResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"create redis pubsub mock broker\"",
+                "operationId": "createRedisPubSubBroker",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateRedisPubSubForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "updateRedisPubSub",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to list all services",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to update",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.UpdateRedisPubSubForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"list redis pubsub broker topics\"",
+                "operationId": "listRedisPubSubTopics",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to list all services",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mockservice.ListBrokerTopicsResultItem"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/generators": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"list redis pubsub topic generators\"",
+                "operationId": "listRedisPubSubTopicGenerators",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to list all services",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to update",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of topic to list generators",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.ListTopicGeneratorsResult"
                         }
                     },
                     "400": {
@@ -1052,7 +1297,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_api_auth.listPermResponseItem"
+                                "$ref": "#/definitions/configurator_internal_api_auth.listPermResponseItem"
                             }
                         }
                     },
@@ -1358,7 +1603,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_api_auth.listRoleResponseItem"
+                                "$ref": "#/definitions/configurator_internal_api_auth.listRoleResponseItem"
                             }
                         }
                     },
@@ -1400,7 +1645,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.roleCreateRequest"
+                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateRequest"
                         }
                     }
                 ],
@@ -1408,7 +1653,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.roleCreateResponse"
+                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateResponse"
                         }
                     },
                     "400": {
@@ -1458,7 +1703,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.updateRoleRequest"
+                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleRequest"
                         }
                     }
                 ],
@@ -1466,7 +1711,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.updateRoleResponse"
+                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleResponse"
                         }
                     },
                     "400": {
@@ -1555,7 +1800,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_api_auth.listUsersResponseItem"
+                                "$ref": "#/definitions/configurator_internal_api_auth.listUsersResponseItem"
                             }
                         }
                     },
@@ -1597,7 +1842,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.createUserRequest"
+                            "$ref": "#/definitions/configurator_internal_api_auth.createUserRequest"
                         }
                     }
                 ],
@@ -1605,7 +1850,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.createUserResponse"
+                            "$ref": "#/definitions/configurator_internal_api_auth.createUserResponse"
                         }
                     },
                     "400": {
@@ -1648,7 +1893,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_api_auth.updateUserRequest"
+                            "$ref": "#/definitions/configurator_internal_api_auth.updateUserRequest"
                         }
                     },
                     {
@@ -2138,6 +2383,17 @@
                 }
             }
         },
+        "mockservice.CreateRedisPubSubForm": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                }
+            }
+        },
         "mockservice.CreateRestHandlerForm": {
             "type": "object",
             "properties": {
@@ -2209,6 +2465,17 @@
                     "additionalProperties": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "mockservice.ListBrokerTopicsResultItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "topic": {
+                    "type": "string"
                 }
             }
         },
@@ -2304,6 +2571,66 @@
                 }
             }
         },
+        "mockservice.ListTopicGeneratorsMockItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "impl": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "interval": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "send_immediately": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "mockservice.ListTopicGeneratorsResult": {
+            "type": "object",
+            "properties": {
+                "mocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mockservice.ListTopicGeneratorsMockItem"
+                    }
+                },
+                "stubs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mockservice.ListTopicGeneratorsStubItem"
+                    }
+                }
+            }
+        },
+        "mockservice.ListTopicGeneratorsStubItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "interval": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "send_immediately": {
+                    "type": "boolean"
+                }
+            }
+        },
         "mockservice.RestServiceUpdateForm": {
             "type": "object",
             "properties": {
@@ -2327,6 +2654,17 @@
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "mockservice.UpdateRedisPubSubForm": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
                 }
             }
         },

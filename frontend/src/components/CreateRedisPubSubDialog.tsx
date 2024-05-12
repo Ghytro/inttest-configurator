@@ -1,5 +1,7 @@
 import { Form, Input, Modal, message } from "antd";
 import React, { Component } from "react";
+import { MockservicesApi } from "../api/api";
+import { $notify, ENotifyKind } from "../notifier";
 
 class CreateRedisPubSubDialog extends Component<
   CreateRedisPubSubDialogProps,
@@ -27,7 +29,18 @@ class CreateRedisPubSubDialog extends Component<
     }
   }
 
-  createBroker() {}
+  createBroker() {
+    this.props.mockServiceApi
+      .createRedisPubSubBroker(this.props.projectId, {
+        id: this.state.brokerIdInputValue,
+        port: parseInt(this.state.brokerPortInputValue),
+      })
+      .then(({ data }) => {
+        this.props.refetch();
+        this.props.setClosed();
+      })
+      .catch((e) => $notify(ENotifyKind.ERROR, e));
+  }
 
   render(): React.ReactNode {
     return (
@@ -73,6 +86,9 @@ export default CreateRedisPubSubDialog;
 interface CreateRedisPubSubDialogProps {
   open: boolean;
   setClosed: () => void;
+  refetch: () => void;
+  mockServiceApi: MockservicesApi;
+  projectId: number;
 }
 
 interface CreateRedisPubSubDialogState {

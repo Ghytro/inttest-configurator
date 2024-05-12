@@ -12,6 +12,7 @@ type UseCase struct {
 	log      *zap.SugaredLogger
 	projRepo IProjectRepository
 	restServiceUseCase
+	redisPubSubUseCase
 }
 
 func New(log *zap.SugaredLogger, projRepo IProjectRepository) *UseCase {
@@ -19,6 +20,10 @@ func New(log *zap.SugaredLogger, projRepo IProjectRepository) *UseCase {
 		log:      log,
 		projRepo: projRepo,
 		restServiceUseCase: restServiceUseCase{
+			log:      log,
+			projRepo: projRepo,
+		},
+		redisPubSubUseCase: redisPubSubUseCase{
 			log:      log,
 			projRepo: projRepo,
 		},

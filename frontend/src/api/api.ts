@@ -633,6 +633,25 @@ export interface InternalApiProjectsUpdateProjectMetaRequest {
 /**
  * 
  * @export
+ * @interface MockserviceCreateRedisPubSubForm
+ */
+export interface MockserviceCreateRedisPubSubForm {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateRedisPubSubForm
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceCreateRedisPubSubForm
+     */
+    'port'?: number;
+}
+/**
+ * 
+ * @export
  * @interface MockserviceCreateRestHandlerForm
  */
 export interface MockserviceCreateRestHandlerForm {
@@ -729,6 +748,25 @@ export interface MockserviceCreateRestStubBehaviorForm {
      * @memberof MockserviceCreateRestStubBehaviorForm
      */
     'url_params'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListBrokerTopicsResultItem
+ */
+export interface MockserviceListBrokerTopicsResultItem {
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListBrokerTopicsResultItem
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListBrokerTopicsResultItem
+     */
+    'topic'?: string;
 }
 /**
  * 
@@ -863,6 +901,99 @@ export interface MockserviceListRestRoutesResult {
 /**
  * 
  * @export
+ * @interface MockserviceListTopicGeneratorsMockItem
+ */
+export interface MockserviceListTopicGeneratorsMockItem {
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListTopicGeneratorsMockItem
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MockserviceListTopicGeneratorsMockItem
+     */
+    'impl'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListTopicGeneratorsMockItem
+     */
+    'interval'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListTopicGeneratorsMockItem
+     */
+    'priority'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MockserviceListTopicGeneratorsMockItem
+     */
+    'send_immediately'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListTopicGeneratorsResult
+ */
+export interface MockserviceListTopicGeneratorsResult {
+    /**
+     * 
+     * @type {Array<MockserviceListTopicGeneratorsMockItem>}
+     * @memberof MockserviceListTopicGeneratorsResult
+     */
+    'mocks'?: Array<MockserviceListTopicGeneratorsMockItem>;
+    /**
+     * 
+     * @type {Array<MockserviceListTopicGeneratorsStubItem>}
+     * @memberof MockserviceListTopicGeneratorsResult
+     */
+    'stubs'?: Array<MockserviceListTopicGeneratorsStubItem>;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceListTopicGeneratorsStubItem
+ */
+export interface MockserviceListTopicGeneratorsStubItem {
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListTopicGeneratorsStubItem
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListTopicGeneratorsStubItem
+     */
+    'interval'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceListTopicGeneratorsStubItem
+     */
+    'payload'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceListTopicGeneratorsStubItem
+     */
+    'priority'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MockserviceListTopicGeneratorsStubItem
+     */
+    'send_immediately'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface MockserviceRestServiceUpdateForm
  */
 export interface MockserviceRestServiceUpdateForm {
@@ -891,6 +1022,25 @@ export interface MockserviceUpdateMockBehaviorForm {
      * @memberof MockserviceUpdateMockBehaviorForm
      */
     'impl'?: Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceUpdateRedisPubSubForm
+ */
+export interface MockserviceUpdateRedisPubSubForm {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdateRedisPubSubForm
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MockserviceUpdateRedisPubSubForm
+     */
+    'port'?: number;
 }
 /**
  * 
@@ -1118,6 +1268,49 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
+         * @summary \"create redis pubsub mock broker\"
+         * @param {number} projectId project id to create redis pubsub mock
+         * @param {MockserviceCreateRedisPubSubForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRedisPubSubBroker: async (projectId: number, form: MockserviceCreateRedisPubSubForm, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('createRedisPubSubBroker', 'projectId', projectId)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('createRedisPubSubBroker', 'form', form)
+            const localVarPath = `/mockservices/redis-pubsub`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary \"create rest service\"
          * @param {number} projectId project id to list all services
          * @param {MockserviceCreateRestServiceReq} form body form
@@ -1276,6 +1469,92 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary \"list redis pubsub topic generators\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to update
+         * @param {number} topicId id of topic to list generators
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listRedisPubSubTopicGenerators: async (projectId: number, brokerId: string, topicId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('listRedisPubSubTopicGenerators', 'projectId', projectId)
+            // verify required parameter 'brokerId' is not null or undefined
+            assertParamExists('listRedisPubSubTopicGenerators', 'brokerId', brokerId)
+            // verify required parameter 'topicId' is not null or undefined
+            assertParamExists('listRedisPubSubTopicGenerators', 'topicId', topicId)
+            const localVarPath = `/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/generators`
+                .replace(`{${"brokerId"}}`, encodeURIComponent(String(brokerId)))
+                .replace(`{${"topicId"}}`, encodeURIComponent(String(topicId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary \"list redis pubsub broker topics\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to list topics
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listRedisPubSubTopics: async (projectId: number, brokerId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('listRedisPubSubTopics', 'projectId', projectId)
+            // verify required parameter 'brokerId' is not null or undefined
+            assertParamExists('listRedisPubSubTopics', 'brokerId', brokerId)
+            const localVarPath = `/mockservices/redis-pubsub/{brokerId}/topics`
+                .replace(`{${"brokerId"}}`, encodeURIComponent(String(brokerId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -1467,6 +1746,53 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary \"update redis pubsub broker data\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to update
+         * @param {MockserviceUpdateRedisPubSubForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateRedisPubSub: async (projectId: number, brokerId: string, form: MockserviceUpdateRedisPubSubForm, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('updateRedisPubSub', 'projectId', projectId)
+            // verify required parameter 'brokerId' is not null or undefined
+            assertParamExists('updateRedisPubSub', 'brokerId', brokerId)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('updateRedisPubSub', 'form', form)
+            const localVarPath = `/mockservices/redis-pubsub/{brokerId}`
+                .replace(`{${"brokerId"}}`, encodeURIComponent(String(brokerId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1734,6 +2060,18 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary \"create redis pubsub mock broker\"
+         * @param {number} projectId project id to create redis pubsub mock
+         * @param {MockserviceCreateRedisPubSubForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createRedisPubSubBroker(projectId: number, form: MockserviceCreateRedisPubSubForm, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRedisPubSubBroker(projectId, form, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary \"create rest service\"
          * @param {number} projectId project id to list all services
          * @param {MockserviceCreateRestServiceReq} form body form
@@ -1785,6 +2123,31 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary \"list redis pubsub topic generators\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to update
+         * @param {number} topicId id of topic to list generators
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listRedisPubSubTopicGenerators(projectId: number, brokerId: string, topicId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MockserviceListTopicGeneratorsResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listRedisPubSubTopicGenerators(projectId, brokerId, topicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary \"list redis pubsub broker topics\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to list topics
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listRedisPubSubTopics(projectId: number, brokerId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MockserviceListBrokerTopicsResultItem>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listRedisPubSubTopics(projectId, brokerId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary \"list all available behaviors of rest handler\"
          * @param {number} projectId id of a project where service is located
          * @param {string} serviceId id of a rest service
@@ -1815,7 +2178,7 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listServices(projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Array<InternalApiMockserviceListServiceResult>; }>> {
+        async listServices(projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Array<ConfiguratorInternalApiMockserviceListServiceResult>; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listServices(projectId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1832,6 +2195,19 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          */
         async moveRestBehaviorPriority(projectId: number, serviceId: string, handlerId: number, id: number, priority: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.moveRestBehaviorPriority(projectId, serviceId, handlerId, id, priority, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary \"update redis pubsub broker data\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to update
+         * @param {MockserviceUpdateRedisPubSubForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateRedisPubSub(projectId: number, brokerId: string, form: MockserviceUpdateRedisPubSubForm, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRedisPubSub(projectId, brokerId, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1941,6 +2317,17 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
+         * @summary \"create redis pubsub mock broker\"
+         * @param {number} projectId project id to create redis pubsub mock
+         * @param {MockserviceCreateRedisPubSubForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRedisPubSubBroker(projectId: number, form: MockserviceCreateRedisPubSubForm, options?: any): AxiosPromise<object> {
+            return localVarFp.createRedisPubSubBroker(projectId, form, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary \"create rest service\"
          * @param {number} projectId project id to list all services
          * @param {MockserviceCreateRestServiceReq} form body form
@@ -1988,6 +2375,29 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
+         * @summary \"list redis pubsub topic generators\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to update
+         * @param {number} topicId id of topic to list generators
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listRedisPubSubTopicGenerators(projectId: number, brokerId: string, topicId: number, options?: any): AxiosPromise<MockserviceListTopicGeneratorsResult> {
+            return localVarFp.listRedisPubSubTopicGenerators(projectId, brokerId, topicId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary \"list redis pubsub broker topics\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to list topics
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listRedisPubSubTopics(projectId: number, brokerId: string, options?: any): AxiosPromise<Array<MockserviceListBrokerTopicsResultItem>> {
+            return localVarFp.listRedisPubSubTopics(projectId, brokerId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary \"list all available behaviors of rest handler\"
          * @param {number} projectId id of a project where service is located
          * @param {string} serviceId id of a rest service
@@ -2016,7 +2426,7 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listServices(projectId: number, options?: any): AxiosPromise<{ [key: string]: Array<InternalApiMockserviceListServiceResult>; }> {
+        listServices(projectId: number, options?: any): AxiosPromise<{ [key: string]: Array<ConfiguratorInternalApiMockserviceListServiceResult>; }> {
             return localVarFp.listServices(projectId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2032,6 +2442,18 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          */
         moveRestBehaviorPriority(projectId: number, serviceId: string, handlerId: number, id: number, priority: number, options?: any): AxiosPromise<void> {
             return localVarFp.moveRestBehaviorPriority(projectId, serviceId, handlerId, id, priority, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary \"update redis pubsub broker data\"
+         * @param {number} projectId project id to list all services
+         * @param {string} brokerId id of broker to update
+         * @param {MockserviceUpdateRedisPubSubForm} form body form
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateRedisPubSub(projectId: number, brokerId: string, form: MockserviceUpdateRedisPubSubForm, options?: any): AxiosPromise<object> {
+            return localVarFp.updateRedisPubSub(projectId, brokerId, form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2142,6 +2564,19 @@ export class MockservicesApi extends BaseAPI {
 
     /**
      * 
+     * @summary \"create redis pubsub mock broker\"
+     * @param {number} projectId project id to create redis pubsub mock
+     * @param {MockserviceCreateRedisPubSubForm} form body form
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public createRedisPubSubBroker(projectId: number, form: MockserviceCreateRedisPubSubForm, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).createRedisPubSubBroker(projectId, form, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary \"create rest service\"
      * @param {number} projectId project id to list all services
      * @param {MockserviceCreateRestServiceReq} form body form
@@ -2197,6 +2632,33 @@ export class MockservicesApi extends BaseAPI {
 
     /**
      * 
+     * @summary \"list redis pubsub topic generators\"
+     * @param {number} projectId project id to list all services
+     * @param {string} brokerId id of broker to update
+     * @param {number} topicId id of topic to list generators
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public listRedisPubSubTopicGenerators(projectId: number, brokerId: string, topicId: number, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).listRedisPubSubTopicGenerators(projectId, brokerId, topicId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary \"list redis pubsub broker topics\"
+     * @param {number} projectId project id to list all services
+     * @param {string} brokerId id of broker to list topics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public listRedisPubSubTopics(projectId: number, brokerId: string, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).listRedisPubSubTopics(projectId, brokerId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary \"list all available behaviors of rest handler\"
      * @param {number} projectId id of a project where service is located
      * @param {string} serviceId id of a rest service
@@ -2248,6 +2710,20 @@ export class MockservicesApi extends BaseAPI {
      */
     public moveRestBehaviorPriority(projectId: number, serviceId: string, handlerId: number, id: number, priority: number, options?: AxiosRequestConfig) {
         return MockservicesApiFp(this.configuration).moveRestBehaviorPriority(projectId, serviceId, handlerId, id, priority, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary \"update redis pubsub broker data\"
+     * @param {number} projectId project id to list all services
+     * @param {string} brokerId id of broker to update
+     * @param {MockserviceUpdateRedisPubSubForm} form body form
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MockservicesApi
+     */
+    public updateRedisPubSub(projectId: number, brokerId: string, form: MockserviceUpdateRedisPubSubForm, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).updateRedisPubSub(projectId, brokerId, form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2727,11 +3203,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthAuthRequest} form login/pass form
+         * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        auth: async (form: InternalApiAuthAuthRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        auth: async (form: ConfiguratorInternalApiAuthAuthRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'form' is not null or undefined
             assertParamExists('auth', 'form', form)
             const localVarPath = `/auth`;
@@ -2763,11 +3239,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary create role
-         * @param {InternalApiAuthRoleCreateRequest} form create role form
+         * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRole: async (form: InternalApiAuthRoleCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createRole: async (form: ConfiguratorInternalApiAuthRoleCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'form' is not null or undefined
             assertParamExists('createRole', 'form', form)
             const localVarPath = `/roles`;
@@ -2799,11 +3275,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthCreateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser: async (form: InternalApiAuthCreateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createUser: async (form: ConfiguratorInternalApiAuthCreateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'form' is not null or undefined
             assertParamExists('createUser', 'form', form)
             const localVarPath = `/users`;
@@ -2994,11 +3470,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * 
          * @summary update role
          * @param {number} id id of a role to update
-         * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+         * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRole: async (id: number, form: InternalApiAuthUpdateRoleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRole: async (id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateRole', 'id', id)
             // verify required parameter 'form' is not null or undefined
@@ -3034,11 +3510,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * 
          * @summary update user
          * @param {number} id id of a user to update
-         * @param {InternalApiAuthUpdateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser: async (id: number, form: InternalApiAuthUpdateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateUser: async (id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateUser', 'id', id)
             // verify required parameter 'form' is not null or undefined
@@ -3083,33 +3559,33 @@ export const UsersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthAuthRequest} form login/pass form
+         * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async auth(form: InternalApiAuthAuthRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async auth(form: ConfiguratorInternalApiAuthAuthRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.auth(form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @summary create role
-         * @param {InternalApiAuthRoleCreateRequest} form create role form
+         * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRole(form: InternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InternalApiAuthRoleCreateResponse>> {
+        async createRole(form: ConfiguratorInternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfiguratorInternalApiAuthRoleCreateResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createRole(form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthCreateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUser(form: InternalApiAuthCreateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InternalApiAuthCreateUserResponse>> {
+        async createUser(form: ConfiguratorInternalApiAuthCreateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfiguratorInternalApiAuthCreateUserResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3141,7 +3617,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listPerms(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiAuthListPermResponseItem>>> {
+        async listPerms(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConfiguratorInternalApiAuthListPermResponseItem>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listPerms(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3151,7 +3627,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listRoles(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiAuthListRoleResponseItem>>> {
+        async listRoles(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConfiguratorInternalApiAuthListRoleResponseItem>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3161,7 +3637,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listUsers(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InternalApiAuthListUsersResponseItem>>> {
+        async listUsers(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConfiguratorInternalApiAuthListUsersResponseItem>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listUsers(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3169,11 +3645,11 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * 
          * @summary update role
          * @param {number} id id of a role to update
-         * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+         * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRole(id: number, form: InternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async updateRole(id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateRole(id, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3181,11 +3657,11 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * 
          * @summary update user
          * @param {number} id id of a user to update
-         * @param {InternalApiAuthUpdateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUser(id: number, form: InternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async updateUser(id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(id, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3202,31 +3678,31 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthAuthRequest} form login/pass form
+         * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        auth(form: InternalApiAuthAuthRequest, options?: any): AxiosPromise<object> {
+        auth(form: ConfiguratorInternalApiAuthAuthRequest, options?: any): AxiosPromise<object> {
             return localVarFp.auth(form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary create role
-         * @param {InternalApiAuthRoleCreateRequest} form create role form
+         * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRole(form: InternalApiAuthRoleCreateRequest, options?: any): AxiosPromise<InternalApiAuthRoleCreateResponse> {
+        createRole(form: ConfiguratorInternalApiAuthRoleCreateRequest, options?: any): AxiosPromise<ConfiguratorInternalApiAuthRoleCreateResponse> {
             return localVarFp.createRole(form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary create user
-         * @param {InternalApiAuthCreateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(form: InternalApiAuthCreateUserRequest, options?: any): AxiosPromise<InternalApiAuthCreateUserResponse> {
+        createUser(form: ConfiguratorInternalApiAuthCreateUserRequest, options?: any): AxiosPromise<ConfiguratorInternalApiAuthCreateUserResponse> {
             return localVarFp.createUser(form, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3255,7 +3731,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listPerms(options?: any): AxiosPromise<Array<InternalApiAuthListPermResponseItem>> {
+        listPerms(options?: any): AxiosPromise<Array<ConfiguratorInternalApiAuthListPermResponseItem>> {
             return localVarFp.listPerms(options).then((request) => request(axios, basePath));
         },
         /**
@@ -3264,7 +3740,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles(options?: any): AxiosPromise<Array<InternalApiAuthListRoleResponseItem>> {
+        listRoles(options?: any): AxiosPromise<Array<ConfiguratorInternalApiAuthListRoleResponseItem>> {
             return localVarFp.listRoles(options).then((request) => request(axios, basePath));
         },
         /**
@@ -3273,29 +3749,29 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsers(options?: any): AxiosPromise<Array<InternalApiAuthListUsersResponseItem>> {
+        listUsers(options?: any): AxiosPromise<Array<ConfiguratorInternalApiAuthListUsersResponseItem>> {
             return localVarFp.listUsers(options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary update role
          * @param {number} id id of a role to update
-         * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+         * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRole(id: number, form: InternalApiAuthUpdateRoleRequest, options?: any): AxiosPromise<object> {
+        updateRole(id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options?: any): AxiosPromise<object> {
             return localVarFp.updateRole(id, form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary update user
          * @param {number} id id of a user to update
-         * @param {InternalApiAuthUpdateUserRequest} form create user request model
+         * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(id: number, form: InternalApiAuthUpdateUserRequest, options?: any): AxiosPromise<object> {
+        updateUser(id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options?: any): AxiosPromise<object> {
             return localVarFp.updateUser(id, form, options).then((request) => request(axios, basePath));
         },
     };
@@ -3311,36 +3787,36 @@ export class UsersApi extends BaseAPI {
     /**
      * 
      * @summary create user
-     * @param {InternalApiAuthAuthRequest} form login/pass form
+     * @param {ConfiguratorInternalApiAuthAuthRequest} form login/pass form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public auth(form: InternalApiAuthAuthRequest, options?: AxiosRequestConfig) {
+    public auth(form: ConfiguratorInternalApiAuthAuthRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).auth(form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary create role
-     * @param {InternalApiAuthRoleCreateRequest} form create role form
+     * @param {ConfiguratorInternalApiAuthRoleCreateRequest} form create role form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public createRole(form: InternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig) {
+    public createRole(form: ConfiguratorInternalApiAuthRoleCreateRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).createRole(form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary create user
-     * @param {InternalApiAuthCreateUserRequest} form create user request model
+     * @param {ConfiguratorInternalApiAuthCreateUserRequest} form create user request model
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public createUser(form: InternalApiAuthCreateUserRequest, options?: AxiosRequestConfig) {
+    public createUser(form: ConfiguratorInternalApiAuthCreateUserRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).createUser(form, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -3405,12 +3881,12 @@ export class UsersApi extends BaseAPI {
      * 
      * @summary update role
      * @param {number} id id of a role to update
-     * @param {InternalApiAuthUpdateRoleRequest} form new role data to store
+     * @param {ConfiguratorInternalApiAuthUpdateRoleRequest} form new role data to store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateRole(id: number, form: InternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig) {
+    public updateRole(id: number, form: ConfiguratorInternalApiAuthUpdateRoleRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).updateRole(id, form, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -3418,12 +3894,12 @@ export class UsersApi extends BaseAPI {
      * 
      * @summary update user
      * @param {number} id id of a user to update
-     * @param {InternalApiAuthUpdateUserRequest} form create user request model
+     * @param {ConfiguratorInternalApiAuthUpdateUserRequest} form create user request model
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUser(id: number, form: InternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig) {
+    public updateUser(id: number, form: ConfiguratorInternalApiAuthUpdateUserRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).updateUser(id, form, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -24,6 +24,7 @@ func (a *API) Register(router fiber.Router, authenticator api.Authenticator, mid
 	r := fiber.New()
 	r.Use("/", authenticator.AuthMiddleware())
 	a.registerRestRoutes(r)
+	a.registerRedisPubSubRoutes(r)
 	r.Get("/", a.listServices)
 	router.Mount("/mockservices", r)
 }
