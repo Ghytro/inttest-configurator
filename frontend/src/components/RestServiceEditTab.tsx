@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { MockservicesApi } from "../api/api";
 import { $notify, ENotifyKind } from "../notifier";
-import { Button, FloatButton } from "antd";
+import { Button, FloatButton, Space } from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { ServiceCascaderOptVal } from "./ServiceSelectionCascader";
 import { projPageUrl } from "../routesEnum";
@@ -48,24 +48,26 @@ class RestServiceEditTab extends Component<
   render(): React.ReactNode {
     return (
       <>
-        <Button
-          type="default"
-          icon={<EditOutlined />}
-          onClick={() => {
-            this.setState({ serviceEditDialogOpen: true });
-          }}
-        >
-          Редактировать сервис
-        </Button>
-        <Button
-          danger={true}
-          icon={<DeleteOutlined />}
-          onClick={() => {
-            this.deleteService();
-          }}
-        >
-          Удалить сервис
-        </Button>
+        <Space>
+          <Button
+            type="default"
+            icon={<EditOutlined />}
+            onClick={() => {
+              this.setState({ serviceEditDialogOpen: true });
+            }}
+          >
+            Редактировать сервис
+          </Button>
+          <Button
+            danger={true}
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              this.deleteService();
+            }}
+          >
+            Удалить сервис
+          </Button>
+        </Space>
         <FloatButton
           type="primary"
           icon={<PlusOutlined />}

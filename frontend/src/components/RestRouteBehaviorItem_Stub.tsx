@@ -3,8 +3,10 @@ import {
   MockserviceListRestBehaviorResultStub,
   MockservicesApi,
 } from "../api/api";
-import { Button, Descriptions, Divider, Modal } from "antd";
+import { Button, Descriptions, Divider, Modal, Space } from "antd";
 import EditRestStubBehaviorModal from "./EditRestStubBehaviorModal";
+import { $notify, ENotifyKind } from "../notifier";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 class RestRouteBehaviorItem_Stub extends Component<
   RestRouteBehaviorItem_StubProps,
@@ -35,18 +37,44 @@ class RestRouteBehaviorItem_Stub extends Component<
     );
   }
 
+  deleteBehavior() {
+    this.props.mockServiceApi
+      .deleteRestBehavior(
+        this.props.projectId,
+        this.props.serviceId,
+        this.props.handlerId,
+        this.props.behavior.id!
+      )
+      .then(({ data }) => {
+        this.props.refetch();
+      })
+      .catch((e) => $notify(ENotifyKind.ERROR, e));
+  }
+
   render(): React.ReactNode {
     return (
       <>
         <Descriptions
           title="Описание запроса"
           extra={
-            <Button
-              type="primary"
-              onClick={() => this.setState({ editStubBehaviorModalOpen: true })}
-            >
-              Редактировать
-            </Button>
+            <Space>
+              <Button
+                type="default"
+                icon={<EditOutlined />}
+                onClick={() =>
+                  this.setState({ editStubBehaviorModalOpen: true })
+                }
+              >
+                Редактировать
+              </Button>
+              <Button
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => this.deleteBehavior()}
+              >
+                Удалить
+              </Button>
+            </Space>
           }
         >
           <Descriptions.Item label="URL-параметры">
@@ -71,7 +99,9 @@ class RestRouteBehaviorItem_Stub extends Component<
               onCancel={() => this.setState({ reqBodyModalOpen: false })}
             >
               {JSON.stringify(
-                JSON.parse(this.props.behavior.body!),
+                this.props.behavior.body! != ""
+                  ? JSON.parse(this.props.behavior.body!)
+                  : "",
                 null,
                 "\t"
               )}
@@ -101,7 +131,9 @@ class RestRouteBehaviorItem_Stub extends Component<
               onCancel={() => this.setState({ respBodyModalOpen: false })}
             >
               {JSON.stringify(
-                JSON.parse(this.props.behavior.response_body!),
+                this.props.behavior.response_body! != ""
+                  ? JSON.parse(this.props.behavior.response_body!)
+                  : "",
                 null,
                 "\t"
               )}
@@ -120,6 +152,7 @@ class RestRouteBehaviorItem_Stub extends Component<
             this.setState({ editStubBehaviorModalOpen: false });
             this.props.refetch();
           }}
+          refetch={() => this.props.refetch()}
         />
       </>
     );

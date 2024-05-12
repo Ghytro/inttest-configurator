@@ -1,8 +1,5 @@
-import { Cascader, CascaderProps } from "antd";
+import { Cascader } from "antd";
 import React, { Component } from "react";
-import { MockservicesApi } from "../api/api";
-import { $notify, ENotifyKind } from "../notifier";
-import { translateServiceType } from "../const";
 
 class ServiceSelectionCascader extends Component<
   ServiceSelectionCascaderProps,
@@ -13,47 +10,13 @@ class ServiceSelectionCascader extends Component<
 
     this.state = {
       loading: false,
-      cascaderState: undefined,
     };
-  }
-
-  componentDidMount(): void {
-    this.fetchServicesList();
-  }
-
-  fetchServicesList() {
-    this.setState({ loading: true });
-    this.props.mockServiceApi
-      .listServices(this.props.projectId)
-      .then(({ data }) => {
-        const serviceTypes: ServiceTypeCascaderOpt[] = Object.entries(data).map(
-          ([key, value]) => ({
-            value: key,
-            label: translateServiceType[key],
-            children: value.map((v) => ({
-              value: {
-                id: v.id!,
-                port: v.port!,
-              },
-              label: v.id!,
-            })),
-          })
-        );
-
-        this.setState({ cascaderState: serviceTypes });
-      })
-      .catch((e) => {
-        $notify(ENotifyKind.ERROR, e);
-      })
-      .finally(() => {
-        this.setState({ loading: false });
-      });
   }
 
   render(): React.ReactNode {
     return (
       <Cascader
-        options={this.state.cascaderState}
+        options={this.props.cascaderState}
         onChange={(values: any[]) => {
           this.props.selectEditedService(values[0], values[1]);
         }}
@@ -67,7 +30,6 @@ class ServiceSelectionCascader extends Component<
 
 interface ServiceSelectionCascaderState {
   loading: boolean;
-  cascaderState?: ServiceTypeCascaderOpt[];
 }
 
 interface ServiceTypeCascaderOpt {
@@ -89,12 +51,16 @@ interface ServiceCascaderOptVal {
 ///////// PROPS
 
 interface ServiceSelectionCascaderProps {
-  mockServiceApi: MockservicesApi;
-  projectId: number;
+  cascaderState?: ServiceTypeCascaderOpt[];
   selectEditedService: (
     serviceType: string | undefined,
     serviceData: ServiceCascaderOptVal
   ) => void;
 }
 
-export { ServiceSelectionCascader, ServiceCascaderOptVal };
+export {
+  ServiceSelectionCascader,
+  ServiceTypeCascaderOpt,
+  ServiceCascaderOpt,
+  ServiceCascaderOptVal,
+};

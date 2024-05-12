@@ -3,8 +3,10 @@ import { MockservicesApi } from "../../api/api";
 import { Params, useParams } from "react-router-dom";
 import { $notify, ENotifyKind } from "../../notifier";
 import {
+  ServiceCascaderOpt,
   ServiceCascaderOptVal,
   ServiceSelectionCascader,
+  ServiceTypeCascaderOpt,
 } from "../../components/ServiceSelectionCascader";
 import { Button, Divider, Dropdown, Flex, Space } from "antd";
 import {
@@ -17,6 +19,7 @@ import { ItemType } from "antd/es/menu/hooks/useItems";
 import CreateRestServiceDialog from "../../components/CreateRestServiceDialog";
 import RestServiceEditTab from "../../components/RestServiceEditTab";
 import { DownOutlined } from "@ant-design/icons";
+import CreateRedisPubSubDialog from "../../components/CreateRedisPubSubDialog";
 
 class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
   private mockServiceApi: MockservicesApi;
@@ -34,13 +37,26 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
     };
   }
 
-  componentDidMount(): void {
+  fetchServicesList() {
     this.setState({ loading: true });
     this.mockServiceApi
       .listServices(parseInt(this.props.urlParams.id!))
       .then(({ data }) => {
-        for (const [key, value] of Object.entries(data)) {
-        }
+        const serviceTypes: ServiceTypeCascaderOpt[] = Object.entries(data).map(
+          ([key, value]) => ({
+            value: key,
+            label: translateServiceType[key],
+            children: value.map((v) => ({
+              value: {
+                id: v.id!,
+                port: v.port!,
+              },
+              label: v.id!,
+            })),
+          })
+        );
+
+        this.setState({ serviceCascaderState: serviceTypes });
       })
       .catch((e) => {
         $notify(ENotifyKind.ERROR, e);
@@ -50,13 +66,16 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
       });
   }
 
+  componentDidMount(): void {
+    this.fetchServicesList();
+  }
+
   render(): React.ReactNode {
     return (
       <>
         <Flex gap="middle" vertical={false} justify="space-around">
           <ServiceSelectionCascader
-            mockServiceApi={this.mockServiceApi}
-            projectId={parseInt(this.props.urlParams.id!)}
+            cascaderState={this.state.serviceCascaderState}
             selectEditedService={(
               serviceType: string | undefined,
               serviceData: ServiceCascaderOptVal
@@ -102,6 +121,7 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
             case restServiceType:
               return (
                 <RestServiceEditTab
+                  key={this.state.editedServiceData.id}
                   mockServiceApi={this.mockServiceApi}
                   projectId={parseInt(this.props.urlParams.id!)}
                   serviceData={this.state.editedServiceData}
@@ -114,8 +134,13 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
           projectId={parseInt(this.props.urlParams.id!)}
           setClosed={() => this.setState({ createdServiceType: undefined })}
           open={this.state.createdServiceType == restServiceType}
+          refetch={() => this.fetchServicesList()}
           serviceIdInputInitValue=""
           servicePortInputInitValue=""
+        />
+        <CreateRedisPubSubDialog
+          open={this.state.createdServiceType == redisServiceType}
+          setClosed={() => this.setState({ createdServiceType: undefined })}
         />
       </>
     );
@@ -138,4 +163,5 @@ interface ProjectPageState {
   createdServiceType?: string;
   editedServiceData: ServiceCascaderOptVal;
   editedServiceType?: string;
+  serviceCascaderState?: ServiceTypeCascaderOpt[];
 }

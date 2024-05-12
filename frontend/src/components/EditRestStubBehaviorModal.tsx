@@ -61,6 +61,7 @@ class EditRestStubBehaviorModal extends Component<
         )
     )
       .then(({ data }) => {
+        this.props.refetch();
         this.props.setClosed();
       })
       .catch((e) => $notify(ENotifyKind.ERROR, e));
@@ -316,6 +317,7 @@ interface EditRestStubBehaviorModalProps {
   behavior: MockserviceListRestBehaviorResultStub;
   open: boolean;
   setClosed: () => void;
+  refetch: () => void;
 }
 
 interface EditRestStubBehaviorModalState {

@@ -1,34 +1,52 @@
 import { Modal } from "antd";
-import React, { useState } from "react";
+import React, { Component } from "react";
 import MonacoEditor from "react-monaco-editor";
+import { MockserviceListRestRoutesResult } from "../api/api";
 
-const CodeInputModal: React.FC<CodeInputModalProps> = (props) => {
-  const [code, setCode] = useState(props.code);
+class CodeInputModal extends Component<
+  CodeInputModalProps,
+  CodeInputModalState
+> {
+  constructor(props: CodeInputModalProps) {
+    super(props);
 
-  return (
-    <Modal
-      open={props.open}
-      onCancel={() => {
-        setCode(props.code);
-        props.setClosed();
-      }}
-      onOk={() => {
-        props.submit(code);
-      }}
-      width="80%"
-    >
-      <MonacoEditor
-        width="90%"
-        height="600"
-        language="python"
-        value={code}
-        onChange={(val, e) => {
-          setCode(val);
+    this.state = {
+      code: props.code ?? "",
+    };
+  }
+
+  componentDidMount(): void {
+    this.setState({ code: this.props.code ?? "" });
+  }
+
+  render(): React.ReactNode {
+    return (
+      <Modal
+        open={this.props.open}
+        onCancel={() => {
+          this.setState({ code: this.props.code ?? "" });
+          this.props.setClosed();
         }}
-      />
-    </Modal>
-  );
-};
+        onOk={() => {
+          this.props.submit(this.state.code);
+        }}
+        width="80%"
+        title={this.props.title}
+      >
+        <MonacoEditor
+          width="90%"
+          height="600"
+          language="python"
+          defaultValue={this.props.code}
+          value={this.state.code}
+          onChange={(val, e) => {
+            this.setState({ code: val });
+          }}
+        />
+      </Modal>
+    );
+  }
+}
 
 export default CodeInputModal;
 
@@ -36,5 +54,40 @@ interface CodeInputModalProps {
   open: boolean;
   setClosed: () => void;
   submit: (code: string) => void;
+  code?: string;
+  title?: string;
+}
+
+interface CodeInputModalState {
   code: string;
 }
+
+function makeInitialCodeImpl_Http(
+  serviceId: string,
+  handlerData: MockserviceListRestRoutesResult,
+  priority: number
+): string {
+  const capitalize = (str: string): string => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+  let functionName =
+    serviceId +
+    handlerData
+      .route!.split("/")
+      .filter((item) => item != "")
+      .map((item) => capitalize(item.slice(+(item.charAt(0) == ":"))))
+      .join("") +
+    `${capitalize(handlerData.method!.toLowerCase())}_${priority}`;
+
+  return `def ${functionName}(url_params, query_params, headers, body):\n\treturn {"response_object": "here"}`;
+}
+
+function makeInitialCodeImpl_Broker(
+  serviceId: string,
+  topic: string,
+  priority: number
+): string {
+  return "";
+}
+
+export { makeInitialCodeImpl_Http, makeInitialCodeImpl_Broker };

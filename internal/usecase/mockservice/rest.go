@@ -244,10 +244,10 @@ func (uc *restServiceUseCase) AddRestStubBehavior(
 	handlerId int,
 	form CreateRestStubBehaviorForm,
 ) error {
-	if !json.Valid([]byte(form.Body)) {
+	if form.Body != "" && !json.Valid(utils.S2B(form.Body)) {
 		return errors.New("form body is not json encoded")
 	}
-	if !json.Valid([]byte(form.ResponseBody)) {
+	if form.ResponseBody != "" && !json.Valid(utils.S2B(form.ResponseBody)) {
 		return errors.New("stub response is not json encoded")
 	}
 	if handlerId < 0 {
@@ -416,6 +416,9 @@ func (uc *restServiceUseCase) ListRestBehaviors(
 }
 
 func jsonTransformImpl(jsonStr string, marshaler func(any) ([]byte, error)) (string, error) {
+	if jsonStr == "" {
+		return "", nil
+	}
 	var parsedObj any
 	if err := json.Unmarshal(utils.S2B(jsonStr), &parsedObj); err != nil {
 		return "", err

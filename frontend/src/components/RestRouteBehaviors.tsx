@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   MockserviceListRestBehaviorResultMock,
   MockserviceListRestBehaviorResultStub,
+  MockserviceListRestRoutesResult,
   MockservicesApi,
 } from "../api/api";
 import { $notify, ENotifyKind } from "../notifier";
@@ -10,6 +11,8 @@ import RestRouteBehaviorItem_Mock from "./RestRouteBehaviorItem_Mock";
 import { mockBehaviorType, stubBehaviorType } from "../const";
 import RestRouteBehaviorItem_Stub from "./RestRouteBehaviorItem_Stub";
 import { PlusOutlined } from "@ant-design/icons";
+import EditRestStubBehaviorModal from "./EditRestStubBehaviorModal";
+import CodeInputModal, { makeInitialCodeImpl_Http } from "./CodeInputModal";
 
 class RestRouteBehaviors extends Component<
   RestRouteBehaviorsProps,
@@ -21,6 +24,8 @@ class RestRouteBehaviors extends Component<
     this.state = {
       loading: false,
       behaviorsModel: [],
+      addMockModalOpen: false,
+      addStubModalOpen: false,
     };
   }
 
@@ -55,7 +60,14 @@ class RestRouteBehaviors extends Component<
           .sort((a, b) => {
             return a.behavior.priority - b.behavior.priority;
           });
-        this.setState({ behaviorsModel: anyBehaviors });
+        this.setState({
+          behaviorsModel: anyBehaviors,
+          initialMockCode: makeInitialCodeImpl_Http(
+            this.props.serviceId,
+            this.props.parentRouteData,
+            anyBehaviors.length
+          ),
+        });
       })
       .catch((e) => $notify(ENotifyKind.ERROR, e))
       .finally(() => {
@@ -63,14 +75,42 @@ class RestRouteBehaviors extends Component<
       });
   }
 
+  createMockBehavior(code: string) {
+    this.props.mockServiceApi
+      .addRestMockBehavior(
+        this.props.projectId,
+        this.props.serviceId,
+        this.props.handlerId,
+        {
+          impl: code.split("\n"),
+        }
+      )
+      .then(({ data }) => {
+        this.fetchBehaviors();
+        this.setState({ addMockModalOpen: false });
+      })
+      .catch((e) => $notify(ENotifyKind.ERROR, e));
+  }
+
   render(): React.ReactNode {
     return (
       <>
         <Space>
-          <Button icon={<PlusOutlined />} onClick={() => {}}>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => {
+              this.setState({ addStubModalOpen: true });
+            }}
+          >
             Добавить stub
           </Button>
-          <Button icon={<PlusOutlined />} onClick={() => {}}>
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => {
+              this.forceUpdate();
+              this.setState({ addMockModalOpen: true });
+            }}
+          >
             Добавить mock
           </Button>
         </Space>
@@ -127,6 +167,27 @@ class RestRouteBehaviors extends Component<
             }
           })}
         ></Collapse>
+        <EditRestStubBehaviorModal
+          modalType="create"
+          open={this.state.addStubModalOpen}
+          setClosed={() => this.setState({ addStubModalOpen: false })}
+          mockServiceApi={this.props.mockServiceApi}
+          projectId={this.props.projectId}
+          serviceId={this.props.serviceId}
+          handlerId={this.props.handlerId}
+          behavior={{}}
+          refetch={() => this.fetchBehaviors()}
+        />
+        <CodeInputModal
+          key={this.state.initialMockCode}
+          open={this.state.addMockModalOpen}
+          setClosed={() => this.setState({ addMockModalOpen: false })}
+          code={this.state.initialMockCode}
+          submit={(code) => {
+            this.createMockBehavior(code);
+          }}
+          title="Имплементировать новый мок"
+        />
       </>
     );
   }
@@ -139,11 +200,16 @@ interface RestRouteBehaviorsProps {
   projectId: number;
   serviceId: string;
   handlerId: number;
+  parentRouteData: MockserviceListRestRoutesResult;
 }
 
 interface RestRouteBehaviorsState {
   loading: boolean;
   behaviorsModel: BehaviorCommon[];
+  addStubModalOpen: boolean;
+  addMockModalOpen: boolean;
+
+  initialMockCode?: string;
 }
 
 interface BehaviorCommon {

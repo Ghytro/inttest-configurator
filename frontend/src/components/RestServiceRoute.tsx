@@ -5,7 +5,7 @@ import {
   MockservicesApi,
 } from "../api/api";
 import { $notify, ENotifyKind } from "../notifier";
-import { Button, Collapse } from "antd";
+import { Button, Collapse, Space } from "antd";
 import RestRouteBehaviors from "./RestRouteBehaviors";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import RestRouteUpdateModal from "./RestRouteUpdateModal";
@@ -63,34 +63,37 @@ class RestServiceRoutes extends Component<
               label: `${r.route} [${r.method}]`,
               children: (
                 <>
-                  <Button
-                    type="default"
-                    icon={<EditOutlined />}
-                    onClick={() => {
-                      this.setState({
-                        updRouteModalOpen: true,
-                        updRouteId: r.id,
-                        updatedHttpMethod: r.method,
-                        updatedRoute: r.route,
-                      });
-                    }}
-                  >
-                    Редактировать
-                  </Button>
-                  <Button
-                    danger
-                    icon={<DeleteOutlined />}
-                    onClick={() => {
-                      this.deleteRoute(r.id!);
-                    }}
-                  >
-                    Удалить
-                  </Button>
+                  <Space>
+                    <Button
+                      type="default"
+                      icon={<EditOutlined />}
+                      onClick={() => {
+                        this.setState({
+                          updRouteModalOpen: true,
+                          updRouteId: r.id,
+                          updatedHttpMethod: r.method,
+                          updatedRoute: r.route,
+                        });
+                      }}
+                    >
+                      Редактировать
+                    </Button>
+                    <Button
+                      danger
+                      icon={<DeleteOutlined />}
+                      onClick={() => {
+                        this.deleteRoute(r.id!);
+                      }}
+                    >
+                      Удалить
+                    </Button>
+                  </Space>
                   <RestRouteBehaviors
                     mockServiceApi={this.props.mockServiceApi}
                     projectId={this.props.projectId}
                     serviceId={this.props.serviceId}
                     handlerId={r.id!}
+                    parentRouteData={r}
                   />
                 </>
               ),

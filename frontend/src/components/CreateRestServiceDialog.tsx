@@ -27,6 +27,7 @@ class CreateRestServiceDialog extends Component<
           serviceIdInputValue: this.props.serviceIdInputInitValue,
           servicePortInputValue: this.props.servicePortInputInitValue,
         });
+        this.props.refetch();
         this.props.setClosed();
       })
       .catch((e) => $notify(ENotifyKind.ERROR, e));
@@ -48,9 +49,10 @@ class CreateRestServiceDialog extends Component<
   render(): React.ReactNode {
     return (
       <Modal
+        title="Создать REST-сервис"
         open={this.props.open}
         onOk={() => {
-          this.props.setClosed();
+          this.createService();
         }}
         onCancel={() => {
           this.props.setClosed();
@@ -92,6 +94,7 @@ interface CreateRestServiceDialogProps {
   projectId: number;
   open: boolean;
   setClosed: () => void;
+  refetch: () => void;
 
   serviceIdInputInitValue: string;
   servicePortInputInitValue: string;

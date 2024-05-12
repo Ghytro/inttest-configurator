@@ -3,9 +3,10 @@ import {
   MockserviceListRestBehaviorResultMock,
   MockservicesApi,
 } from "../api/api";
-import { Button, Form } from "antd";
+import { Button, Descriptions, Form } from "antd";
 import CodeInputModal from "./CodeInputModal";
 import { $notify, ENotifyKind } from "../notifier";
+import { DeleteOutlined } from "@ant-design/icons";
 
 class RestRouteBehaviorItem_Mock extends Component<
   RestRouteBehaviorItem_MockProps,
@@ -30,22 +31,54 @@ class RestRouteBehaviorItem_Mock extends Component<
           impl: code.split("\n"),
         }
       )
-      .then(({ data }) => {})
+      .then(({ data }) => {
+        this.props.refetch();
+        this.setState({ codeModalOpen: false });
+      })
+      .catch((e) => $notify(ENotifyKind.ERROR, e));
+  }
+
+  deleteMock() {
+    this.props.mockServiceApi
+      .deleteRestBehavior(
+        this.props.projectId,
+        this.props.serviceId,
+        this.props.handlerId,
+        this.props.behavior.id!
+      )
+      .then(({ data }) => {
+        this.props.refetch();
+      })
       .catch((e) => $notify(ENotifyKind.ERROR, e));
   }
 
   render(): React.ReactNode {
     return (
       <>
-        <Form layout="vertical">
-          <Form.Item label="Имплементация (Python)">
+        <Descriptions
+          title="Описание мока"
+          extra={
+            <>
+              <Button
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => {
+                  this.deleteMock();
+                }}
+              >
+                Удалить
+              </Button>
+            </>
+          }
+        >
+          <Descriptions.Item label="Имплементация (Python)">
             <Button
               type="link"
               onClick={() => {
                 this.setState({ codeModalOpen: true });
               }}
             >
-              Показать
+              Редактировать
             </Button>
             <CodeInputModal
               open={this.state.codeModalOpen}
@@ -56,11 +89,11 @@ class RestRouteBehaviorItem_Mock extends Component<
               }}
               submit={(code) => {
                 this.updateMockBehavior(code);
-                this.props.refetch();
               }}
+              title="Изменить имплементацию мока"
             />
-          </Form.Item>
-        </Form>
+          </Descriptions.Item>
+        </Descriptions>
       </>
     );
   }
