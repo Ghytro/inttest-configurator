@@ -2,6 +2,7 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, FloatButton, Space } from "antd";
 import React, { Component } from "react";
 import CreateRedisPubSubDialog from "./CreateRedisPubSubDialog";
+import { MockservicesApi } from "../api/api";
 
 class RedisPubSubEditTab extends Component<
   RedisPubSubEditTabProps,
@@ -53,7 +54,9 @@ class RedisPubSubEditTab extends Component<
 
 export default RedisPubSubEditTab;
 
-interface RedisPubSubEditTabProps {}
+interface RedisPubSubEditTabProps {
+  mockServiceApi: MockservicesApi;
+}
 
 interface RedisPubSubEditTabState {
   brokerEditDialogOpen: boolean;

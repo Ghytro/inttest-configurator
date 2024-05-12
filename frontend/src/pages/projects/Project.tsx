@@ -20,6 +20,7 @@ import CreateRestServiceDialog from "../../components/CreateRestServiceDialog";
 import RestServiceEditTab from "../../components/RestServiceEditTab";
 import { DownOutlined } from "@ant-design/icons";
 import CreateRedisPubSubDialog from "../../components/CreateRedisPubSubDialog";
+import RedisPubSubEditTab from "../../components/RedisPubSubEditTab";
 
 class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
   private mockServiceApi: MockservicesApi;
@@ -127,6 +128,10 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
                   projectId={parseInt(this.props.urlParams.id!)}
                   serviceData={this.state.editedServiceData}
                 />
+              );
+            case redisServiceType:
+              return (
+                <RedisPubSubEditTab mockServiceApi={this.mockServiceApi} />
               );
           }
         })()}
