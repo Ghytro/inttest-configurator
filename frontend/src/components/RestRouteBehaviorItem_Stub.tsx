@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { MockserviceListRestBehaviorResultStub } from "../api/api";
+import {
+  MockserviceListRestBehaviorResultStub,
+  MockservicesApi,
+} from "../api/api";
 import { Button, Descriptions, Divider, Modal } from "antd";
 import EditRestStubBehaviorModal from "./EditRestStubBehaviorModal";
 
@@ -105,6 +108,19 @@ class RestRouteBehaviorItem_Stub extends Component<
             </Modal>
           </Descriptions.Item>
         </Descriptions>
+        <EditRestStubBehaviorModal
+          modalType="update"
+          mockServiceApi={this.props.mockServiceApi}
+          behavior={this.props.behavior}
+          handlerId={this.props.handlerId}
+          projectId={this.props.projectId}
+          serviceId={this.props.serviceId}
+          open={this.state.editStubBehaviorModalOpen}
+          setClosed={() => {
+            this.setState({ editStubBehaviorModalOpen: false });
+            this.props.refetch();
+          }}
+        />
       </>
     );
   }
@@ -114,6 +130,12 @@ export default RestRouteBehaviorItem_Stub;
 
 interface RestRouteBehaviorItem_StubProps {
   behavior: MockserviceListRestBehaviorResultStub;
+
+  mockServiceApi: MockservicesApi;
+  projectId: number;
+  serviceId: string;
+  handlerId: number;
+  refetch: () => void;
 }
 
 interface RestRouteBehaviorItem_StubState {

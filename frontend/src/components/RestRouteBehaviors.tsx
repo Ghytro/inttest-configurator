@@ -5,10 +5,11 @@ import {
   MockservicesApi,
 } from "../api/api";
 import { $notify, ENotifyKind } from "../notifier";
-import { Collapse, Table } from "antd";
+import { Button, Collapse, Space, Table } from "antd";
 import RestRouteBehaviorItem_Mock from "./RestRouteBehaviorItem_Mock";
 import { mockBehaviorType, stubBehaviorType } from "../const";
 import RestRouteBehaviorItem_Stub from "./RestRouteBehaviorItem_Stub";
+import { PlusOutlined } from "@ant-design/icons";
 
 class RestRouteBehaviors extends Component<
   RestRouteBehaviorsProps,
@@ -64,37 +65,69 @@ class RestRouteBehaviors extends Component<
 
   render(): React.ReactNode {
     return (
-      <Collapse
-        items={this.state.behaviorsModel.map((b) => {
-          switch (b.type) {
-            case mockBehaviorType: {
-              const behavior =
-                b.behavior as MockserviceListRestBehaviorResultMock;
-              return {
-                key: behavior.id,
-                label: `Поведение №${behavior.priority! + 1} (${b.type})`,
-                children: <RestRouteBehaviorItem_Mock behavior={behavior} />,
-              };
+      <>
+        <Space>
+          <Button icon={<PlusOutlined />} onClick={() => {}}>
+            Добавить stub
+          </Button>
+          <Button icon={<PlusOutlined />} onClick={() => {}}>
+            Добавить mock
+          </Button>
+        </Space>
+        <Collapse
+          items={this.state.behaviorsModel.map((b) => {
+            switch (b.type) {
+              case mockBehaviorType: {
+                const behavior =
+                  b.behavior as MockserviceListRestBehaviorResultMock;
+                return {
+                  key: behavior.id,
+                  label: `Поведение №${behavior.priority! + 1} (${b.type})`,
+                  children: (
+                    <RestRouteBehaviorItem_Mock
+                      mockServiceApi={this.props.mockServiceApi}
+                      projectId={this.props.projectId}
+                      serviceId={this.props.serviceId}
+                      handlerId={this.props.handlerId}
+                      refetch={() => {
+                        this.fetchBehaviors();
+                      }}
+                      behavior={behavior}
+                    />
+                  ),
+                };
+              }
+              case stubBehaviorType: {
+                const behavior =
+                  b.behavior as MockserviceListRestBehaviorResultStub;
+                return {
+                  key: behavior.id,
+                  label: `Поведение №${behavior.priority! + 1} (${b.type})`,
+                  children: (
+                    <RestRouteBehaviorItem_Stub
+                      behavior={behavior}
+                      projectId={this.props.projectId}
+                      handlerId={this.props.handlerId}
+                      mockServiceApi={this.props.mockServiceApi}
+                      serviceId={this.props.serviceId}
+                      refetch={() => {
+                        this.fetchBehaviors();
+                      }}
+                    />
+                  ),
+                };
+              }
+              default: {
+                return {
+                  key: -1,
+                  label: "",
+                  children: <></>,
+                };
+              }
             }
-            case stubBehaviorType: {
-              const behavior =
-                b.behavior as MockserviceListRestBehaviorResultStub;
-              return {
-                key: behavior.id,
-                label: `Поведение №${behavior.priority! + 1} (${b.type})`,
-                children: <RestRouteBehaviorItem_Stub behavior={behavior} />,
-              };
-            }
-            default: {
-              return {
-                key: 0,
-                label: "",
-                children: <></>,
-              };
-            }
-          }
-        })}
-      ></Collapse>
+          })}
+        ></Collapse>
+      </>
     );
   }
 }

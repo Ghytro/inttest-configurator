@@ -6,6 +6,7 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { ServiceCascaderOptVal } from "./ServiceSelectionCascader";
 import { projPageUrl } from "../routesEnum";
 import RestServiceRoutes from "./RestServiceRoute";
+import RestRouteUpdateModal from "./RestRouteUpdateModal";
 
 class RestServiceEditTab extends Component<
   RestServiceEditTabProps,
@@ -66,11 +67,23 @@ class RestServiceEditTab extends Component<
           Удалить сервис
         </Button>
         <FloatButton
+          type="primary"
           icon={<PlusOutlined />}
           onClick={() => this.setState({ addHandlerDialogOpen: true })}
         />
         <RestServiceRoutes
           mockServiceApi={this.props.mockServiceApi}
+          projectId={this.props.projectId}
+          serviceId={this.props.serviceData.id}
+        />
+        <RestRouteUpdateModal
+          mockServiceApi={this.props.mockServiceApi}
+          open={this.state.addHandlerDialogOpen}
+          setClosed={() => {
+            this.setState({ addHandlerDialogOpen: false });
+            this.fetchRoutes();
+          }}
+          modalType="create"
           projectId={this.props.projectId}
           serviceId={this.props.serviceData.id}
         />

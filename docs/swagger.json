@@ -33,7 +33,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.authRequest"
+                            "$ref": "#/definitions/internal_api_auth.authRequest"
                         }
                     }
                 ],
@@ -90,7 +90,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mockservice.listServiceResponse"
+                            "$ref": "#/definitions/internal_api_mockservice.listServiceResponse"
                         }
                     },
                     "400": {
@@ -795,6 +795,15 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "mock behavior update form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.UpdateMockBehaviorForm"
+                        }
                     }
                 ],
                 "responses": {
@@ -1043,7 +1052,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listPermResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listPermResponseItem"
                             }
                         }
                     },
@@ -1086,7 +1095,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_projects.listProjectResponseItem"
+                                "$ref": "#/definitions/internal_api_projects.listProjectResponseItem"
                             }
                         }
                     },
@@ -1196,7 +1205,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_projects.updateProjectMetaRequest"
+                            "$ref": "#/definitions/internal_api_projects.updateProjectMetaRequest"
                         }
                     },
                     {
@@ -1349,7 +1358,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listRoleResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listRoleResponseItem"
                             }
                         }
                     },
@@ -1391,7 +1400,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateRequest"
+                            "$ref": "#/definitions/internal_api_auth.roleCreateRequest"
                         }
                     }
                 ],
@@ -1399,7 +1408,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateResponse"
+                            "$ref": "#/definitions/internal_api_auth.roleCreateResponse"
                         }
                     },
                     "400": {
@@ -1449,7 +1458,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleRequest"
+                            "$ref": "#/definitions/internal_api_auth.updateRoleRequest"
                         }
                     }
                 ],
@@ -1457,7 +1466,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleResponse"
+                            "$ref": "#/definitions/internal_api_auth.updateRoleResponse"
                         }
                     },
                     "400": {
@@ -1546,7 +1555,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listUsersResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listUsersResponseItem"
                             }
                         }
                     },
@@ -1588,7 +1597,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.createUserRequest"
+                            "$ref": "#/definitions/internal_api_auth.createUserRequest"
                         }
                     }
                 ],
@@ -1596,7 +1605,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.createUserResponse"
+                            "$ref": "#/definitions/internal_api_auth.createUserResponse"
                         }
                     },
                     "400": {
@@ -1639,7 +1648,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateUserRequest"
+                            "$ref": "#/definitions/internal_api_auth.updateUserRequest"
                         }
                     },
                     {
@@ -1887,6 +1896,26 @@
                 }
             }
         },
+        "configurator_internal_api_mockservice.listServiceResponse": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/configurator_internal_api_mockservice.listServiceResult"
+                }
+            }
+        },
+        "configurator_internal_api_mockservice.listServiceResult": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                }
+            }
+        },
         "configurator_internal_api_projects.listProjectResponseItem": {
             "type": "object",
             "properties": {
@@ -2061,6 +2090,26 @@
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "internal_api_mockservice.listServiceResponse": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/internal_api_mockservice.listServiceResult"
+                }
+            }
+        },
+        "internal_api_mockservice.listServiceResult": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
                 }
             }
         },
@@ -2270,6 +2319,17 @@
         "mockservice.RestServiceUpdateResult": {
             "type": "object"
         },
+        "mockservice.UpdateMockBehaviorForm": {
+            "type": "object",
+            "properties": {
+                "impl": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "mockservice.UpdateRestHandlerForm": {
             "type": "object",
             "properties": {
@@ -2316,26 +2376,6 @@
                     "additionalProperties": {
                         "type": "string"
                     }
-                }
-            }
-        },
-        "mockservice.listServiceResponse": {
-            "type": "object",
-            "additionalProperties": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/definitions/mockservice.listServiceResult"
-                }
-            }
-        },
-        "mockservice.listServiceResult": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "port": {
-                    "type": "integer"
                 }
             }
         }

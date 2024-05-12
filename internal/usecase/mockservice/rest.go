@@ -4,6 +4,7 @@ import (
 	serviceRules "configurator/internal/businessrules/mockservice"
 	"configurator/internal/entity"
 	"configurator/pkg/exportstruct"
+	"configurator/pkg/utils"
 	"context"
 	"encoding/json"
 	"errors"
@@ -364,6 +365,9 @@ func (uc *restServiceUseCase) ListRestBehaviors(
 	serviceId RestServiceIdentifier,
 	handlerId int,
 ) (result ListRestBehaviorResult, err error) {
+	if handlerId < 0 {
+		return result, errors.New("некорректный id http-хендлера")
+	}
 	data, err := fetchProjectData(ctx, uc.projRepo, serviceId.ProjectId)
 	if err != nil {
 		return ListRestBehaviorResult{}, err
@@ -374,31 +378,63 @@ func (uc *restServiceUseCase) ListRestBehaviors(
 	if !ok {
 		return ListRestBehaviorResult{}, fmt.Errorf("не найден REST-сервис по идентификатору %s", serviceId.ServiceId)
 	}
-	for _, route := range service.RpcServiceUnion.HttpService.Routes {
-		for i, b := range route.Behavior {
-			switch b.Type {
-			case exportstruct.RestHandlerBehaviorType_STUB:
-				result.Stubs = append(result.Stubs, ListRestBehaviorResult_Stub{
-					Id:              i,
-					Priority:        i,
-					Headers:         b.Params.Headers,
-					Query:           b.Params.Query,
-					UrlParams:       b.Params.Url,
-					Body:            b.Params.Body,
-					ResponseStatus:  int(b.Response.Status),
-					ResponseHeaders: b.Response.Headers,
-					ResponseBody:    b.Response.Body,
-				})
-			case exportstruct.RestHandlerBehaviorType_MOCK:
-				result.Mocks = append(result.Mocks, ListRestBehaviorResult_Mock{
-					Id:       i,
-					Priority: i,
-					Impl:     b.Impl,
-				})
+	if handlerId >= len(service.RpcServiceUnion.HttpService.Routes) {
+		return result, errors.New("некорректный id http-хендлера")
+	}
+	route := service.RpcServiceUnion.HttpService.Routes[handlerId]
+	for i, b := range route.Behavior {
+		switch b.Type {
+		case exportstruct.RestHandlerBehaviorType_STUB:
+			reqBody, err := beautifyJson(b.Params.Body)
+			if err != nil {
+				return result, err
 			}
+			respBody, err := beautifyJson(b.Response.Body)
+			if err != nil {
+				return result, err
+			}
+			result.Stubs = append(result.Stubs, ListRestBehaviorResult_Stub{
+				Id:              i,
+				Priority:        i,
+				Headers:         b.Params.Headers,
+				Query:           b.Params.Query,
+				UrlParams:       b.Params.Url,
+				Body:            reqBody,
+				ResponseStatus:  int(b.Response.Status),
+				ResponseHeaders: b.Response.Headers,
+				ResponseBody:    respBody,
+			})
+		case exportstruct.RestHandlerBehaviorType_MOCK:
+			result.Mocks = append(result.Mocks, ListRestBehaviorResult_Mock{
+				Id:       i,
+				Priority: i,
+				Impl:     b.Impl,
+			})
 		}
 	}
 	return result, nil
+}
+
+func jsonTransformImpl(jsonStr string, marshaler func(any) ([]byte, error)) (string, error) {
+	var parsedObj any
+	if err := json.Unmarshal(utils.S2B(jsonStr), &parsedObj); err != nil {
+		return "", err
+	}
+	marshaled, err := marshaler(&parsedObj)
+	if err != nil {
+		return "", err
+	}
+	return utils.B2S(marshaled), nil
+}
+
+func beautifyJson(jsonStr string) (string, error) {
+	return jsonTransformImpl(jsonStr, func(a any) ([]byte, error) {
+		return json.MarshalIndent(a, "", "\t")
+	})
+}
+
+func compressJsonBeforeStore(jsonStr string) (string, error) {
+	return jsonTransformImpl(jsonStr, json.Marshal)
 }
 
 type UpdateStubBehaviorForm struct {
@@ -424,6 +460,11 @@ func (uc *restServiceUseCase) UpdateRestStubBehavior(
 	if behaviorId < 0 {
 		return fmt.Errorf("некорректный идентификатор поведения хендлера")
 	}
+
+	if err := exportstruct.HttpStatus(form.ResponseStatus).Validate(); err != nil {
+		return err
+	}
+
 	return uc.projRepo.ModifyProjectData(ctx, serviceId.ProjectId, func(data *exportstruct.Config) error {
 		service, serviceIdx, ok := lo.FindIndexOf(data.RpcServices, func(item exportstruct.RpcService) bool {
 			return item.Type == exportstruct.RpcServiceType_REST && item.ID == serviceId.ServiceId
@@ -440,15 +481,28 @@ func (uc *restServiceUseCase) UpdateRestStubBehavior(
 		if behaviorId >= len(routePtr.Behavior) {
 			return fmt.Errorf("некорректный идентификатор поведения хендлера")
 		}
+
+		var err error
+
 		behaviorPtr := &routePtr.Behavior[behaviorId]
 		stubBehaviorPtr := &behaviorPtr.HttpHandlerBehaviorUnion.HttpStubBehavior
 		stubBehaviorPtr.Params.Headers = form.Headers
 		stubBehaviorPtr.Params.Query = form.Query
 		stubBehaviorPtr.Params.Url = form.UrlParams
-		stubBehaviorPtr.Params.Body = form.Body
+
+		stubBehaviorPtr.Params.Body, err = compressJsonBeforeStore(form.Body)
+		if err != nil {
+			return err
+		}
+
 		stubBehaviorPtr.Response.Headers = form.ResponseHeaders
 		stubBehaviorPtr.Response.Status = exportstruct.HttpStatus(form.ResponseStatus)
-		stubBehaviorPtr.Response.Body = form.ResponseBody
+
+		stubBehaviorPtr.Response.Body, err = compressJsonBeforeStore(form.ResponseBody)
+		if err != nil {
+			return err
+		}
+
 		return nil
 	})
 }
