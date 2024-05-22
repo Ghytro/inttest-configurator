@@ -131,7 +131,12 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
               );
             case redisServiceType:
               return (
-                <RedisPubSubEditTab mockServiceApi={this.mockServiceApi} />
+                <RedisPubSubEditTab
+                  key={this.state.editedServiceData.id}
+                  mockServiceApi={this.mockServiceApi}
+                  brokerData={this.state.editedServiceData}
+                  projectId={parseInt(this.props.urlParams.id!)}
+                />
               );
           }
         })()}
@@ -146,6 +151,7 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
           servicePortInputInitValue=""
         />
         <CreateRedisPubSubDialog
+          modalType="create"
           open={this.state.createdServiceType == redisServiceType}
           setClosed={() => this.setState({ createdServiceType: undefined })}
           mockServiceApi={this.mockServiceApi}

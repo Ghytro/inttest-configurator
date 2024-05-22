@@ -6,6 +6,7 @@ import { MockservicesApi } from "../api/api";
 import { projPageUrl } from "../routesEnum";
 import { $notify, ENotifyKind } from "../notifier";
 import RedisPubSubAddTopicDialog from "./RedisPubSubAddTopicDialog";
+import CreateRedisPubSubDialog from "./CreateRedisPubSubDialog";
 
 class RedisPubSubEditTab extends Component<
   RedisPubSubEditTabProps,
@@ -59,6 +60,18 @@ class RedisPubSubEditTab extends Component<
           projectId={this.props.projectId}
           modalType="create"
           brokerId={this.props.brokerData.id}
+        />
+        <CreateRedisPubSubDialog
+          modalType="update"
+          mockServiceApi={this.props.mockServiceApi}
+          open={this.state.brokerEditDialogOpen}
+          projectId={this.props.projectId}
+          setClosed={() => this.setState({ brokerEditDialogOpen: false })}
+          refetch={() => {
+            /* todo */
+          }}
+          brokerIdInputInitValue={this.props.brokerData.id.toString()}
+          brokerPortInputInitValue={this.props.brokerData.port.toString()}
         />
         <FloatButton
           type="primary"

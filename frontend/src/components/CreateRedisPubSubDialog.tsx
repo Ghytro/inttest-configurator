@@ -11,8 +11,8 @@ class CreateRedisPubSubDialog extends Component<
     super(props);
 
     this.state = {
-      brokerIdInputValue: "",
-      brokerPortInputValue: "",
+      brokerIdInputValue: this.props.brokerIdInputInitValue ?? "",
+      brokerPortInputValue: this.props.brokerPortInputInitValue ?? "",
     };
   }
 
@@ -29,12 +29,23 @@ class CreateRedisPubSubDialog extends Component<
     }
   }
 
-  createBroker() {
-    this.props.mockServiceApi
-      .createRedisPubSubBroker(this.props.projectId, {
-        id: this.state.brokerIdInputValue,
-        port: parseInt(this.state.brokerPortInputValue),
-      })
+  sendFormData() {
+    // todo: поправить баг, запомнить старый id
+    const reqForm = {
+      id: this.state.brokerIdInputValue,
+      port: parseInt(this.state.brokerPortInputValue),
+    };
+    (this.props.modalType == "create"
+      ? this.props.mockServiceApi.createRedisPubSubBroker(
+          this.props.projectId,
+          reqForm
+        )
+      : this.props.mockServiceApi.updateRedisPubSub(
+          this.props.projectId,
+          this.state.brokerIdInputValue,
+          reqForm
+        )
+    )
       .then(({ data }) => {
         this.props.refetch();
         this.props.setClosed();
@@ -45,12 +56,20 @@ class CreateRedisPubSubDialog extends Component<
   render(): React.ReactNode {
     return (
       <Modal
-        title="Создать брокер (Redis PubSub)"
+        title={
+          this.props.modalType == "create"
+            ? "Создать"
+            : "Редактировать" + " брокер (Redis PubSub)"
+        }
         open={this.props.open}
         onCancel={() => {
-          this.setState({});
+          this.setState({
+            brokerIdInputValue: this.props.brokerIdInputInitValue ?? "",
+            brokerPortInputValue: this.props.brokerPortInputInitValue ?? "",
+          });
           this.props.setClosed();
         }}
+        onOk={() => this.sendFormData()}
       >
         <Form layout="vertical">
           <Form.Item label="Идентификатор">
@@ -84,11 +103,15 @@ class CreateRedisPubSubDialog extends Component<
 export default CreateRedisPubSubDialog;
 
 interface CreateRedisPubSubDialogProps {
+  modalType: "create" | "update";
   open: boolean;
   setClosed: () => void;
   refetch: () => void;
   mockServiceApi: MockservicesApi;
   projectId: number;
+
+  brokerIdInputInitValue?: string;
+  brokerPortInputInitValue?: string;
 }
 
 interface CreateRedisPubSubDialogState {
