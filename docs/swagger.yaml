@@ -318,6 +318,11 @@ definitions:
           type: string
         type: object
     type: object
+  mockservice.CreateTopicReq:
+    properties:
+      topic:
+        type: string
+    type: object
   mockservice.ListBrokerTopicsResultItem:
     properties:
       id:
@@ -505,7 +510,7 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.authRequest'
+          $ref: '#/definitions/internal_api_auth.authRequest'
       produces:
       - application/json
       responses:
@@ -541,7 +546,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_mockservice.listServiceResponse'
+            $ref: '#/definitions/internal_api_mockservice.listServiceResponse'
         "400":
           description: Bad Request
           schema:
@@ -593,6 +598,41 @@ paths:
       tags:
       - mockservices
   /mockservices/redis-pubsub/{brokerId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: deleteRedisPubSub
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
     put:
       consumes:
       - application/json
@@ -672,6 +712,210 @@ paths:
       summary: '"list redis pubsub broker topics"'
       tags:
       - mockservices
+    post:
+      consumes:
+      - application/json
+      operationId: createRedisPubSubTopic
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.CreateTopicReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
+  /mockservices/redis-pubsub/{brokerId}/topics/{topicId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: deleteRedisPubTopic
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: id of topic to list generators
+        in: path
+        name: topicId
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
+    put:
+      consumes:
+      - application/json
+      operationId: updateRedisPubSubTopic
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: id of topic to list generators
+        in: path
+        name: topicId
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
+  /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createConstGenerator:
+    post:
+      consumes:
+      - application/json
+      operationId: createRedisPubSubConstTopicGenerator
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: id of topic to list generators
+        in: path
+        name: topicId
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
+  /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createProgGenerator:
+    post:
+      consumes:
+      - application/json
+      operationId: createRedisPubSubProgTopicGenerator
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: id of topic to list generators
+        in: path
+        name: topicId
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
   /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/generators:
     get:
       consumes:
@@ -711,6 +955,144 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: '"list redis pubsub topic generators"'
+      tags:
+      - mockservices
+  /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/generators/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: deleteRedisPubSubGenerator
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: topic id to delete generator from
+        in: path
+        name: topicId
+        required: true
+        type: number
+      - description: id of generator to delete
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
+  /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updConstGenerator/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: updateRedisPubSubConstTopicGenerator
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: id of topic to list generators
+        in: path
+        name: topicId
+        required: true
+        type: number
+      - description: id of generator to delete
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
+      tags:
+      - mockservices
+  /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updProgGenerator/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: updateRedisPubSubProgTopicGenerator
+      parameters:
+      - description: project id to create redis pubsub mock
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of broker to list topics
+        in: path
+        name: brokerId
+        required: true
+        type: string
+      - description: id of topic to list generators
+        in: path
+        name: topicId
+        required: true
+        type: number
+      - description: id of generator to delete
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: '"update redis pubsub broker data"'
       tags:
       - mockservices
   /mockservices/rest:
@@ -1325,7 +1707,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/configurator_internal_api_auth.listPermResponseItem'
+              $ref: '#/definitions/internal_api_auth.listPermResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -1520,7 +1902,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/configurator_internal_api_auth.listRoleResponseItem'
+              $ref: '#/definitions/internal_api_auth.listRoleResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -1545,14 +1927,14 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.roleCreateRequest'
+          $ref: '#/definitions/internal_api_auth.roleCreateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_auth.roleCreateResponse'
+            $ref: '#/definitions/internal_api_auth.roleCreateResponse'
         "400":
           description: Bad Request
           schema:
@@ -1612,14 +1994,14 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.updateRoleRequest'
+          $ref: '#/definitions/internal_api_auth.updateRoleRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_auth.updateRoleResponse'
+            $ref: '#/definitions/internal_api_auth.updateRoleResponse'
         "400":
           description: Bad Request
           schema:
@@ -1645,7 +2027,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/configurator_internal_api_auth.listUsersResponseItem'
+              $ref: '#/definitions/internal_api_auth.listUsersResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -1670,14 +2052,14 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.createUserRequest'
+          $ref: '#/definitions/internal_api_auth.createUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_auth.createUserResponse'
+            $ref: '#/definitions/internal_api_auth.createUserResponse'
         "400":
           description: Bad Request
           schema:
@@ -1732,7 +2114,7 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/configurator_internal_api_auth.updateUserRequest'
+          $ref: '#/definitions/internal_api_auth.updateUserRequest'
       - description: id of a user to update
         in: path
         name: id

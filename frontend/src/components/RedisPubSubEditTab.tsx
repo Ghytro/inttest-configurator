@@ -1,8 +1,11 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, FloatButton, Space } from "antd";
 import React, { Component } from "react";
-import CreateRedisPubSubDialog from "./CreateRedisPubSubDialog";
+import { ServiceCascaderOptVal } from "./ServiceSelectionCascader";
 import { MockservicesApi } from "../api/api";
+import { projPageUrl } from "../routesEnum";
+import { $notify, ENotifyKind } from "../notifier";
+import RedisPubSubAddTopicDialog from "./RedisPubSubAddTopicDialog";
 
 class RedisPubSubEditTab extends Component<
   RedisPubSubEditTabProps,
@@ -17,7 +20,14 @@ class RedisPubSubEditTab extends Component<
     };
   }
 
-  deleteBroker() {}
+  deleteBroker() {
+    this.props.mockServiceApi
+      .deleteRedisPubSub(this.props.projectId, this.props.brokerData.id)
+      .then(({ data }) => {
+        window.location.href = projPageUrl(this.props.projectId);
+      })
+      .catch((e) => $notify(ENotifyKind.ERROR, e));
+  }
 
   render(): React.ReactNode {
     return (
@@ -42,6 +52,14 @@ class RedisPubSubEditTab extends Component<
             Удалить брокер
           </Button>
         </Space>
+        <RedisPubSubAddTopicDialog
+          open={this.state.addTopicDialogOpen}
+          setClosed={() => this.setState({ addTopicDialogOpen: false })}
+          mockServiceApi={this.props.mockServiceApi}
+          projectId={this.props.projectId}
+          modalType="create"
+          brokerId={this.props.brokerData.id}
+        />
         <FloatButton
           type="primary"
           icon={<PlusOutlined />}
@@ -56,6 +74,8 @@ export default RedisPubSubEditTab;
 
 interface RedisPubSubEditTabProps {
   mockServiceApi: MockservicesApi;
+  projectId: number;
+  brokerData: ServiceCascaderOptVal;
 }
 
 interface RedisPubSubEditTabState {

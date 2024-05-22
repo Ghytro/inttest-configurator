@@ -33,7 +33,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.authRequest"
+                            "$ref": "#/definitions/internal_api_auth.authRequest"
                         }
                     }
                 ],
@@ -90,7 +90,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_mockservice.listServiceResponse"
+                            "$ref": "#/definitions/internal_api_mockservice.listServiceResponse"
                         }
                     },
                     "400": {
@@ -229,6 +229,60 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "deleteRedisPubSub",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
             }
         },
         "/mockservices/redis-pubsub/{brokerId}/topics": {
@@ -273,6 +327,319 @@
                             "items": {
                                 "$ref": "#/definitions/mockservice.ListBrokerTopicsResultItem"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "createRedisPubSubTopic",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateTopicReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics/{topicId}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "updateRedisPubSubTopic",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of topic to list generators",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "deleteRedisPubTopic",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of topic to list generators",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createConstGenerator": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "createRedisPubSubConstTopicGenerator",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of topic to list generators",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createProgGenerator": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "createRedisPubSubProgTopicGenerator",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of topic to list generators",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
                         }
                     },
                     "400": {
@@ -336,6 +703,216 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/mockservice.ListTopicGeneratorsResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/generators/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "deleteRedisPubSubGenerator",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "topic id to delete generator from",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of generator to delete",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updConstGenerator/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "updateRedisPubSubConstTopicGenerator",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of topic to list generators",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of generator to delete",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updProgGenerator/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "\"update redis pubsub broker data\"",
+                "operationId": "updateRedisPubSubProgTopicGenerator",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "project id to create redis pubsub mock",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of broker to list topics",
+                        "name": "brokerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of topic to list generators",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "id of generator to delete",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
                         }
                     },
                     "400": {
@@ -1297,7 +1874,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listPermResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listPermResponseItem"
                             }
                         }
                     },
@@ -1603,7 +2180,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listRoleResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listRoleResponseItem"
                             }
                         }
                     },
@@ -1645,7 +2222,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateRequest"
+                            "$ref": "#/definitions/internal_api_auth.roleCreateRequest"
                         }
                     }
                 ],
@@ -1653,7 +2230,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.roleCreateResponse"
+                            "$ref": "#/definitions/internal_api_auth.roleCreateResponse"
                         }
                     },
                     "400": {
@@ -1703,7 +2280,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleRequest"
+                            "$ref": "#/definitions/internal_api_auth.updateRoleRequest"
                         }
                     }
                 ],
@@ -1711,7 +2288,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateRoleResponse"
+                            "$ref": "#/definitions/internal_api_auth.updateRoleResponse"
                         }
                     },
                     "400": {
@@ -1800,7 +2377,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/configurator_internal_api_auth.listUsersResponseItem"
+                                "$ref": "#/definitions/internal_api_auth.listUsersResponseItem"
                             }
                         }
                     },
@@ -1842,7 +2419,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.createUserRequest"
+                            "$ref": "#/definitions/internal_api_auth.createUserRequest"
                         }
                     }
                 ],
@@ -1850,7 +2427,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.createUserResponse"
+                            "$ref": "#/definitions/internal_api_auth.createUserResponse"
                         }
                     },
                     "400": {
@@ -1893,7 +2470,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_auth.updateUserRequest"
+                            "$ref": "#/definitions/internal_api_auth.updateUserRequest"
                         }
                     },
                     {
@@ -2465,6 +3042,14 @@
                     "additionalProperties": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "mockservice.CreateTopicReq": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string"
                 }
             }
         },

@@ -31,8 +31,17 @@ type iRestServiceUseCase interface {
 }
 
 type iRedisPubSubUsecase interface {
+	CreateConstTopicGenerator(ctx context.Context, id mockservice.BrokerIdentifier, topicId int, form mockservice.CreateStubTopicGeneratorReq) error
+	CreateProgTopicGenerator(ctx context.Context, id mockservice.BrokerIdentifier, topicId int, form mockservice.CreateMockTopicGeneratorReq) error
 	CreateRedisPubSub(ctx context.Context, projectId entity.BigIntPK, form mockservice.CreateRedisPubSubForm) error
+	CreateTopic(ctx context.Context, id mockservice.BrokerIdentifier, form mockservice.CreateTopicReq) error
+	DeleteRedisPubSub(ctx context.Context, id mockservice.BrokerIdentifier) error
+	DeleteTopic(ctx context.Context, id mockservice.BrokerIdentifier, topicId int) error
+	DeleteTopicGenerator(ctx context.Context, id mockservice.BrokerIdentifier, topicId int, genId int) error
 	ListTopicGenerators(ctx context.Context, id mockservice.BrokerIdentifier, topicId int) (mockservice.ListTopicGeneratorsResult, error)
 	ListTopics(ctx context.Context, id mockservice.BrokerIdentifier) ([]mockservice.ListBrokerTopicsResultItem, error)
+	UpdateConstTopicGenerator(ctx context.Context, id mockservice.BrokerIdentifier, topicId int, genId int, form mockservice.UpdConstTopicGeneratorReq) error
+	UpdateProgTopicGenerator(ctx context.Context, id mockservice.BrokerIdentifier, topicId int, genId int, form mockservice.UpdMockTopicGeneratorReq) error
 	UpdateRedisPubSub(ctx context.Context, id mockservice.BrokerIdentifier, form mockservice.UpdateRedisPubSubForm) error
+	UpdateTopic(ctx context.Context, id mockservice.BrokerIdentifier, topicId int, form mockservice.UpdTopicReq) error
 }

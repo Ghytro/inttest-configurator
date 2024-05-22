@@ -15,3 +15,15 @@ func ValidateRedisPubSubUniqServiceId(projData exportstruct.Config, createdId st
 	}
 	return nil
 }
+
+func ValidateUniqTopicInBroker(broker exportstruct.Broker, topic string) error {
+	if lo.ContainsBy(
+		broker.BrokerBehaviorUnion.BrokerBehaviorRedis.Behavior,
+		func(item exportstruct.BrokerBehaviorRedisItem) bool {
+			return item.Topic == topic
+		},
+	) {
+		return fmt.Errorf("уже существует топик %s", topic)
+	}
+	return nil
+}
