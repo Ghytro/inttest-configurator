@@ -9,7 +9,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
+	"strings"
 
+	multierror "github.com/hashicorp/go-multierror"
+	"github.com/pb33f/libopenapi"
+	libopenapitypesv2 "github.com/pb33f/libopenapi/datamodel/high/v2"
 	"github.com/samber/lo"
 	"go.uber.org/zap"
 )
@@ -595,4 +600,71 @@ func (uc *restServiceUseCase) DeleteRestBehavior(
 		routePtr.Behavior = append(routePtr.Behavior[:behaviorId], routePtr.Behavior[behaviorId+1:]...)
 		return nil
 	})
+}
+
+func (uc *restServiceUseCase) ImportSwagger(ctx context.Context, serviceId RestServiceIdentifier, doc libopenapi.Document) error {
+	if !strings.HasPrefix(doc.GetVersion(), "2") {
+		return errors.New("имеется поддержка только сваггера версии 2")
+	}
+	model, errs := doc.BuildV2Model()
+	if len(errs) != 0 {
+		return &multierror.Error{
+			Errors:      errs,
+			ErrorFormat: multierror.ListFormatFunc,
+		}
+	}
+	return uc.projRepo.ModifyProjectData(ctx, serviceId.ProjectId, func(data *exportstruct.Config) error {
+		_, serviceIdx, _ := lo.FindIndexOf(data.RpcServices, func(item exportstruct.RpcService) bool {
+			return item.Type == exportstruct.RpcServiceType_REST && item.ID == serviceId.ServiceId
+		})
+		if serviceIdx == -1 {
+			return errors.New("incorrect rest service id")
+		}
+		servicePtr := &data.RpcServices[serviceIdx]
+		serviceRoutes := servicePtr.RpcServiceUnion.HttpService.Routes
+		for item := model.Model.Paths.PathItems.First(); item != nil; item = item.Next() {
+			swagUrl := item.Key()
+			methods := getSwaggerPathHttpMethods(item.Value())
+			if lo.ContainsBy(serviceRoutes, func(item exportstruct.HttpRoute) bool {
+				return item.Route.ToSwaggerUrl() == swagUrl && lo.Contains(methods, string(item.Method))
+			}) {
+				continue
+			}
+
+			for _, method := range methods {
+				serviceRoutes = append(serviceRoutes, exportstruct.HttpRoute{
+					Route:  swaggerToFiberUrl(swagUrl),
+					Method: exportstruct.HttpMethod(method),
+				})
+			}
+		}
+		servicePtr.RpcServiceUnion.HttpService.Routes = serviceRoutes
+		return nil
+	})
+}
+
+func swaggerToFiberUrl(swaggerUrl string) exportstruct.ParametrizedRestRoute {
+	for braceIdx := strings.Index(swaggerUrl, "{"); braceIdx != -1; braceIdx = strings.Index(swaggerUrl, "{") {
+		closeBraceIdx := strings.Index(swaggerUrl, "}")
+		swaggerUrl = swaggerUrl[:braceIdx] + ":" + swaggerUrl[braceIdx+1:closeBraceIdx] + swaggerUrl[closeBraceIdx+1:]
+	}
+	return exportstruct.ParametrizedRestRoute(swaggerUrl)
+}
+
+func getSwaggerPathHttpMethods(item *libopenapitypesv2.PathItem) (result []string) {
+	pathMethods := map[*libopenapitypesv2.Operation]string{
+		item.Get:     http.MethodGet,
+		item.Put:     http.MethodPut,
+		item.Post:    http.MethodPost,
+		item.Delete:  http.MethodDelete,
+		item.Options: http.MethodOptions,
+		item.Head:    http.MethodHead,
+		item.Patch:   http.MethodPatch,
+	}
+	for m, mStr := range pathMethods {
+		if m != nil {
+			result = append(result, mStr)
+		}
+	}
+	return
 }

@@ -90,7 +90,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_api_mockservice.listServiceResponse"
+                            "$ref": "#/definitions/configurator_internal_api_mockservice.listServiceResponse"
                         }
                     },
                     "400": {
@@ -1485,6 +1485,12 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
@@ -1850,6 +1856,69 @@
                 }
             }
         },
+        "/mockservices/rest/{serviceId}/importSwagger": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mockservices"
+                ],
+                "summary": "import swagger schema for rest api",
+                "operationId": "importSwagger",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "id of a project where service is located",
+                        "name": "projectId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id of a rest service",
+                        "name": "serviceId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "swagger schema to create handlers",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.OK"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.ErrResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/perms": {
             "get": {
                 "security": [
@@ -1917,7 +1986,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_api_projects.listProjectResponseItem"
+                                "$ref": "#/definitions/configurator_internal_api_projects.listProjectResponseItem"
                             }
                         }
                     },
@@ -2027,7 +2096,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_api_projects.updateProjectMetaRequest"
+                            "$ref": "#/definitions/configurator_internal_api_projects.updateProjectMetaRequest"
                         }
                     },
                     {

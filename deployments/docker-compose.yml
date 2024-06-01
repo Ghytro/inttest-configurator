@@ -1,7 +1,8 @@
+name: "inttest-configurator"
 version: "3.8"
 services:
   db:
-    container_name: dockerdev-db
+    container_name: dockerdev-db-inttest-configurator
     image: postgres
     ports:
       - "5432:5432"

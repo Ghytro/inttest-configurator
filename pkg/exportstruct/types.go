@@ -3,6 +3,7 @@ package exportstruct
 import (
 	"fmt"
 	"math"
+	"strings"
 
 	"github.com/samber/lo"
 )
@@ -66,6 +67,25 @@ type ParametrizedRestRoute string
 
 func (r ParametrizedRestRoute) String() string {
 	return string(r)
+}
+
+// ToSwaggerUrl преобразовать fiber-параметризованный url в формат сваггера.
+// у fiber параметризованные url пишутся как /someurl/:param1/some2
+// а в сваггере /someurl/{param1}/some2
+func (r ParametrizedRestRoute) ToSwaggerUrl() string {
+	fiberUrl := r.String()
+
+	for colonIdx := strings.Index(fiberUrl, ":"); colonIdx != -1; colonIdx = strings.Index(fiberUrl, ":") {
+		slashIdx := strings.Index(fiberUrl[colonIdx:], "/")
+		if slashIdx == -1 {
+			slashIdx = len(fiberUrl)
+		} else {
+			slashIdx += colonIdx
+		}
+		newParamName := "{" + fiberUrl[colonIdx+1:slashIdx] + "}"
+		fiberUrl = fiberUrl[:colonIdx] + newParamName + fiberUrl[slashIdx:]
+	}
+	return fiberUrl
 }
 
 type RestRouteParam struct {

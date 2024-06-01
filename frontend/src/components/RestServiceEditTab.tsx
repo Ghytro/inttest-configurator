@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import { MockservicesApi } from "../api/api";
 import { $notify, ENotifyKind } from "../notifier";
 import { Button, FloatButton, Space } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ImportOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { ServiceCascaderOptVal } from "./ServiceSelectionCascader";
 import { projPageUrl } from "../routesEnum";
 import RestServiceRoutes from "./RestServiceRoute";
 import RestRouteUpdateModal from "./RestRouteUpdateModal";
+import SwaggerImportModal from "./SwaggerImportModal";
 
 class RestServiceEditTab extends Component<
   RestServiceEditTabProps,
@@ -18,6 +24,7 @@ class RestServiceEditTab extends Component<
       loading: false,
       serviceEditDialogOpen: false,
       addHandlerDialogOpen: false,
+      importSwaggerDialogOpen: false,
     };
   }
 
@@ -59,6 +66,15 @@ class RestServiceEditTab extends Component<
             Редактировать сервис
           </Button>
           <Button
+            type="default"
+            icon={<ImportOutlined />}
+            onClick={() => {
+              this.setState({ importSwaggerDialogOpen: true });
+            }}
+          >
+            Импортировать Swagger 2.0
+          </Button>
+          <Button
             danger={true}
             icon={<DeleteOutlined />}
             onClick={() => {
@@ -89,6 +105,13 @@ class RestServiceEditTab extends Component<
           projectId={this.props.projectId}
           serviceId={this.props.serviceData.id}
         />
+        <SwaggerImportModal
+          mockServiceApi={this.props.mockServiceApi}
+          open={this.state.importSwaggerDialogOpen}
+          setClosed={() => this.setState({ importSwaggerDialogOpen: false })}
+          projectId={this.props.projectId}
+          serviceId={this.props.serviceData.id}
+        />
       </>
     );
   }
@@ -106,4 +129,5 @@ interface RestServiceEditTabState {
   loading: boolean;
   serviceEditDialogOpen: boolean;
   addHandlerDialogOpen: boolean;
+  importSwaggerDialogOpen: boolean;
 }

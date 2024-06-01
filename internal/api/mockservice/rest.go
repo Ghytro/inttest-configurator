@@ -4,8 +4,10 @@ import (
 	"configurator/internal/api"
 	"configurator/internal/entity"
 	"configurator/internal/usecase/mockservice"
+	"io"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/pb33f/libopenapi"
 )
 
 func (a *API) registerRestRoutes(router fiber.Router) {
@@ -13,7 +15,8 @@ func (a *API) registerRestRoutes(router fiber.Router) {
 
 	r.Post("/", a.createRestService).
 		Put("/:id", a.updateRestService).
-		Delete("/:id", a.deleteRestService)
+		Delete("/:id", a.deleteRestService).
+		Post("/:serviceId/importSwagger", a.importSwagger)
 
 	handGroup := r.Group("/:serviceId/handlers").
 		Get("/", a.listRestHandlers).
@@ -482,6 +485,7 @@ func (a *API) moveRestBehaviorPriority(ctx *fiber.Ctx) error {
 // @Tags mockservices
 // @Accept json
 // @Produce json
+// @Success 200 {object} api.OK
 // @Failure 400 {object} api.ErrResponse
 // @Failure 500 {object} api.ErrResponse
 // @Security ApiKeyAuth
@@ -505,6 +509,50 @@ func (a *API) deleteRestBehavior(ctx *fiber.Ctx) error {
 	}
 	err = a.useCase.DeleteRestBehavior(ctx.Context(), serviceId, handlerId, behaviorId)
 	if err != nil {
+		return err
+	}
+	return ctx.JSON(api.OK{})
+}
+
+// importSwagger godoc
+// @ID importSwagger
+// @Summary import swagger schema for rest api
+// @Tags mockservices
+// @Accept mpfd
+// @Produce json
+// @Success 200 {object} api.OK
+// @Failure 400 {object} api.ErrResponse
+// @Failure 500 {object} api.ErrResponse
+// @Security ApiKeyAuth
+// @Param projectId query number true "id of a project where service is located"
+// @Param serviceId path string true "id of a rest service"
+// @Param file formData file true "swagger schema to create handlers"
+// @Router /mockservices/rest/{serviceId}/importSwagger [post]
+func (a *API) importSwagger(ctx *fiber.Ctx) error {
+	serviceId, err := parseServiceId(ctx)
+	if err != nil {
+		return err
+	}
+	fileHeader, err := ctx.FormFile("file")
+	if err != nil {
+		return err
+	}
+	file, err := fileHeader.Open()
+	if err != nil {
+		return err
+	}
+	fileBytes, err := io.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	if err := file.Close(); err != nil {
+		return err
+	}
+	openApiDoc, err := libopenapi.NewDocument(fileBytes)
+	if err != nil {
+		return err
+	}
+	if err := a.useCase.ImportSwagger(ctx.Context(), serviceId, openApiDoc); err != nil {
 		return err
 	}
 	return ctx.JSON(api.OK{})

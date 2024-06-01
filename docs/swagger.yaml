@@ -546,7 +546,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_api_mockservice.listServiceResponse'
+            $ref: '#/definitions/configurator_internal_api_mockservice.listServiceResponse'
         "400":
           description: Bad Request
           schema:
@@ -1452,6 +1452,10 @@ paths:
       produces:
       - application/json
       responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
         "400":
           description: Bad Request
           schema:
@@ -1695,6 +1699,47 @@ paths:
       summary: '"update existing rest handler"'
       tags:
       - mockservices
+  /mockservices/rest/{serviceId}/importSwagger:
+    post:
+      consumes:
+      - multipart/form-data
+      operationId: importSwagger
+      parameters:
+      - description: id of a project where service is located
+        in: query
+        name: projectId
+        required: true
+        type: number
+      - description: id of a rest service
+        in: path
+        name: serviceId
+        required: true
+        type: string
+      - description: swagger schema to create handlers
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.OK'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: import swagger schema for rest api
+      tags:
+      - mockservices
   /perms:
     get:
       consumes:
@@ -1734,7 +1779,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/internal_api_projects.listProjectResponseItem'
+              $ref: '#/definitions/configurator_internal_api_projects.listProjectResponseItem'
             type: array
         "400":
           description: Bad Request
@@ -1833,7 +1878,7 @@ paths:
         name: form
         required: true
         schema:
-          $ref: '#/definitions/internal_api_projects.updateProjectMetaRequest'
+          $ref: '#/definitions/configurator_internal_api_projects.updateProjectMetaRequest'
       - description: id of updated project
         in: path
         name: id

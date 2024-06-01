@@ -4,6 +4,8 @@ import (
 	"configurator/internal/entity"
 	"configurator/internal/usecase/mockservice"
 	"context"
+
+	"github.com/pb33f/libopenapi"
 )
 
 type IUseCase interface {
@@ -28,6 +30,7 @@ type iRestServiceUseCase interface {
 	UpdateRestMockBehavior(ctx context.Context, serviceId mockservice.RestServiceIdentifier, handlerId, behaviorId int, form mockservice.UpdateMockBehaviorForm) error
 	MoveRestBehaviorPriority(ctx context.Context, serviceId mockservice.RestServiceIdentifier, handlerId, behaviorId int, newPriority int) error
 	DeleteRestBehavior(ctx context.Context, serviceId mockservice.RestServiceIdentifier, handlerId, behaviorId int) error
+	ImportSwagger(ctx context.Context, serviceId mockservice.RestServiceIdentifier, swagger libopenapi.Document) error
 }
 
 type iRedisPubSubUsecase interface {
