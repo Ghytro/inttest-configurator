@@ -7,6 +7,7 @@ import { projPageUrl } from "../routesEnum";
 import { $notify, ENotifyKind } from "../notifier";
 import RedisPubSubAddTopicDialog from "./RedisPubSubAddTopicDialog";
 import CreateRedisPubSubDialog from "./CreateRedisPubSubDialog";
+import RedisPubSubTopics from "./RedisPubSubTopics";
 
 class RedisPubSubEditTab extends Component<
   RedisPubSubEditTabProps,
@@ -72,6 +73,11 @@ class RedisPubSubEditTab extends Component<
           }}
           brokerIdInputInitValue={this.props.brokerData.id.toString()}
           brokerPortInputInitValue={this.props.brokerData.port.toString()}
+        />
+        <RedisPubSubTopics
+          mockServiceApi={this.props.mockServiceApi}
+          projectId={this.props.projectId}
+          brokerId={this.props.brokerData.id}
         />
         <FloatButton
           type="primary"

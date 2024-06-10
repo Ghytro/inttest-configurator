@@ -633,6 +633,31 @@ export interface InternalApiProjectsUpdateProjectMetaRequest {
 /**
  * 
  * @export
+ * @interface MockserviceCreateMockTopicGeneratorReq
+ */
+export interface MockserviceCreateMockTopicGeneratorReq {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MockserviceCreateMockTopicGeneratorReq
+     */
+    'impl'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateMockTopicGeneratorReq
+     */
+    'interval'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MockserviceCreateMockTopicGeneratorReq
+     */
+    'send_immediately'?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface MockserviceCreateRedisPubSubForm
  */
 export interface MockserviceCreateRedisPubSubForm {
@@ -748,6 +773,31 @@ export interface MockserviceCreateRestStubBehaviorForm {
      * @memberof MockserviceCreateRestStubBehaviorForm
      */
     'url_params'?: { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceCreateStubTopicGeneratorReq
+ */
+export interface MockserviceCreateStubTopicGeneratorReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateStubTopicGeneratorReq
+     */
+    'interval'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceCreateStubTopicGeneratorReq
+     */
+    'payload'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MockserviceCreateStubTopicGeneratorReq
+     */
+    'send_immediately'?: boolean;
 }
 /**
  * 
@@ -1022,6 +1072,56 @@ export interface MockserviceRestServiceUpdateForm {
      * @memberof MockserviceRestServiceUpdateForm
      */
     'port'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceUpdConstTopicGeneratorReq
+ */
+export interface MockserviceUpdConstTopicGeneratorReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdConstTopicGeneratorReq
+     */
+    'interval'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdConstTopicGeneratorReq
+     */
+    'payload'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MockserviceUpdConstTopicGeneratorReq
+     */
+    'send_immediately'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface MockserviceUpdMockTopicGeneratorReq
+ */
+export interface MockserviceUpdMockTopicGeneratorReq {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof MockserviceUpdMockTopicGeneratorReq
+     */
+    'impl'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof MockserviceUpdMockTopicGeneratorReq
+     */
+    'interval'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MockserviceUpdMockTopicGeneratorReq
+     */
+    'send_immediately'?: boolean;
 }
 /**
  * 
@@ -1328,16 +1428,19 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
          * @param {number} projectId project id to create redis pubsub mock
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
+         * @param {MockserviceCreateStubTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRedisPubSubConstTopicGenerator: async (projectId: number, brokerId: string, topicId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createRedisPubSubConstTopicGenerator: async (projectId: number, brokerId: string, topicId: number, form: MockserviceCreateStubTopicGeneratorReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('createRedisPubSubConstTopicGenerator', 'projectId', projectId)
             // verify required parameter 'brokerId' is not null or undefined
             assertParamExists('createRedisPubSubConstTopicGenerator', 'brokerId', brokerId)
             // verify required parameter 'topicId' is not null or undefined
             assertParamExists('createRedisPubSubConstTopicGenerator', 'topicId', topicId)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('createRedisPubSubConstTopicGenerator', 'form', form)
             const localVarPath = `/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createConstGenerator`
                 .replace(`{${"brokerId"}}`, encodeURIComponent(String(brokerId)))
                 .replace(`{${"topicId"}}`, encodeURIComponent(String(topicId)));
@@ -1358,9 +1461,12 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1373,16 +1479,19 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
          * @param {number} projectId project id to create redis pubsub mock
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
+         * @param {MockserviceCreateMockTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRedisPubSubProgTopicGenerator: async (projectId: number, brokerId: string, topicId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createRedisPubSubProgTopicGenerator: async (projectId: number, brokerId: string, topicId: number, form: MockserviceCreateMockTopicGeneratorReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('createRedisPubSubProgTopicGenerator', 'projectId', projectId)
             // verify required parameter 'brokerId' is not null or undefined
             assertParamExists('createRedisPubSubProgTopicGenerator', 'brokerId', brokerId)
             // verify required parameter 'topicId' is not null or undefined
             assertParamExists('createRedisPubSubProgTopicGenerator', 'topicId', topicId)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('createRedisPubSubProgTopicGenerator', 'form', form)
             const localVarPath = `/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createProgGenerator`
                 .replace(`{${"brokerId"}}`, encodeURIComponent(String(brokerId)))
                 .replace(`{${"topicId"}}`, encodeURIComponent(String(topicId)));
@@ -1403,9 +1512,12 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2143,10 +2255,11 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
          * @param {number} id id of generator to delete
+         * @param {MockserviceUpdConstTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRedisPubSubConstTopicGenerator: async (projectId: number, brokerId: string, topicId: number, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRedisPubSubConstTopicGenerator: async (projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdConstTopicGeneratorReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('updateRedisPubSubConstTopicGenerator', 'projectId', projectId)
             // verify required parameter 'brokerId' is not null or undefined
@@ -2155,6 +2268,8 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateRedisPubSubConstTopicGenerator', 'topicId', topicId)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateRedisPubSubConstTopicGenerator', 'id', id)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('updateRedisPubSubConstTopicGenerator', 'form', form)
             const localVarPath = `/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updConstGenerator/{id}`
                 .replace(`{${"brokerId"}}`, encodeURIComponent(String(brokerId)))
                 .replace(`{${"topicId"}}`, encodeURIComponent(String(topicId)))
@@ -2176,9 +2291,12 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2192,10 +2310,11 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
          * @param {number} id id of generator to delete
+         * @param {MockserviceUpdMockTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRedisPubSubProgTopicGenerator: async (projectId: number, brokerId: string, topicId: number, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRedisPubSubProgTopicGenerator: async (projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdMockTopicGeneratorReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'projectId' is not null or undefined
             assertParamExists('updateRedisPubSubProgTopicGenerator', 'projectId', projectId)
             // verify required parameter 'brokerId' is not null or undefined
@@ -2204,6 +2323,8 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateRedisPubSubProgTopicGenerator', 'topicId', topicId)
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateRedisPubSubProgTopicGenerator', 'id', id)
+            // verify required parameter 'form' is not null or undefined
+            assertParamExists('updateRedisPubSubProgTopicGenerator', 'form', form)
             const localVarPath = `/mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updProgGenerator/{id}`
                 .replace(`{${"brokerId"}}`, encodeURIComponent(String(brokerId)))
                 .replace(`{${"topicId"}}`, encodeURIComponent(String(topicId)))
@@ -2225,9 +2346,12 @@ export const MockservicesApiAxiosParamCreator = function (configuration?: Config
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(form, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2556,11 +2680,12 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          * @param {number} projectId project id to create redis pubsub mock
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
+         * @param {MockserviceCreateStubTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, options);
+        async createRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, form: MockserviceCreateStubTopicGeneratorReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2569,11 +2694,12 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          * @param {number} projectId project id to create redis pubsub mock
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
+         * @param {MockserviceCreateMockTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, options);
+        async createRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, form: MockserviceCreateMockTopicGeneratorReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2749,7 +2875,7 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listServices(projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Array<ConfiguratorInternalApiMockserviceListServiceResult>; }>> {
+        async listServices(projectId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: Array<InternalApiMockserviceListServiceResult>; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listServices(projectId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2788,11 +2914,12 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
          * @param {number} id id of generator to delete
+         * @param {MockserviceUpdConstTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, id, options);
+        async updateRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdConstTopicGeneratorReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, id, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2802,11 +2929,12 @@ export const MockservicesApiFp = function(configuration?: Configuration) {
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
          * @param {number} id id of generator to delete
+         * @param {MockserviceUpdMockTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, id, options);
+        async updateRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdMockTopicGeneratorReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, id, form, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2944,11 +3072,12 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          * @param {number} projectId project id to create redis pubsub mock
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
+         * @param {MockserviceCreateStubTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, options?: any): AxiosPromise<object> {
-            return localVarFp.createRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, options).then((request) => request(axios, basePath));
+        createRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, form: MockserviceCreateStubTopicGeneratorReq, options?: any): AxiosPromise<object> {
+            return localVarFp.createRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2956,11 +3085,12 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          * @param {number} projectId project id to create redis pubsub mock
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
+         * @param {MockserviceCreateMockTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, options?: any): AxiosPromise<object> {
-            return localVarFp.createRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, options).then((request) => request(axios, basePath));
+        createRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, form: MockserviceCreateMockTopicGeneratorReq, options?: any): AxiosPromise<object> {
+            return localVarFp.createRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3122,7 +3252,7 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listServices(projectId: number, options?: any): AxiosPromise<{ [key: string]: Array<ConfiguratorInternalApiMockserviceListServiceResult>; }> {
+        listServices(projectId: number, options?: any): AxiosPromise<{ [key: string]: Array<InternalApiMockserviceListServiceResult>; }> {
             return localVarFp.listServices(projectId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3158,11 +3288,12 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
          * @param {number} id id of generator to delete
+         * @param {MockserviceUpdConstTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, options?: any): AxiosPromise<object> {
-            return localVarFp.updateRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, id, options).then((request) => request(axios, basePath));
+        updateRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdConstTopicGeneratorReq, options?: any): AxiosPromise<object> {
+            return localVarFp.updateRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, id, form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3171,11 +3302,12 @@ export const MockservicesApiFactory = function (configuration?: Configuration, b
          * @param {string} brokerId id of broker to list topics
          * @param {number} topicId id of topic to list generators
          * @param {number} id id of generator to delete
+         * @param {MockserviceUpdMockTopicGeneratorReq} form body form
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, options?: any): AxiosPromise<object> {
-            return localVarFp.updateRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, id, options).then((request) => request(axios, basePath));
+        updateRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdMockTopicGeneratorReq, options?: any): AxiosPromise<object> {
+            return localVarFp.updateRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, id, form, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3315,12 +3447,13 @@ export class MockservicesApi extends BaseAPI {
      * @param {number} projectId project id to create redis pubsub mock
      * @param {string} brokerId id of broker to list topics
      * @param {number} topicId id of topic to list generators
+     * @param {MockserviceCreateStubTopicGeneratorReq} form body form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockservicesApi
      */
-    public createRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, options?: AxiosRequestConfig) {
-        return MockservicesApiFp(this.configuration).createRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, options).then((request) => request(this.axios, this.basePath));
+    public createRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, form: MockserviceCreateStubTopicGeneratorReq, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).createRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3329,12 +3462,13 @@ export class MockservicesApi extends BaseAPI {
      * @param {number} projectId project id to create redis pubsub mock
      * @param {string} brokerId id of broker to list topics
      * @param {number} topicId id of topic to list generators
+     * @param {MockserviceCreateMockTopicGeneratorReq} form body form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockservicesApi
      */
-    public createRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, options?: AxiosRequestConfig) {
-        return MockservicesApiFp(this.configuration).createRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, options).then((request) => request(this.axios, this.basePath));
+    public createRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, form: MockserviceCreateMockTopicGeneratorReq, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).createRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3565,12 +3699,13 @@ export class MockservicesApi extends BaseAPI {
      * @param {string} brokerId id of broker to list topics
      * @param {number} topicId id of topic to list generators
      * @param {number} id id of generator to delete
+     * @param {MockserviceUpdConstTopicGeneratorReq} form body form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockservicesApi
      */
-    public updateRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, options?: AxiosRequestConfig) {
-        return MockservicesApiFp(this.configuration).updateRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, id, options).then((request) => request(this.axios, this.basePath));
+    public updateRedisPubSubConstTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdConstTopicGeneratorReq, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).updateRedisPubSubConstTopicGenerator(projectId, brokerId, topicId, id, form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3580,12 +3715,13 @@ export class MockservicesApi extends BaseAPI {
      * @param {string} brokerId id of broker to list topics
      * @param {number} topicId id of topic to list generators
      * @param {number} id id of generator to delete
+     * @param {MockserviceUpdMockTopicGeneratorReq} form body form
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MockservicesApi
      */
-    public updateRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, options?: AxiosRequestConfig) {
-        return MockservicesApiFp(this.configuration).updateRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, id, options).then((request) => request(this.axios, this.basePath));
+    public updateRedisPubSubProgTopicGenerator(projectId: number, brokerId: string, topicId: number, id: number, form: MockserviceUpdMockTopicGeneratorReq, options?: AxiosRequestConfig) {
+        return MockservicesApiFp(this.configuration).updateRedisPubSubProgTopicGenerator(projectId, brokerId, topicId, id, form, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

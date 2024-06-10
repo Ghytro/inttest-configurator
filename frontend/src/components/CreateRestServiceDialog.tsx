@@ -1,7 +1,6 @@
 import { Form, Input, Modal, message } from "antd";
 import React, { Component } from "react";
 import { MockservicesApi } from "../api/api";
-import { projPageUrl } from "../routesEnum";
 import { $notify, ENotifyKind } from "../notifier";
 
 class CreateRestServiceDialog extends Component<

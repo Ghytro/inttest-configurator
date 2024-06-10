@@ -90,7 +90,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/configurator_internal_api_mockservice.listServiceResponse"
+                            "$ref": "#/definitions/internal_api_mockservice.listServiceResponse"
                         }
                     },
                     "400": {
@@ -570,6 +570,15 @@
                         "name": "topicId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateStubTopicGeneratorReq"
+                        }
                     }
                 ],
                 "responses": {
@@ -633,6 +642,15 @@
                         "name": "topicId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.CreateMockTopicGeneratorReq"
+                        }
                     }
                 ],
                 "responses": {
@@ -836,6 +854,15 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.UpdConstTopicGeneratorReq"
+                        }
                     }
                 ],
                 "responses": {
@@ -906,6 +933,15 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "body form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mockservice.UpdMockTopicGeneratorReq"
+                        }
                     }
                 ],
                 "responses": {
@@ -3029,6 +3065,23 @@
                 }
             }
         },
+        "mockservice.CreateMockTopicGeneratorReq": {
+            "type": "object",
+            "properties": {
+                "impl": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "interval": {
+                    "type": "string"
+                },
+                "send_immediately": {
+                    "type": "boolean"
+                }
+            }
+        },
         "mockservice.CreateRedisPubSubForm": {
             "type": "object",
             "properties": {
@@ -3111,6 +3164,20 @@
                     "additionalProperties": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "mockservice.CreateStubTopicGeneratorReq": {
+            "type": "object",
+            "properties": {
+                "interval": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "string"
+                },
+                "send_immediately": {
+                    "type": "boolean"
                 }
             }
         },
@@ -3299,6 +3366,37 @@
         },
         "mockservice.RestServiceUpdateResult": {
             "type": "object"
+        },
+        "mockservice.UpdConstTopicGeneratorReq": {
+            "type": "object",
+            "properties": {
+                "interval": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "string"
+                },
+                "send_immediately": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "mockservice.UpdMockTopicGeneratorReq": {
+            "type": "object",
+            "properties": {
+                "impl": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "interval": {
+                    "type": "string"
+                },
+                "send_immediately": {
+                    "type": "boolean"
+                }
+            }
         },
         "mockservice.UpdateMockBehaviorForm": {
             "type": "object",

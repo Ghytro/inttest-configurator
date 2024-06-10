@@ -75,7 +75,7 @@ func (uc *redisPubSubUseCase) DeleteRedisPubSub(ctx context.Context, id BrokerId
 		if !ok {
 			return errors.New("некорректный id брокера")
 		}
-		data.Brokers = append(data.Brokers[brokerIdx:], data.Brokers[brokerIdx+1:]...)
+		data.Brokers = append(data.Brokers[:brokerIdx], data.Brokers[brokerIdx+1:]...)
 		return nil
 	})
 }
@@ -134,6 +134,9 @@ type CreateTopicReq struct {
 }
 
 func (uc *redisPubSubUseCase) CreateTopic(ctx context.Context, id BrokerIdentifier, form CreateTopicReq) error {
+	if form.Topic == "" {
+		return errors.New("топик не может быть пустым")
+	}
 	return uc.projRepo.ModifyProjectData(ctx, id.ProjectId, func(data *exportstruct.Config) error {
 		broker, brokerIdx, ok := lo.FindIndexOf(data.Brokers, func(item exportstruct.Broker) bool {
 			return item.Type == exportstruct.BrokerType_REDIS_PUBSUB && item.ID == id.BrokerId

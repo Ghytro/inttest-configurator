@@ -10,8 +10,8 @@ import (
 
 func (a *API) registerRedisPubSubRoutes(router fiber.Router) {
 	r := fiber.New()
-	brokerIdGroup := r.Group(":/brokerId")
-	brokerIdGroup.Post("/", a.createRedisPubSubBroker).
+	r.Post("/", a.createRedisPubSubBroker)
+	brokerIdGroup := r.Group("/:brokerId").
 		Put("/", a.updateRedisPubSub).
 		Delete("/", a.deleteRedisPubSub)
 
@@ -278,6 +278,7 @@ func (a *API) listRedisPubSubTopicGenerators(ctx *fiber.Ctx) error {
 // @Param projectId query number true "project id to create redis pubsub mock"
 // @Param brokerId path string true "id of broker to list topics"
 // @Param topicId path number true "id of topic to list generators"
+// @Param form body mockservice.CreateStubTopicGeneratorReq true "body form"
 // @Router /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createConstGenerator [post]
 func (a *API) createRedisPubSubConstTopicGenerator(ctx *fiber.Ctx) error {
 	brokerId, err := parseBrokerIdentifier(ctx)
@@ -311,6 +312,7 @@ func (a *API) createRedisPubSubConstTopicGenerator(ctx *fiber.Ctx) error {
 // @Param projectId query number true "project id to create redis pubsub mock"
 // @Param brokerId path string true "id of broker to list topics"
 // @Param topicId path number true "id of topic to list generators"
+// @Param form body mockservice.CreateMockTopicGeneratorReq true "body form"
 // @Router /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/createProgGenerator [post]
 func (a *API) createRedisPubSubProgTopicGenerator(ctx *fiber.Ctx) error {
 	brokerId, err := parseBrokerIdentifier(ctx)
@@ -345,6 +347,7 @@ func (a *API) createRedisPubSubProgTopicGenerator(ctx *fiber.Ctx) error {
 // @Param brokerId path string true "id of broker to list topics"
 // @Param topicId path number true "id of topic to list generators"
 // @Param id path number true "id of generator to delete"
+// @Param form body mockservice.UpdConstTopicGeneratorReq true "body form"
 // @Router /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updConstGenerator/{id} [put]
 func (a *API) updateRedisPubSubConstTopicGenerator(ctx *fiber.Ctx) error {
 	brokerId, err := parseBrokerIdentifier(ctx)
@@ -383,6 +386,7 @@ func (a *API) updateRedisPubSubConstTopicGenerator(ctx *fiber.Ctx) error {
 // @Param brokerId path string true "id of broker to list topics"
 // @Param topicId path number true "id of topic to list generators"
 // @Param id path number true "id of generator to delete"
+// @Param form body mockservice.UpdMockTopicGeneratorReq true "body form"
 // @Router /mockservices/redis-pubsub/{brokerId}/topics/{topicId}/updProgGenerator/{id} [put]
 func (a *API) updateRedisPubSubProgTopicGenerator(ctx *fiber.Ctx) error {
 	brokerId, err := parseBrokerIdentifier(ctx)

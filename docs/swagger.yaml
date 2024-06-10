@@ -263,6 +263,17 @@ definitions:
       name:
         type: string
     type: object
+  mockservice.CreateMockTopicGeneratorReq:
+    properties:
+      impl:
+        items:
+          type: string
+        type: array
+      interval:
+        type: string
+      send_immediately:
+        type: boolean
+    type: object
   mockservice.CreateRedisPubSubForm:
     properties:
       id:
@@ -317,6 +328,15 @@ definitions:
         additionalProperties:
           type: string
         type: object
+    type: object
+  mockservice.CreateStubTopicGeneratorReq:
+    properties:
+      interval:
+        type: string
+      payload:
+        type: string
+      send_immediately:
+        type: boolean
     type: object
   mockservice.CreateTopicReq:
     properties:
@@ -441,6 +461,26 @@ definitions:
     type: object
   mockservice.RestServiceUpdateResult:
     type: object
+  mockservice.UpdConstTopicGeneratorReq:
+    properties:
+      interval:
+        type: string
+      payload:
+        type: string
+      send_immediately:
+        type: boolean
+    type: object
+  mockservice.UpdMockTopicGeneratorReq:
+    properties:
+      impl:
+        items:
+          type: string
+        type: array
+      interval:
+        type: string
+      send_immediately:
+        type: boolean
+    type: object
   mockservice.UpdateMockBehaviorForm:
     properties:
       impl:
@@ -546,7 +586,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/configurator_internal_api_mockservice.listServiceResponse'
+            $ref: '#/definitions/internal_api_mockservice.listServiceResponse'
         "400":
           description: Bad Request
           schema:
@@ -855,6 +895,12 @@ paths:
         name: topicId
         required: true
         type: number
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.CreateStubTopicGeneratorReq'
       produces:
       - application/json
       responses:
@@ -896,6 +942,12 @@ paths:
         name: topicId
         required: true
         type: number
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.CreateMockTopicGeneratorReq'
       produces:
       - application/json
       responses:
@@ -1029,6 +1081,12 @@ paths:
         name: id
         required: true
         type: number
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.UpdConstTopicGeneratorReq'
       produces:
       - application/json
       responses:
@@ -1075,6 +1133,12 @@ paths:
         name: id
         required: true
         type: number
+      - description: body form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/mockservice.UpdMockTopicGeneratorReq'
       produces:
       - application/json
       responses:

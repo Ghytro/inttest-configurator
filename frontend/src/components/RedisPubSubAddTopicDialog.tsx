@@ -17,7 +17,9 @@ export default class RedisPubSubAddTopicDialog extends Component<
   }
 
   sendFormData() {
-    const reqForm = {};
+    const reqForm = {
+      topic: this.state.topicName,
+    };
     (this.props.modalType == "create"
       ? this.props.mockServiceApi.createRedisPubSubTopic(
           this.props.projectId,
