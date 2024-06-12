@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MockservicesApi } from "../../api/api";
+import { MockservicesApi, ProjectsApi } from "../../api/api";
 import { Params, useParams } from "react-router-dom";
 import { $notify, ENotifyKind } from "../../notifier";
 import {
@@ -24,11 +24,13 @@ import RedisPubSubEditTab from "../../components/RedisPubSubEditTab";
 
 class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
   private mockServiceApi: MockservicesApi;
+  private projectsApi: ProjectsApi;
 
   constructor(props: ProjectPageProps) {
     super(props);
 
     this.mockServiceApi = new MockservicesApi();
+    this.projectsApi = new ProjectsApi();
     this.state = {
       loading: false,
       editedServiceData: {
@@ -65,6 +67,34 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
       .finally(() => {
         this.setState({ loading: false });
       });
+  }
+
+  async unloadProject() {
+    try {
+      const resp = await this.projectsApi.unloadProject(
+        parseInt(this.props.urlParams.id!)
+      );
+      const cd = resp.headers["content-disposition"];
+      let fileName = cd.split("filename=")[1].replace(/["']/g, "");
+      fileName = decodeURIComponent(fileName).replace(/\+/g, " ");
+      var file = new Blob([JSON.stringify(resp.data, null, 4)], {
+        type: "text/json",
+      });
+      let url = URL.createObjectURL(file);
+      this.openFile(url, fileName);
+    } catch (e) {
+      $notify(ENotifyKind.ERROR, e);
+    }
+  }
+
+  openFile(url: string, fileName = "configuration.json"): void {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
   }
 
   componentDidMount(): void {
@@ -115,6 +145,13 @@ class ProjectPage extends Component<ProjectPageProps, ProjectPageState> {
               </Space>
             </a>
           </Dropdown>
+          <Button
+            onClick={() => {
+              this.unloadProject();
+            }}
+          >
+            Выгрузить проект
+          </Button>
         </Flex>
         <Divider />
 
